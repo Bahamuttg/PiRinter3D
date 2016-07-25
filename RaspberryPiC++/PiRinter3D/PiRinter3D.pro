@@ -13,8 +13,16 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    coildialog.cpp \
+    steppermotor.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    coildialog.h \
+    motorworker.h \
+    steppermotor.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    coildialog.ui
+
+LIBS += -L/usr/local/include -lwiringPi

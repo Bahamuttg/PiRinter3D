@@ -15,6 +15,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void on_action_Stepper_Utility_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

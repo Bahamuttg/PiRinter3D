@@ -37,6 +37,7 @@
     <property name="title">
      <string>&amp;Tools</string>
     </property>
+    <addaction name="action_Stepper_Utility"/>
    </widget>
    <widget class="QMenu" name="menu_About">
     <property name="title">
@@ -63,6 +64,11 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="action_Stepper_Utility">
+   <property name="text">
+    <string>&amp;Stepper Utility</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

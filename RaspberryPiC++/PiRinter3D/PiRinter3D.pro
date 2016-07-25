@@ -15,14 +15,17 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     coildialog.cpp \
-    steppermotor.cpp
+    steppermotor.cpp \
+    stepperdriver.cpp
 
 HEADERS  += mainwindow.h \
     coildialog.h \
     motorworker.h \
-    steppermotor.h
+    steppermotor.h \
+    stepperdriver.h
 
 FORMS    += mainwindow.ui \
-    coildialog.ui
+    coildialog.ui \
+    stepperdriver.ui
 
 LIBS += -L/usr/local/include -lwiringPi

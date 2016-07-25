@@ -59,7 +59,7 @@ Also note that some functions have no effect when using this mode as they’re n
 to action unless called with root privileges. (although you can use system() to call gpio to set/change modes if needed)
 */
     //Init GPIO -->BCM
-    wiringPiSetupGpio();
+    //wiringPiSetupGpio();
 
     QApplication a(argc, argv);
     MainWindow w;

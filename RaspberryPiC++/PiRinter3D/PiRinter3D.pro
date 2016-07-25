@@ -29,3 +29,6 @@ FORMS    += mainwindow.ui \
     stepperdriver.ui
 
 LIBS += -L/usr/local/include -lwiringPi
+
+RESOURCES += \
+    StepperDriverRsc.qrc

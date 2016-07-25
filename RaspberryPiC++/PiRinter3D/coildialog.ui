@@ -17,8 +17,8 @@
    <string>Coil Settings</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resources/Resources.qrc">
-    <normaloff>:/Images/Icons/glossy-3d-blue-orbs2-022.ico</normaloff>:/Images/Icons/glossy-3d-blue-orbs2-022.ico</iconset>
+   <iconset resource="StepperDriverRsc.qrc">
+    <normaloff>:/StepperDriver/Icons/Resources/glossy-3d-blue-orbs2-022.ico</normaloff>:/StepperDriver/Icons/Resources/glossy-3d-blue-orbs2-022.ico</iconset>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -142,7 +142,7 @@
   <tabstop>leB2</tabstop>
  </tabstops>
  <resources>
-  <include location="Resources/Resources.qrc"/>
+  <include location="StepperDriverRsc.qrc"/>
  </resources>
  <connections>
   <connection>

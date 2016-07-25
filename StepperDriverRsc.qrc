@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/StepperDriver/Icons">
+        <file>Resources/glossy-3d-blue-orbs2-022.ico</file>
+        <file>Resources/Yellow (4).png</file>
+    </qresource>
+</RCC>

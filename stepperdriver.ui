@@ -26,8 +26,8 @@
    <string>Stepper Motor Interface</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/Images/Icons/Yellow (4).png</normaloff>:/Images/Icons/Yellow (4).png</iconset>
+   <iconset resource="StepperDriverRsc.qrc">
+    <normaloff>:/StepperDriver/Icons/Resources/Yellow (4).png</normaloff>:/StepperDriver/Icons/Resources/Yellow (4).png</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>false</bool>
@@ -281,6 +281,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="StepperDriverRsc.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtCore>
+#include <QLabel>
+#include <QProgressBar>
 
 namespace Ui {
 class MainWindow;
@@ -10,6 +13,9 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+private:
+    QLabel *_StatusLabel;
+    QProgressBar *_ProgressBar;
 
 public:
     explicit MainWindow(QWidget *parent = 0);

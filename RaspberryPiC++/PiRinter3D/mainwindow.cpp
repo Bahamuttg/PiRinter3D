@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _StatusLabel->setText("Ready");
     ui->setupUi(this);
 
-    ui->statusBar->insertPermanentWidget(0,_ProgressBar, 100);
+    ui->statusBar->insertPermanentWidget(0, _ProgressBar, 100);
     ui->statusBar->insertPermanentWidget(1, _StatusLabel, 250);
 }
 

@@ -50,6 +50,10 @@
      <string>&amp;Settings</string>
     </property>
     <addaction name="action_Configure_PiRinter"/>
+    <addaction name="actionConfigure_Temperatures"/>
+    <addaction name="actionSetup_Print_Area"/>
+    <addaction name="separator"/>
+    <addaction name="action_Preferences"/>
    </widget>
    <widget class="QMenu" name="menu_Tools">
     <property name="title">
@@ -68,7 +72,19 @@
      <string>&amp;Help</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuPrint_Actions">
+    <property name="title">
+     <string>Print &amp;Actions</string>
+    </property>
+    <addaction name="actionS_tart"/>
+    <addaction name="action_Stop"/>
+    <addaction name="actionJump_Forward"/>
+    <addaction name="actionJump_Backward"/>
+    <addaction name="action_Restart"/>
+    <addaction name="actionJump_Bac_k_Slice"/>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menuPrint_Actions"/>
    <addaction name="menu_Settings"/>
    <addaction name="menu_Tools"/>
    <addaction name="menu_About"/>
@@ -255,12 +271,57 @@
   </action>
   <action name="action_Configure_PiRinter">
    <property name="text">
-    <string>&amp;Configure PiRinter</string>
+    <string>Configure &amp;Motors</string>
    </property>
   </action>
   <action name="actionSimulate_Print">
    <property name="text">
     <string>Simulate &amp;Print</string>
+   </property>
+  </action>
+  <action name="actionConfigure_Temperatures">
+   <property name="text">
+    <string>Configure &amp;Temperatures</string>
+   </property>
+  </action>
+  <action name="actionSetup_Print_Area">
+   <property name="text">
+    <string>Setup &amp;Print Area</string>
+   </property>
+  </action>
+  <action name="action_Preferences">
+   <property name="text">
+    <string>&amp;Preferences</string>
+   </property>
+  </action>
+  <action name="action_Stop">
+   <property name="text">
+    <string>&amp;Stop</string>
+   </property>
+  </action>
+  <action name="actionS_tart">
+   <property name="text">
+    <string>S&amp;tart</string>
+   </property>
+  </action>
+  <action name="actionJump_Forward">
+   <property name="text">
+    <string>Jump &amp;Forward</string>
+   </property>
+  </action>
+  <action name="actionJump_Backward">
+   <property name="text">
+    <string>Jump &amp;Backward</string>
+   </property>
+  </action>
+  <action name="action_Restart">
+   <property name="text">
+    <string>Jump &amp;Ahead Slice</string>
+   </property>
+  </action>
+  <action name="actionJump_Bac_k_Slice">
+   <property name="text">
+    <string>Jump Bac&amp;k Slice</string>
    </property>
   </action>
  </widget>

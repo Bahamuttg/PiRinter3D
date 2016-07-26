@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>PiRinter 3D -- 3D Printer Interface</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="PiRinter.qrc">
+    <normaloff>:/PiRinter/Icons/Resources/PiRinter.ico</normaloff>:/PiRinter/Icons/Resources/PiRinter.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
@@ -83,7 +87,16 @@
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QTextBrowser" name="txtGCode"/>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>GCode Execution</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QTextBrowser" name="txtGCode"/>
+        </item>
+       </layout>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -192,6 +205,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="PiRinter.qrc"/>
+ </resources>
  <connections/>
 </ui>

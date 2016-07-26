@@ -31,4 +31,5 @@ FORMS    += mainwindow.ui \
 LIBS += -L/usr/local/include -lwiringPi
 
 RESOURCES += \
-    StepperDriverRsc.qrc
+    StepperDriverRsc.qrc \
+    PiRinter.qrc

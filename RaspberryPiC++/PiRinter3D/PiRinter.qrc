@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/PiRinter/Icons">
+        <file>Resources/Bar.ico</file>
+        <file>Resources/Beaker.ico</file>
+        <file>Resources/Disc.ico</file>
+        <file>Resources/Inject.ico</file>
+        <file>Resources/Link.ico</file>
+        <file>Resources/Pen.ico</file>
+        <file>Resources/Pie.ico</file>
+        <file>Resources/PiRinter.ico</file>
+        <file>Resources/Shades.ico</file>
+        <file>Resources/Time.ico</file>
+    </qresource>
+</RCC>

@@ -80,8 +80,10 @@
     <addaction name="action_Stop"/>
     <addaction name="actionJump_Forward"/>
     <addaction name="actionJump_Backward"/>
+    <addaction name="separator"/>
     <addaction name="action_Restart"/>
     <addaction name="actionJump_Bac_k_Slice"/>
+    <addaction name="separator"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menuPrint_Actions"/>
@@ -306,12 +308,12 @@
   </action>
   <action name="actionJump_Forward">
    <property name="text">
-    <string>Jump &amp;Forward</string>
+    <string>&amp;Forward</string>
    </property>
   </action>
   <action name="actionJump_Backward">
    <property name="text">
-    <string>Jump &amp;Backward</string>
+    <string>&amp;Backward</string>
    </property>
   </action>
   <action name="action_Restart">

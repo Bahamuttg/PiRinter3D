@@ -56,6 +56,7 @@
      <string>&amp;Tools</string>
     </property>
     <addaction name="action_Stepper_Utility"/>
+    <addaction name="actionSimulate_Print"/>
    </widget>
    <widget class="QMenu" name="menu_About">
     <property name="title">
@@ -97,6 +98,60 @@
         </item>
        </layout>
       </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QToolButton" name="toolButton_2">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="PiRinter.qrc">
+            <normaloff>:/PiRinter/Icons/Resources/Link.ico</normaloff>:/PiRinter/Icons/Resources/Link.ico</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton_4">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton_3">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton_5">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit"/>
      </item>
     </layout>
    </widget>
@@ -201,6 +256,11 @@
   <action name="action_Configure_PiRinter">
    <property name="text">
     <string>&amp;Configure PiRinter</string>
+   </property>
+  </action>
+  <action name="actionSimulate_Print">
+   <property name="text">
+    <string>Simulate &amp;Print</string>
    </property>
   </action>
  </widget>

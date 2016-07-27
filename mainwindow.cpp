@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
     _ProgressBar = new QProgressBar(this);
     _ProgressBar->setRange(0,100);
     _ProgressBar->reset();

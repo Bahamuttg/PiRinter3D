@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MotorSetup</class>
+ <widget class="QTabWidget" name="MotorSetup">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>537</width>
+    <height>366</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TabWidget</string>
+  </property>
+  <property name="currentIndex">
+   <number>3</number>
+  </property>
+  <widget class="QWidget" name="XAxisTab">
+   <attribute name="title">
+    <string>X Axis</string>
+   </attribute>
+  </widget>
+  <widget class="QWidget" name="YAxisTab">
+   <attribute name="title">
+    <string>Y Axis</string>
+   </attribute>
+  </widget>
+  <widget class="QWidget" name="ZAxisTab">
+   <attribute name="title">
+    <string>Z Axis</string>
+   </attribute>
+  </widget>
+  <widget class="QWidget" name="ExtAxisTab">
+   <attribute name="title">
+    <string>Extruder Axis</string>
+   </attribute>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

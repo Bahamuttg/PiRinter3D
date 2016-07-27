@@ -5,6 +5,7 @@
 #include <QtCore>
 #include <QLabel>
 #include <QProgressBar>
+#include "steppermotor.h"
 
 namespace Ui {
 class MainWindow;
@@ -18,6 +19,11 @@ private:
     QProgressBar *_ProgressBar;
 
 public:
+    StepperMotor *XAxis;
+    StepperMotor *YAxis;
+    StepperMotor *ZAxis;
+    StepperMotor *ExtAxis;
+
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 

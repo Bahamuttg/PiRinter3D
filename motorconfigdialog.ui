@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>398</width>
-    <height>489</height>
+    <width>467</width>
+    <height>351</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,13 +38,6 @@
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="1" column="0">
-            <widget class="QGroupBox" name="groupBox_2">
-             <property name="title">
-              <string>Motor Configuration Options</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="0">
             <widget class="QGroupBox" name="groupBox">
              <property name="title">
@@ -52,9 +45,9 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
-               <layout class="QFormLayout" name="formLayout">
+               <layout class="QFormLayout" name="flXCoils">
                 <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label">
@@ -65,6 +58,21 @@
                 </item>
                 <item row="0" column="1">
                  <widget class="QLineEdit" name="leA1_X">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
                   <property name="maxLength">
                    <number>2</number>
                   </property>
@@ -79,6 +87,21 @@
                 </item>
                 <item row="1" column="1">
                  <widget class="QLineEdit" name="leA2_X">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
                   <property name="maxLength">
                    <number>2</number>
                   </property>
@@ -93,6 +116,21 @@
                 </item>
                 <item row="2" column="1">
                  <widget class="QLineEdit" name="leB1_X">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
                   <property name="maxLength">
                    <number>2</number>
                   </property>
@@ -108,10 +146,19 @@
                 <item row="3" column="1">
                  <widget class="QLineEdit" name="leB2_X">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
                   </property>
                   <property name="maxLength">
                    <number>2</number>
@@ -123,6 +170,57 @@
              </layout>
              <zorder>gridLayoutWidget</zorder>
              <zorder>formLayoutWidget</zorder>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="title">
+              <string>Motor Configuration Options</string>
+             </property>
+             <widget class="QCheckBox" name="checkBox">
+              <property name="geometry">
+               <rect>
+                <x>20</x>
+                <y>40</y>
+                <width>99</width>
+                <height>26</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>CheckBox</string>
+              </property>
+             </widget>
+             <widget class="QGroupBox" name="groupBox_3">
+              <property name="geometry">
+               <rect>
+                <x>19</x>
+                <y>89</y>
+                <width>161</width>
+                <height>101</height>
+               </rect>
+              </property>
+              <property name="title">
+               <string>GroupBox</string>
+              </property>
+             </widget>
+             <widget class="QCheckBox" name="checkBox_2">
+              <property name="geometry">
+               <rect>
+                <x>40</x>
+                <y>70</y>
+                <width>99</width>
+                <height>26</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>CheckBox</string>
+              </property>
+             </widget>
+             <zorder>formLayoutWidget</zorder>
+             <zorder>leB2_X</zorder>
+             <zorder>checkBox</zorder>
+             <zorder>groupBox_3</zorder>
+             <zorder>checkBox_2</zorder>
             </widget>
            </item>
           </layout>
@@ -150,6 +248,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tabMotors</tabstop>
+  <tabstop>leA1_X</tabstop>
+  <tabstop>leA2_X</tabstop>
+  <tabstop>leB1_X</tabstop>
+  <tabstop>leB2_X</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

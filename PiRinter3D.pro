@@ -17,19 +17,19 @@ SOURCES += main.cpp\
     coildialog.cpp \
     steppermotor.cpp \
     stepperdriver.cpp \
-    motorsetup.cpp
+    motorconfigdialog.cpp
 
 HEADERS  += mainwindow.h \
     coildialog.h \
     motorworker.h \
     steppermotor.h \
     stepperdriver.h \
-    motorsetup.h
+    motorconfigdialog.h
 
 FORMS    += mainwindow.ui \
     coildialog.ui \
     stepperdriver.ui \
-    motorsetup.ui
+    motorconfigdialog.ui
 
 LIBS += -L/usr/local/include -lwiringPi
 

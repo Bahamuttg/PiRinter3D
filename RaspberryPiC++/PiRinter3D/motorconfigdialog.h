@@ -12,8 +12,12 @@ class MotorConfigDialog : public QDialog
     Q_OBJECT
 
 public:
+
     explicit MotorConfigDialog(QWidget *parent = 0);
     ~MotorConfigDialog();
+
+private slots:
+    void on_buttonBox_clicked(QAbstractButton *button);
 
 private:
     Ui::MotorConfigDialog *ui;

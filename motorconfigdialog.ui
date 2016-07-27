@@ -6,20 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>504</width>
-    <height>338</height>
+    <width>507</width>
+    <height>441</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>504</width>
-    <height>338</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>504</width>
-    <height>338</height>
+    <width>507</width>
+    <height>441</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -28,20 +22,10 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="0">
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QTabWidget" name="tabMotors">
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tpXAxis">
         <attribute name="title">
@@ -179,12 +163,39 @@
                 </item>
                </layout>
               </item>
+              <item>
+               <spacer name="verticalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
              </layout>
              <zorder>gridLayoutWidget</zorder>
              <zorder>formLayoutWidget</zorder>
+             <zorder>verticalSpacer_5</zorder>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="0" column="3">
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="2">
             <widget class="QGroupBox" name="groupBox_2">
              <property name="title">
               <string>Motor Configuration Options</string>
@@ -215,6 +226,9 @@
                    <property name="text">
                     <string>Full Stepping</string>
                    </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
                   </widget>
                  </item>
                  <item>
@@ -227,12 +241,63 @@
                 </layout>
                </widget>
               </item>
+              <item>
+               <widget class="QGroupBox" name="groupBox_13">
+                <property name="title">
+                 <string>Resolution Calibration</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_19">
+                 <item>
+                  <layout class="QFormLayout" name="formLayout">
+                   <property name="sizeConstraint">
+                    <enum>QLayout::SetMaximumSize</enum>
+                   </property>
+                   <property name="fieldGrowthPolicy">
+                    <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_17">
+                     <property name="text">
+                      <string>Resolution</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QDoubleSpinBox" name="dsbResX">
+                     <property name="decimals">
+                      <number>4</number>
+                     </property>
+                     <property name="maximum">
+                      <double>9999.989999999999782</double>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_6">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
              </layout>
              <zorder>formLayoutWidget</zorder>
              <zorder>leB2_X</zorder>
-             <zorder>chkNOTX</zorder>
              <zorder>groupBox_3</zorder>
              <zorder>chkEnableX</zorder>
+             <zorder>chkNOTX</zorder>
+             <zorder>verticalSpacer_6</zorder>
+             <zorder>groupBox_13</zorder>
             </widget>
            </item>
           </layout>
@@ -246,6 +311,68 @@
         <layout class="QVBoxLayout" name="verticalLayout_16">
          <item>
           <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="1">
+            <widget class="QGroupBox" name="groupBox_5">
+             <property name="title">
+              <string>Motor Configuration Options</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_8">
+              <item>
+               <widget class="QCheckBox" name="chkNOTY">
+                <property name="text">
+                 <string>Is NOT Gated</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkEnableY">
+                <property name="text">
+                 <string>Has Enable Pin</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBox_6">
+                <property name="title">
+                 <string>Stepping Style</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_9">
+                 <item>
+                  <widget class="QRadioButton" name="rbFullY">
+                   <property name="text">
+                    <string>Full Stepping</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="rbHalfY">
+                   <property name="text">
+                    <string>Half Stepping</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
            <item row="0" column="0">
             <widget class="QGroupBox" name="groupBox_4">
              <property name="title">
@@ -378,51 +505,18 @@
              </layout>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QGroupBox" name="groupBox_5">
-             <property name="title">
-              <string>Motor Configuration Options</string>
+           <item row="0" column="2">
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_8">
-              <item>
-               <widget class="QCheckBox" name="chkNOTY">
-                <property name="text">
-                 <string>Is NOT Gated</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chkEnableY">
-                <property name="text">
-                 <string>Has Enable Pin</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QGroupBox" name="groupBox_6">
-                <property name="title">
-                 <string>Stepping Style</string>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_9">
-                 <item>
-                  <widget class="QRadioButton" name="rbFullY">
-                   <property name="text">
-                    <string>Full Stepping</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="rbHalfY">
-                   <property name="text">
-                    <string>Half Stepping</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </item>
@@ -435,6 +529,68 @@
         <layout class="QVBoxLayout" name="verticalLayout_17">
          <item>
           <layout class="QGridLayout" name="gridLayout_4">
+           <item row="0" column="1">
+            <widget class="QGroupBox" name="groupBox_8">
+             <property name="title">
+              <string>Motor Configuration Options</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_11">
+              <item>
+               <widget class="QCheckBox" name="chkNOTZ">
+                <property name="text">
+                 <string>Is NOT Gated</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkEnableZ">
+                <property name="text">
+                 <string>Has Enable Pin</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBox_9">
+                <property name="title">
+                 <string>Stepping Style</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_12">
+                 <item>
+                  <widget class="QRadioButton" name="rbFullZ">
+                   <property name="text">
+                    <string>Full Stepping</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="rbHalfZ">
+                   <property name="text">
+                    <string>Half Stepping</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
            <item row="0" column="0">
             <widget class="QGroupBox" name="groupBox_7">
              <property name="title">
@@ -567,51 +723,18 @@
              </layout>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QGroupBox" name="groupBox_8">
-             <property name="title">
-              <string>Motor Configuration Options</string>
+           <item row="0" column="2">
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_11">
-              <item>
-               <widget class="QCheckBox" name="chkNOTZ">
-                <property name="text">
-                 <string>Is NOT Gated</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chkEnableZ">
-                <property name="text">
-                 <string>Has Enable Pin</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QGroupBox" name="groupBox_9">
-                <property name="title">
-                 <string>Stepping Style</string>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_12">
-                 <item>
-                  <widget class="QRadioButton" name="rbFullZ">
-                   <property name="text">
-                    <string>Full Stepping</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="rbHalfZ">
-                   <property name="text">
-                    <string>Half Stepping</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </item>
@@ -624,6 +747,68 @@
         <layout class="QVBoxLayout" name="verticalLayout_18">
          <item>
           <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="1">
+            <widget class="QGroupBox" name="groupBox_11">
+             <property name="title">
+              <string>Motor Configuration Options</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_14">
+              <item>
+               <widget class="QCheckBox" name="chkNOTEX">
+                <property name="text">
+                 <string>Is NOT Gated</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkEnableEX">
+                <property name="text">
+                 <string>Has Enable Pin</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBox_12">
+                <property name="title">
+                 <string>Stepping Style</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_15">
+                 <item>
+                  <widget class="QRadioButton" name="rbFullEX">
+                   <property name="text">
+                    <string>Full Stepping</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="rbHalfEX">
+                   <property name="text">
+                    <string>Half Stepping</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
            <item row="0" column="0">
             <widget class="QGroupBox" name="groupBox_10">
              <property name="title">
@@ -756,56 +941,40 @@
              </layout>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QGroupBox" name="groupBox_11">
-             <property name="title">
-              <string>Motor Configuration Options</string>
+           <item row="0" column="2">
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_14">
-              <item>
-               <widget class="QCheckBox" name="chkNOTEX">
-                <property name="text">
-                 <string>Is NOT Gated</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chkEnableEX">
-                <property name="text">
-                 <string>Has Enable Pin</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QGroupBox" name="groupBox_12">
-                <property name="title">
-                 <string>Stepping Style</string>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_15">
-                 <item>
-                  <widget class="QRadioButton" name="rbFullEX">
-                   <property name="text">
-                    <string>Full Stepping</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="rbHalfEX">
-                   <property name="text">
-                    <string>Half Stepping</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </item>
         </layout>
        </widget>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Launch Resolution Calculator</string>
+       </property>
       </widget>
      </item>
     </layout>
@@ -827,8 +996,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>258</x>
+     <y>327</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -843,12 +1012,76 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>326</x>
+     <y>327</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leA2_X</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>433</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>145</x>
+     <y>138</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_2</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>459</x>
+     <y>83</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>89</x>
+     <y>129</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leB2_X</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>143</x>
+     <y>214</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_4</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>289</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>65</x>
+     <y>224</y>
     </hint>
    </hints>
   </connection>

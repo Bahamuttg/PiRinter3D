@@ -2,6 +2,8 @@
 #define MOTORCONFIGDIALOG_H
 
 #include <QDialog>
+#include <QAbstractButton>
+#include <QObject>
 
 namespace Ui {
 class MotorConfigDialog;
@@ -17,7 +19,7 @@ public:
     ~MotorConfigDialog();
 
 private slots:
-    void on_buttonBox_clicked(QAbstractButton *button);
+
 
 private:
     Ui::MotorConfigDialog *ui;

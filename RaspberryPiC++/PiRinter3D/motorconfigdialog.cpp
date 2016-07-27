@@ -6,6 +6,8 @@ MotorConfigDialog::MotorConfigDialog(QWidget *parent) :
     ui(new Ui::MotorConfigDialog)
 {
     ui->setupUi(this);
+    ui->lblEnableX->setHidden(true);
+    ui->leEnableX->setHidden(true);
 }
 
 MotorConfigDialog::~MotorConfigDialog()

@@ -22,6 +22,23 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="2" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Launch Resolution Calculator</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="0">
       <widget class="QTabWidget" name="tabMotors">
        <property name="currentIndex">
@@ -161,10 +178,30 @@
                   </property>
                  </widget>
                 </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="lblEnableX">
+                  <property name="text">
+                   <string>Enable</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QLineEdit" name="leEnableX">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
               <item>
-               <spacer name="verticalSpacer_5">
+               <spacer name="verticalSpacer">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
@@ -177,9 +214,6 @@
                </spacer>
               </item>
              </layout>
-             <zorder>gridLayoutWidget</zorder>
-             <zorder>formLayoutWidget</zorder>
-             <zorder>verticalSpacer_5</zorder>
             </widget>
            </item>
            <item row="0" column="3">
@@ -274,30 +308,27 @@
                    </item>
                   </layout>
                  </item>
+                 <item>
+                  <spacer name="verticalSpacer_5">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
                 </layout>
                </widget>
               </item>
-              <item>
-               <spacer name="verticalSpacer_6">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
              </layout>
-             <zorder>formLayoutWidget</zorder>
-             <zorder>leB2_X</zorder>
              <zorder>groupBox_3</zorder>
-             <zorder>chkEnableX</zorder>
              <zorder>chkNOTX</zorder>
-             <zorder>verticalSpacer_6</zorder>
              <zorder>groupBox_13</zorder>
+             <zorder>chkEnableX</zorder>
             </widget>
            </item>
           </layout>
@@ -960,32 +991,46 @@
        </widget>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>Launch Resolution Calculator</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>
  </widget>
  <tabstops>
+  <tabstop>tabMotors</tabstop>
   <tabstop>leA1_X</tabstop>
   <tabstop>leA2_X</tabstop>
   <tabstop>leB1_X</tabstop>
   <tabstop>leB2_X</tabstop>
+  <tabstop>leEnableX</tabstop>
+  <tabstop>chkNOTX</tabstop>
+  <tabstop>rbFullX</tabstop>
+  <tabstop>rbHalfX</tabstop>
+  <tabstop>dsbResX</tabstop>
+  <tabstop>chkEnableY</tabstop>
+  <tabstop>rbFullY</tabstop>
+  <tabstop>rbHalfY</tabstop>
+  <tabstop>leA1_Y</tabstop>
+  <tabstop>leA2_Y</tabstop>
+  <tabstop>leB1_Y</tabstop>
+  <tabstop>leB2_Y</tabstop>
+  <tabstop>chkNOTZ</tabstop>
+  <tabstop>chkEnableZ</tabstop>
+  <tabstop>rbFullZ</tabstop>
+  <tabstop>rbHalfZ</tabstop>
+  <tabstop>leA1_Z</tabstop>
+  <tabstop>leA2_Z</tabstop>
+  <tabstop>leB1_Z</tabstop>
+  <tabstop>leB2_Z</tabstop>
+  <tabstop>chkNOTEX</tabstop>
+  <tabstop>chkEnableEX</tabstop>
+  <tabstop>rbFullEX</tabstop>
+  <tabstop>rbHalfEX</tabstop>
+  <tabstop>leA1_EX</tabstop>
+  <tabstop>leA2_EX</tabstop>
+  <tabstop>leB1_EX</tabstop>
+  <tabstop>leB2_EX</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>chkNOTY</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -996,8 +1041,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>258</x>
-     <y>327</y>
+     <x>268</x>
+     <y>430</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -1012,8 +1057,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>326</x>
-     <y>327</y>
+     <x>336</x>
+     <y>430</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -1044,8 +1089,8 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>459</x>
-     <y>83</y>
+     <x>454</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
      <x>89</x>
@@ -1082,6 +1127,38 @@
     <hint type="destinationlabel">
      <x>65</x>
      <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leEnableX</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>119</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>129</x>
+     <y>253</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblEnableX</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>240</x>
+     <y>123</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>65</x>
+     <y>266</y>
     </hint>
    </hints>
   </connection>

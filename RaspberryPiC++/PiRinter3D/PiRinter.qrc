@@ -10,5 +10,36 @@
         <file>Resources/PiRinter.ico</file>
         <file>Resources/Shades.ico</file>
         <file>Resources/Time.ico</file>
+        <file>Resources/clean3d_blue_015.png</file>
+        <file>Resources/glossy_3d_blue_hourglass.png</file>
+        <file>Resources/glossy_3d_blue_i.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_017.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_042.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_043.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_044.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_053.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_063.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_079.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_083.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_088.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_096.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_103.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_104.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_106.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_108.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_111.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_129.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_138.png</file>
+        <file>Resources/glossy_3d_blue_power.png</file>
+        <file>Resources/glossy_3d_blue_shield.png</file>
+        <file>Resources/glossy-3d-blue-orbs2-022.ico</file>
+        <file>Resources/glossy_3d_blue_orbs2_055.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_056.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_057.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_058.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_118.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_119.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_120.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_121.png</file>
     </qresource>
 </RCC>

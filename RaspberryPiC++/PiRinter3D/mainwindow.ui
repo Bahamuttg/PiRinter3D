@@ -133,7 +133,7 @@
           </property>
           <property name="icon">
            <iconset resource="PiRinter.qrc">
-            <normaloff>:/PiRinter/Icons/Resources/Link.ico</normaloff>:/PiRinter/Icons/Resources/Link.ico</iconset>
+            <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_058.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_058.png</iconset>
           </property>
          </widget>
         </item>
@@ -142,12 +142,20 @@
           <property name="text">
            <string>...</string>
           </property>
+          <property name="icon">
+           <iconset resource="PiRinter.qrc">
+            <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_056.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_056.png</iconset>
+          </property>
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="toolButton_3">
+         <widget class="QToolButton" name="tbPlayPause">
           <property name="text">
            <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="PiRinter.qrc">
+            <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_120.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_120.png</iconset>
           </property>
          </widget>
         </item>
@@ -156,12 +164,20 @@
           <property name="text">
            <string>...</string>
           </property>
+          <property name="icon">
+           <iconset resource="PiRinter.qrc">
+            <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_055.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_055.png</iconset>
+          </property>
          </widget>
         </item>
         <item>
          <widget class="QToolButton" name="toolButton">
           <property name="text">
            <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="PiRinter.qrc">
+            <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_057.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_057.png</iconset>
           </property>
          </widget>
         </item>

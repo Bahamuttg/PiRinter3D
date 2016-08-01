@@ -17,14 +17,18 @@ SOURCES += main.cpp\
     coildialog.cpp \
     steppermotor.cpp \
     stepperdriver.cpp \
-    motorconfigdialog.cpp
+    motorconfigdialog.cpp \
+    gcodeinterpreter.cpp \
+    motorcontroller.cpp
 
 HEADERS  += mainwindow.h \
     coildialog.h \
     motorworker.h \
     steppermotor.h \
     stepperdriver.h \
-    motorconfigdialog.h
+    motorconfigdialog.h \
+    gcodeinterpreter.h \
+    motorcontroller.h
 
 FORMS    += mainwindow.ui \
     coildialog.ui \

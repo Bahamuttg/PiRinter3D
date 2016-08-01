@@ -42,7 +42,7 @@
      <item row="1" column="0">
       <widget class="QTabWidget" name="tabMotors">
        <property name="currentIndex">
-        <number>0</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="tpXAxis">
         <attribute name="title">
@@ -376,7 +376,7 @@
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="leA1_X_6">
+                 <widget class="QLineEdit" name="leA1_Y">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -405,7 +405,7 @@
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QLineEdit" name="leA2_X_6">
+                 <widget class="QLineEdit" name="leA2_Y">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -434,7 +434,7 @@
                  </widget>
                 </item>
                 <item row="2" column="1">
-                 <widget class="QLineEdit" name="leB1_X_6">
+                 <widget class="QLineEdit" name="leB1_Y">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -463,7 +463,7 @@
                  </widget>
                 </item>
                 <item row="3" column="1">
-                 <widget class="QLineEdit" name="leB2_X_6">
+                 <widget class="QLineEdit" name="leB2_Y">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -492,7 +492,7 @@
                  </widget>
                 </item>
                 <item row="4" column="1">
-                 <widget class="QLineEdit" name="leEnableX_6">
+                 <widget class="QLineEdit" name="leEnableY">
                   <property name="maximumSize">
                    <size>
                     <width>50</width>
@@ -529,7 +529,7 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_26">
               <item>
-               <widget class="QCheckBox" name="chkNOTX_6">
+               <widget class="QCheckBox" name="chkNOTY">
                 <property name="toolTip">
                  <string>Select this option if your motors are tied to HEX inverters.</string>
                 </property>
@@ -539,7 +539,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="chkEnableX_6">
+               <widget class="QCheckBox" name="chkEnableY">
                 <property name="toolTip">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option to enable/disable this motor  based upon hardware insted of software.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
@@ -555,7 +555,7 @@
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_27">
                  <item>
-                  <widget class="QRadioButton" name="rbFullX_6">
+                  <widget class="QRadioButton" name="rbFullY">
                    <property name="toolTip">
                     <string>Full stepping provides maximum torque.</string>
                    </property>
@@ -568,7 +568,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QRadioButton" name="rbHalfX_6">
+                  <widget class="QRadioButton" name="rbHalfY">
                    <property name="toolTip">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Half stepping increases the resolution of the motor but the torque will be inconsistent.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
@@ -605,7 +605,7 @@
                     </widget>
                    </item>
                    <item row="0" column="1">
-                    <widget class="QDoubleSpinBox" name="dsbResX_6">
+                    <widget class="QDoubleSpinBox" name="dsbResY">
                      <property name="decimals">
                       <number>4</number>
                      </property>
@@ -678,7 +678,7 @@
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="leA1_X_8">
+                 <widget class="QLineEdit" name="leA1_Z">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -707,7 +707,7 @@
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QLineEdit" name="leA2_X_8">
+                 <widget class="QLineEdit" name="leA2_Z">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -736,7 +736,7 @@
                  </widget>
                 </item>
                 <item row="2" column="1">
-                 <widget class="QLineEdit" name="leB1_X_8">
+                 <widget class="QLineEdit" name="leB1_Z">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -765,7 +765,7 @@
                  </widget>
                 </item>
                 <item row="3" column="1">
-                 <widget class="QLineEdit" name="leB2_X_8">
+                 <widget class="QLineEdit" name="leB2_Z">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -794,7 +794,7 @@
                  </widget>
                 </item>
                 <item row="4" column="1">
-                 <widget class="QLineEdit" name="leEnableX_8">
+                 <widget class="QLineEdit" name="leEnableZ">
                   <property name="maximumSize">
                    <size>
                     <width>50</width>
@@ -831,7 +831,7 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_32">
               <item>
-               <widget class="QCheckBox" name="chkNOTX_8">
+               <widget class="QCheckBox" name="chkNOTZ">
                 <property name="toolTip">
                  <string>Select this option if your motors are tied to HEX inverters.</string>
                 </property>
@@ -841,7 +841,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="chkEnableX_8">
+               <widget class="QCheckBox" name="chkEnableZ">
                 <property name="toolTip">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option to enable/disable this motor  based upon hardware insted of software.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
@@ -857,7 +857,7 @@
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_33">
                  <item>
-                  <widget class="QRadioButton" name="rbFullX_8">
+                  <widget class="QRadioButton" name="rbFullZ">
                    <property name="toolTip">
                     <string>Full stepping provides maximum torque.</string>
                    </property>
@@ -870,7 +870,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QRadioButton" name="rbHalfX_8">
+                  <widget class="QRadioButton" name="rbHalfZ">
                    <property name="toolTip">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Half stepping increases the resolution of the motor but the torque will be inconsistent.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
@@ -907,7 +907,7 @@
                     </widget>
                    </item>
                    <item row="0" column="1">
-                    <widget class="QDoubleSpinBox" name="dsbResX_8">
+                    <widget class="QDoubleSpinBox" name="dsbResZ">
                      <property name="decimals">
                       <number>4</number>
                      </property>
@@ -980,7 +980,7 @@
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="leA1_X_7">
+                 <widget class="QLineEdit" name="leA1_EX">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -1009,7 +1009,7 @@
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QLineEdit" name="leA2_X_7">
+                 <widget class="QLineEdit" name="leA2_EX">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -1038,7 +1038,7 @@
                  </widget>
                 </item>
                 <item row="2" column="1">
-                 <widget class="QLineEdit" name="leB1_X_7">
+                 <widget class="QLineEdit" name="leB1_EX">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -1067,7 +1067,7 @@
                  </widget>
                 </item>
                 <item row="3" column="1">
-                 <widget class="QLineEdit" name="leB2_X_7">
+                 <widget class="QLineEdit" name="leB2_EX">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -1096,7 +1096,7 @@
                  </widget>
                 </item>
                 <item row="4" column="1">
-                 <widget class="QLineEdit" name="leEnableX_7">
+                 <widget class="QLineEdit" name="leEnableEX">
                   <property name="maximumSize">
                    <size>
                     <width>50</width>
@@ -1133,7 +1133,7 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_18">
               <item>
-               <widget class="QCheckBox" name="chkNOTX_7">
+               <widget class="QCheckBox" name="chkNOTEX">
                 <property name="toolTip">
                  <string>Select this option if your motors are tied to HEX inverters.</string>
                 </property>
@@ -1143,7 +1143,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="chkEnableX_7">
+               <widget class="QCheckBox" name="chkEnableEX">
                 <property name="toolTip">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option to enable/disable this motor  based upon hardware insted of software.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
@@ -1159,7 +1159,7 @@
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_29">
                  <item>
-                  <widget class="QRadioButton" name="rbFullX_7">
+                  <widget class="QRadioButton" name="rbFullEX">
                    <property name="toolTip">
                     <string>Full stepping provides maximum torque.</string>
                    </property>
@@ -1172,7 +1172,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QRadioButton" name="rbHalfX_7">
+                  <widget class="QRadioButton" name="rbHalfEX">
                    <property name="toolTip">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Half stepping increases the resolution of the motor but the torque will be inconsistent.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
@@ -1209,7 +1209,7 @@
                     </widget>
                    </item>
                    <item row="0" column="1">
-                    <widget class="QDoubleSpinBox" name="dsbResX_7">
+                    <widget class="QDoubleSpinBox" name="dsbResEX">
                      <property name="decimals">
                       <number>4</number>
                      </property>

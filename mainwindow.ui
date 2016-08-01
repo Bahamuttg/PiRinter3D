@@ -43,6 +43,9 @@
     </property>
     <addaction name="action_Load_3D_Print"/>
     <addaction name="separator"/>
+    <addaction name="action_Load_PiRinter_Cfg"/>
+    <addaction name="action_Save_PiRinter_Cfg"/>
+    <addaction name="separator"/>
     <addaction name="action_Exit"/>
    </widget>
    <widget class="QMenu" name="menu_Settings">
@@ -60,12 +63,13 @@
      <string>&amp;Tools</string>
     </property>
     <addaction name="action_Stepper_Utility"/>
-    <addaction name="actionSimulate_Print"/>
+    <addaction name="action_Temperature_Utility"/>
    </widget>
    <widget class="QMenu" name="menu_About">
     <property name="title">
      <string>&amp;About</string>
     </property>
+    <addaction name="action_Info"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
@@ -84,6 +88,7 @@
     <addaction name="action_Restart"/>
     <addaction name="actionJump_Bac_k_Slice"/>
     <addaction name="separator"/>
+    <addaction name="actionSi_mulate_Print"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menuPrint_Actions"/>
@@ -214,60 +219,156 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Extruder Temperature</string>
+           <widget class="QFrame" name="pnlBedTemp">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLCDNumber" name="lcdExtruderTemp">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="lineWidth">
-             <number>1</number>
-            </property>
-            <property name="digitCount">
-             <number>3</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QFrame" name="pnlBedTemp">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>Heater Bed Temperature</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLCDNumber" name="lcdBedTemp">
-            <property name="midLineWidth">
-             <number>0</number>
-            </property>
-            <property name="digitCount">
-             <number>3</number>
-            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QGroupBox" name="groupBox_2">
+               <property name="title">
+                <string>Bed Temperature</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <item>
+                 <widget class="QFrame" name="frame_2">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout">
+                   <item row="0" column="0" colspan="2">
+                    <widget class="QLabel" name="label">
+                     <property name="text">
+                      <string>Target Temp</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <spacer name="horizontalSpacer">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>85</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QSpinBox" name="spinBox">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="maximum">
+                      <number>999</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0" colspan="2">
+                    <widget class="QCheckBox" name="checkBox">
+                     <property name="text">
+                      <string>Override</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="lcdBedTemp">
+                  <property name="midLineWidth">
+                   <number>0</number>
+                  </property>
+                  <property name="digitCount">
+                   <number>3</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="groupBox_3">
+               <property name="title">
+                <string>Extruder Temperature</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_7">
+                <item>
+                 <widget class="QFrame" name="frame_3">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_3">
+                   <item row="1" column="0">
+                    <spacer name="horizontalSpacer_2">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QSpinBox" name="spinBox_2">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="maximum">
+                      <number>999</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_2">
+                     <property name="text">
+                      <string>Target Temp</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QCheckBox" name="checkBox_2">
+                     <property name="text">
+                      <string>Override</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="lcdExtruderTemp">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="lineWidth">
+                   <number>1</number>
+                  </property>
+                  <property name="digitCount">
+                   <number>3</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -290,7 +391,7 @@
   </action>
   <action name="action_Load_3D_Print">
    <property name="text">
-    <string>&amp;Load Print</string>
+    <string>Load &amp;Print</string>
    </property>
   </action>
   <action name="action_Configure_PiRinter">
@@ -348,10 +449,68 @@
     <string>Jump Bac&amp;k Slice</string>
    </property>
   </action>
+  <action name="action_Save_PiRinter_Cfg">
+   <property name="text">
+    <string>&amp;Save PiRinter Cfg</string>
+   </property>
+  </action>
+  <action name="action_Load_PiRinter_Cfg">
+   <property name="text">
+    <string>&amp;Load PiRinter Cfg</string>
+   </property>
+  </action>
+  <action name="actionSi_mulate_Print">
+   <property name="text">
+    <string>Si&amp;mulate Print</string>
+   </property>
+  </action>
+  <action name="action_Info">
+   <property name="text">
+    <string>&amp;Info</string>
+   </property>
+  </action>
+  <action name="action_Temperature_Utility">
+   <property name="text">
+    <string>&amp;Temperature Utility</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
   <include location="PiRinter.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>checkBox_2</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>spinBox_2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>873</x>
+     <y>433</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>972</x>
+     <y>404</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>spinBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>902</x>
+     <y>193</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>976</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

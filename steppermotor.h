@@ -14,7 +14,7 @@ private:
     unsigned int _Coil_2;
     unsigned int _Coil_3;
     unsigned int _Coil_4;
-    unsigned int Phase;
+    unsigned int _Phase;
 
 	volatile bool _IsNOTGated;
     volatile bool _IsHalfStep;
@@ -41,10 +41,10 @@ public:
 
     void Rotate(MotorDirection Direction, long Steps, int MS_Delay);
     void Rotate(MotorDirection Direction, int MS_Delay);
-    void StopRotation(bool Hold = true);
+    void StopRotation(const bool &Hold = true);
     void Enable();
     void Disable();
-    void SetInverted(bool Arg = true);
+    void SetInverted(const bool &Arg = true);
 
 
 protected:

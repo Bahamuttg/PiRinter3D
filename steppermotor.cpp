@@ -17,7 +17,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil3, bool IsHalfStep)
     pinMode(_Coil_1, OUTPUT);
 	pinMode(_Coil_3, OUTPUT);
 	
-    this->Phase = 0;
+    this->_Phase = 0;
     this->Direction = CLOCKWISE;
     this->Position = 0;
     this->HoldPosition = true;
@@ -41,7 +41,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHa
 	pinMode(_Coil_3, OUTPUT);
 	pinMode(_Coil_4, OUTPUT);
 
-	this->Phase = 0;
+    this->_Phase = 0;
 	this->Direction = CLOCKWISE;
 	this->Position = 0;
 	this->HoldPosition = true;
@@ -52,10 +52,12 @@ StepperMotor::~StepperMotor()
 	CoilsOff();
 }
 
-void StepperMotor::Rotate(MotorDirection Direction, long Steps, int MS_Delay)
+void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)
 {
-	if (_Enabled)
-		for (int i = 0; i < Steps; i++)
+    if (_Enabled)
+        if(Steps < 0)
+            Steps *= -1;
+        for (int i = 0; i < Steps; i++)
 		{
 			PerformStep(Direction);
 			delay(MS_Delay);
@@ -73,7 +75,7 @@ void StepperMotor::Rotate(MotorDirection Direction, int MS_Delay)
 	}
 }
 
-void StepperMotor::StopRotation(bool Hold)
+void StepperMotor::StopRotation(const bool &Hold)
 {
 	this->_Enabled = false;
 	if (!Hold)
@@ -95,7 +97,7 @@ void StepperMotor::PerformStep(MotorDirection Direction)
 	if (_Enabled)
 	{
 		//Record our target phase
-		TargetPhase = (this->Phase + this->Direction);
+        TargetPhase = (this->_Phase + this->Direction);
 
 		//Check if we need to reset the phase.
 		if (!_IsHalfStep)
@@ -137,7 +139,7 @@ void StepperMotor::PerformStep(MotorDirection Direction)
 		}
 
 		//Update motor status.
-		this->Phase = TargetPhase;
+        this->_Phase = TargetPhase;
 		this->Position += this->Direction;
 	}
 	//If we're not holding the motor position let's release it.
@@ -155,7 +157,7 @@ void StepperMotor::Disable()
 	this->_Enabled = false;
 	CoilsOff();
 }
-void StepperMotor::SetInverted(bool Arg)
+void StepperMotor::SetInverted(const bool &Arg)
 {
 	if (Arg)
 		this->_IsInverted = true;

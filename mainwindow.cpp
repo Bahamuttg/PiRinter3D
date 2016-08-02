@@ -6,7 +6,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-
     _ProgressBar = new QProgressBar(this);
     _ProgressBar->setRange(0,100);
     _ProgressBar->reset();
@@ -34,4 +33,19 @@ void MainWindow::on_action_Exit_triggered()
 {
     this->close();
 }
+
+void MainWindow::on_action_Load_3D_Print_triggered()
+{
+    QFileDialog FD(this);
+    FD.setFileMode(QFileDialog::ExistingFile);
+    FD.setNameFilter(tr("G-Code files (*.gcode);;Text files (*.txt)"));
+    FD.setViewMode(QFileDialog::Detail);
+    FD.show();
+    if(FD.exec())
+    {
+        _PrintFilePath = FD.selectedFiles()[0];
+    }
+}
 //==============End Main Menu Handlers================================================
+
+

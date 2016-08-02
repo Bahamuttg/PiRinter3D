@@ -1,6 +1,5 @@
 #include "motorcontroller.h"
 #include "steppermotor.h"
-#include <math.h>
 
 //Private::Disallow Creating instances of this class.
 MotorController::MotorController()

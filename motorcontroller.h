@@ -10,11 +10,8 @@ private:
 	MotorController(); //Private so no instances, I want this to act like a static class.
 
 public:
-	int GetGCD(int val1, int val2);
-	int GetGCD(int val1, int val2, int val3);
-	int GetLCM(int val1, int val2);
-	int GetLCM(int val1, int val2, int val3);
-	StepperMotor::MotorDirection GetDirection(int Step);
+    StepperMotor::MotorDirection GetDirection(const int &Step);
+    StepperMotor::MotorDirection GetReverseDirection(const int &Step);
 
 	void StepMotor(StepperMotor *Motor, long Steps, int Speed);
 	void StepMotors(StepperMotor *Motor1, long Steps1, StepperMotor *Motor2, long Steps2, int Speed);

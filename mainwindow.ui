@@ -399,11 +399,6 @@
     <string>Configure &amp;Motors</string>
    </property>
   </action>
-  <action name="actionSimulate_Print">
-   <property name="text">
-    <string>Simulate &amp;Print</string>
-   </property>
-  </action>
   <action name="actionConfigure_Temperatures">
    <property name="text">
     <string>Configure &amp;Temperatures</string>

@@ -2,7 +2,9 @@
 #define STEPPERMOTOR_H
 
 #include <wiringPi.h>
+#include <string>
 
+using namespace std;
 namespace Stepper
 {
     class StepperMotor;
@@ -32,11 +34,12 @@ public:
         CTRCLOCKWISE = -1
     };
 
+    string MotorName;
     MotorDirection Direction;
     long Position;
     volatile bool HoldPosition;
-    explicit StepperMotor(int Coil1, int Coil3, bool IsHalfStep = false);
-    explicit StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep = false);
+    explicit StepperMotor(int Coil1, int Coil3, bool IsHalfStep = false, string Name = "Default");
+    explicit StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep = false, string Name = "Default");
     ~StepperMotor();
 
     void Rotate(MotorDirection Direction, long Steps, int MS_Delay);
@@ -45,6 +48,7 @@ public:
     void Enable();
     void Disable();
     void SetInverted(const bool &Arg = true);
+    void SetNotGated(const bool &Arg = false);
 
 
 protected:

@@ -14,3 +14,8 @@ MotorConfigDialog::~MotorConfigDialog()
 {
     delete ui;
 }
+
+void MotorConfigDialog::on_buttonBox_accepted()
+{
+    OnConfigChanged();
+}

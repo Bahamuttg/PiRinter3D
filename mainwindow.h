@@ -7,6 +7,9 @@
 #include <QProgressBar>
 #include <QString>
 #include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
+#include <QThread>
 
 #include "steppermotor.h"
 
@@ -18,9 +21,14 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
+    Ui::MainWindow *ui;
     QLabel *_StatusLabel;
     QProgressBar *_ProgressBar;
     QString _PrintFilePath ;
+
+    void LoadConfigurations();
+
+    void InitializeMotors();
 
 public:
     StepperMotor *XAxis;
@@ -31,6 +39,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+
 private slots:
     void on_action_Stepper_Utility_triggered();
 
@@ -38,8 +47,13 @@ private slots:
 
     void on_action_Load_3D_Print_triggered();
 
-private:
-    Ui::MainWindow *ui;
+    void on_action_Configure_PiRinter_triggered();
+
+
+    void UpdateMotorConfig();
+
+    void UpdateTempConfig();
+
 };
 
 #endif // MAINWINDOW_H

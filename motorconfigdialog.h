@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QAbstractButton>
 #include <QObject>
+#include <QFile>
+#include <QTextStream>
 
 namespace Ui {
 class MotorConfigDialog;
@@ -11,7 +13,12 @@ class MotorConfigDialog;
 
 class MotorConfigDialog : public QDialog
 {
+private:
     Q_OBJECT
+
+    void WriteCfgFile();
+
+    void ReadCfgFile();
 
 public:
 
@@ -20,6 +27,10 @@ public:
 
 private slots:
 
+    void on_buttonBox_accepted();
+
+signals:
+    void OnConfigChanged();
 
 private:
     Ui::MotorConfigDialog *ui;

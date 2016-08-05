@@ -109,12 +109,10 @@ void StepperDriver::UpdateMotorSettings()
 	delete Worker;
 	delete MotorThread;
 
-	MotorThread = new QThread(this);
-	if (this->_UseHexInverter)
-		Motor_1 = new StepperMotor(_A1, _B1, false);
-	else
-		Motor_1 = new StepperMotor(_A1, _A2, _B1, _B2, false);
-	Worker = new MotorWorker(Motor_1);
+	MotorThread = new QThread(this);   
+    Motor_1 = new StepperMotor(_A1, _A2, _B1, _B2, false);
+    Motor_1->SetNotGated(_UseHexInverter);
+    Worker = new MotorWorker(Motor_1);
 	Worker->moveToThread(MotorThread);
 
 	//Link the MotorThread to the DoWork Slot.

@@ -2,17 +2,21 @@
 #define GCODEINTERPRETER_H
 #include "motorcontroller.h"
 #include "steppermotor.h"
-#include <Qtcore>
+#include <QtCore>
+#include <QFile>
+#include <QTextStream>
+#include <QList>
 
 class GCodeInterpreter : public QObject
 {
 private:
 	//Define Stepper Motors.
-	StepperMotor *XMotor;
-	StepperMotor *YMotor;
-	StepperMotor *ZMotor;
-	StepperMotor *EXMotor;
+    StepperMotor *_XMotor;
+    StepperMotor *_YMotor;
+    StepperMotor *_ZMotor;
+    StepperMotor *_EXMotor;
 
+    //Get Resolutions from the main ui configuration.
 	/*
 	resolution in x direction.Unit: mm  http ://prusaprinters.org/calculator/
 	resolution in y direction.Unit: mm  http ://prusaprinters.org/calculator/
@@ -21,11 +25,12 @@ private:
 	float Xres, Yres, Zres, EXres;
 	*/
 
-	float EngravingSpeed = .20;
+    //Get Engraving speed from main ui config
+    float _EngravingSpeed = .20;
 
-	int ExtruderTemp = 0, BedTemp =0;
+    int _ExtruderTemp = 0, _BedTemp =0;
 
-	//TODO EndStops
+    //TODO  get EndStops
 	/*
 	EndStopX = 14
 	EndStopY = 15
@@ -35,10 +40,13 @@ private:
 	ExtThermistor = 11
 	HeatBedThermistor = 8
 	*/
+void WriteToLogFile(const QString &LogFilePath);
 
 public:
-	GCodeInterpreter();
+    GCodeInterpreter(const QString &FilePath, const QString &Logpath,
+                     StepperMotor *XMotor, StepperMotor *YMotor, StepperMotor *ZMotor, StepperMotor *EXMotor);
 	~GCodeInterpreter();
+    void BeginPrint();
 };
 
 #endif // GCODEINTERPRETER_H

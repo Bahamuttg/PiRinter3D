@@ -1,8 +1,9 @@
 #include "steppermotor.h"
 #include <wiringPi.h>
 
-StepperMotor::StepperMotor(int Coil1, int Coil3, bool IsHalfStep)
+StepperMotor::StepperMotor(int Coil1, int Coil3, bool IsHalfStep, string Name)
 {
+    this->MotorName = Name;
     this->_Coil_1 = Coil1;
     this->_Coil_2 = 0;
     this->_Coil_3 = Coil3;
@@ -23,8 +24,9 @@ StepperMotor::StepperMotor(int Coil1, int Coil3, bool IsHalfStep)
     this->HoldPosition = true;
 }
 
-StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep)
+StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep, string Name)
 {
+    this->MotorName = Name;
 	this->_Coil_1 = Coil1;
 	this->_Coil_2 = Coil2;
 	this->_Coil_3 = Coil3;
@@ -159,10 +161,7 @@ void StepperMotor::Disable()
 }
 void StepperMotor::SetInverted(const bool &Arg)
 {
-	if (Arg)
-		this->_IsInverted = true;
-	else
-		this->_IsInverted = false;
+        this->_IsInverted = Arg;
 }
 
 void StepperMotor::CoilsOff()
@@ -181,3 +180,7 @@ void StepperMotor::InvertDirection()
 		this->Direction = CLOCKWISE;
 	this->_IsInverted = true;
 }
+ void StepperMotor::SetNotGated(const bool &Arg)
+ {
+     this->_IsNOTGated = Arg;
+ }

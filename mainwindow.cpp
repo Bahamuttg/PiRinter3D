@@ -28,40 +28,51 @@ MainWindow::~MainWindow()
 void MainWindow::LoadConfigurations()
 {
     //TODO Load Configs.
+    InitializeMotors();
+}
+
+void MainWindow::SaveConfigurations()
+{
+    //TODO Save Configs.
 }
 
 void MainWindow::InitializeMotors()
 {
-    QTextStream CfgStream("./MotorCFG.ini"); //load config file
-    while (!CfgStream.atEnd())
+    QFile MotorConfig("MotorCfg.ini");
+    if(MotorConfig.open(QIODevice::ReadOnly | QIODevice::Text ))
     {
-        QString Line = CfgStream.readLine(); //read one line at a time
-        if(Line.contains("MotorConfig"))
+        QTextStream CfgStream(&MotorConfig); //load config file
+        while (!CfgStream.atEnd())
         {
-            QStringList Params = Line.split(";");
-            if(Params[0].contains("XAxis"))
+            QString Line = CfgStream.readLine(); //read one line at a time
+            if(Line.contains("MotorConfig"))
             {
-                this->XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
-                        Params[5].toInt(), Params[0].split("::")[1].toStdString());
-                this->XAxis->SetNotGated(Params[6].toInt());
-            }
-            if(Params[0].contains("YAxis"))
-            {
-                this->YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
-                        Params[5].toInt(), Params[0].split("::")[1].toStdString());
-                 this->YAxis->SetNotGated(Params[6].toInt());
-            }
-            if(Params[0].contains("ZAxis"))
-            {
-                this->ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
-                        Params[5].toInt(), Params[0].split("::")[1].toStdString());
-                 this->ZAxis->SetNotGated(Params[6].toInt());
-            }
-            if(Params[0].contains("ExtAxis"))
-            {
-                this->ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
-                        Params[5].toInt(), Params[0].split("::")[1].toStdString());
-                 this->ExtAxis->SetNotGated(Params[6].toInt());
+                QStringList Params = Line.split(";");
+                if(Params[0].contains("XAxis"))
+                {
+                    //TODO: check the not gate Param and invoke the NOT gate constructor if that is what we're using
+                    this->XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                            Params[5].toInt(), Params[0].split("::")[1].toStdString());
+                    this->XAxis->SetNotGated(Params[6].toInt());
+                }
+                if(Params[0].contains("YAxis"))
+                {
+                    this->YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                            Params[5].toInt(), Params[0].split("::")[1].toStdString());
+                    this->YAxis->SetNotGated(Params[6].toInt());
+                }
+                if(Params[0].contains("ZAxis"))
+                {
+                    this->ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                            Params[5].toInt(), Params[0].split("::")[1].toStdString());
+                    this->ZAxis->SetNotGated(Params[6].toInt());
+                }
+                if(Params[0].contains("ExtAxis"))
+                {
+                    this->ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                            Params[5].toInt(), Params[0].split("::")[1].toStdString());
+                    this->ExtAxis->SetNotGated(Params[6].toInt());
+                }
             }
         }
     }

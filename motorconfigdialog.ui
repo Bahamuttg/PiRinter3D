@@ -42,7 +42,7 @@
      <item row="1" column="0">
       <widget class="QTabWidget" name="tabMotors">
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tpXAxis">
         <attribute name="title">
@@ -485,7 +485,7 @@
                  </widget>
                 </item>
                 <item row="4" column="0">
-                 <widget class="QLabel" name="lblEnableX_6">
+                 <widget class="QLabel" name="lblEnableY">
                   <property name="text">
                    <string>Enable</string>
                   </property>
@@ -787,7 +787,7 @@
                  </widget>
                 </item>
                 <item row="4" column="0">
-                 <widget class="QLabel" name="lblEnableX_8">
+                 <widget class="QLabel" name="lblEnableZ">
                   <property name="text">
                    <string>Enable</string>
                   </property>
@@ -1089,7 +1089,7 @@
                  </widget>
                 </item>
                 <item row="4" column="0">
-                 <widget class="QLabel" name="lblEnableX_7">
+                 <widget class="QLabel" name="lblEnableEX">
                   <property name="text">
                    <string>Enable</string>
                   </property>

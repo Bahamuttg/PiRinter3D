@@ -54,7 +54,7 @@ StepperMotor::~StepperMotor()
 	CoilsOff();
 }
 
-void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)
+void StepperMotor::Rotate(MotorDirection Direction,  const long &Steps, const int &MS_Delay)
 {
     if (_Enabled)
         if(Steps < 0)
@@ -66,7 +66,7 @@ void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)
 		}
 }
 
-void StepperMotor::Rotate(MotorDirection Direction, int MS_Delay)
+void StepperMotor::Rotate(MotorDirection Direction, const int &MS_Delay)
 {
 	//This method will block indefinitely.
 	//It's up to the programmer to thread it properly.

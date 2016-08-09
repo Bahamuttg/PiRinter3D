@@ -28,6 +28,8 @@ private:
 
     void LoadConfigurations();
 
+    void SaveConfigurations();
+
     void InitializeMotors();
 
 public:

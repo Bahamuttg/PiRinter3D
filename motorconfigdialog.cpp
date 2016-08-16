@@ -26,7 +26,7 @@ MotorConfigDialog::~MotorConfigDialog()
 void MotorConfigDialog::on_buttonBox_accepted()
 {
     this->WriteCfgFile();
-    OnConfigChanged();
+    emit OnConfigChanged();
 }
 
 void MotorConfigDialog::WriteCfgFile()

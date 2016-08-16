@@ -115,6 +115,9 @@
        <property name="title">
         <string>GCode Execution</string>
        </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
          <widget class="QTextBrowser" name="txtGCode"/>
@@ -125,7 +128,7 @@
      <item>
       <widget class="QFrame" name="frame">
        <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
+        <enum>QFrame::WinPanel</enum>
        </property>
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
@@ -212,7 +215,7 @@
        <item row="1" column="0">
         <widget class="QFrame" name="pnlExtruderTemp">
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::WinPanel</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
@@ -221,7 +224,7 @@
           <item>
            <widget class="QFrame" name="pnlBedTemp">
             <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
@@ -236,7 +239,7 @@
                 <item>
                  <widget class="QFrame" name="frame_2">
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::WinPanel</enum>
                   </property>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
@@ -284,6 +287,9 @@
                 </item>
                 <item>
                  <widget class="QLCDNumber" name="lcdBedTemp">
+                  <property name="frameShape">
+                   <enum>QFrame::WinPanel</enum>
+                  </property>
                   <property name="midLineWidth">
                    <number>0</number>
                   </property>
@@ -304,7 +310,7 @@
                 <item>
                  <widget class="QFrame" name="frame_3">
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::WinPanel</enum>
                   </property>
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
@@ -356,6 +362,9 @@
                    <font>
                     <pointsize>12</pointsize>
                    </font>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::WinPanel</enum>
                   </property>
                   <property name="lineWidth">
                    <number>1</number>

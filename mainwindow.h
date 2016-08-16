@@ -12,6 +12,8 @@
 #include <QThread>
 
 #include "steppermotor.h"
+#include "thermalprobe.h"
+#include "endstop.h"
 
 namespace Ui {
 class MainWindow;
@@ -31,12 +33,15 @@ private:
     void SaveConfigurations();
 
     void InitializeMotors();
+    void InitializeThermalProbes();
+    void InitializeEndStops();
 
 public:
-    StepperMotor *XAxis;
-    StepperMotor *YAxis;
-    StepperMotor *ZAxis;
-    StepperMotor *ExtAxis;
+    StepperMotor *XAxis, *YAxis, *ZAxis, *ExtAxis;
+    ThermalProbe *_BedProbe, *_ExtProbe;
+    EndStop *_XStop, *_YStop, *_ZStop;
+
+    float _XRes, _YRes, _ZRes, ExtRes;
 
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();

@@ -34,9 +34,6 @@ StepperDriver::StepperDriver(QWidget *parent) :
 	//Link the Buttons released signal to the ButtonTimer stop.
 	connect(ui->pushButton, SIGNAL(released()), ButtonTimer, SLOT(stop()));
 	connect(ui->pushButton_2, SIGNAL(released()), ButtonTimer, SLOT(stop()));
-	//Listen for Motor Setting Changes.
-	connect(this, SIGNAL(CoilSettingsChanged()), this, SLOT(UpdateMotorSettings()));
-
 }
 
 StepperDriver::~StepperDriver()
@@ -142,7 +139,7 @@ void StepperDriver::on_action_Configure_Coils_triggered()
 	this->_B2 = CD->B2;
 	delete CD;
 	UpdateLabels();
-	emit CoilSettingsChanged();
+    UpdateMotorSettings();
 }
 
 void StepperDriver::on_actionUse_NOT_Gates_toggled(bool arg1)

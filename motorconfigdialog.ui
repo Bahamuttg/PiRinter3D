@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Motor Configuration</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="PiRinter.qrc">
+    <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_108.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_108.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
@@ -305,6 +309,9 @@
                      </property>
                      <property name="maximum">
                       <double>9999.989999999999782</double>
+                     </property>
+                     <property name="singleStep">
+                      <double>0.010000000000000</double>
                      </property>
                     </widget>
                    </item>
@@ -612,6 +619,9 @@
                      <property name="maximum">
                       <double>9999.989999999999782</double>
                      </property>
+                     <property name="singleStep">
+                      <double>0.010000000000000</double>
+                     </property>
                     </widget>
                    </item>
                   </layout>
@@ -913,6 +923,9 @@
                      </property>
                      <property name="maximum">
                       <double>9999.989999999999782</double>
+                     </property>
+                     <property name="singleStep">
+                      <double>0.010000000000000</double>
                      </property>
                     </widget>
                    </item>
@@ -1216,6 +1229,9 @@
                      <property name="maximum">
                       <double>9999.989999999999782</double>
                      </property>
+                     <property name="singleStep">
+                      <double>0.010000000000000</double>
+                     </property>
                     </widget>
                    </item>
                   </layout>
@@ -1275,7 +1291,9 @@
   <tabstop>dsbResX</tabstop>
   <tabstop>pushButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="PiRinter.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
@@ -1402,6 +1420,294 @@
     <hint type="destinationlabel">
      <x>65</x>
      <y>266</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leA2_Y</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>90</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>134</x>
+     <y>138</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_27</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>255</x>
+     <y>95</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>66</x>
+     <y>141</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leB2_Y</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>298</x>
+     <y>93</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>139</x>
+     <y>219</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_29</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>369</x>
+     <y>101</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>77</x>
+     <y>217</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leEnableY</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>272</x>
+     <y>121</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>132</x>
+     <y>253</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblEnableY</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>358</x>
+     <y>128</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>81</x>
+     <y>254</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leA2_Z</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>289</x>
+     <y>88</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>138</x>
+     <y>136</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_37</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>351</x>
+     <y>81</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>61</x>
+     <y>142</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leB2_Z</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>321</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>135</x>
+     <y>211</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_39</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>388</x>
+     <y>88</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>63</x>
+     <y>217</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leEnableZ</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>127</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>135</x>
+     <y>252</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblEnableZ</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>342</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>81</x>
+     <y>253</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leA2_EX</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>271</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>129</x>
+     <y>135</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_32</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>317</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>73</x>
+     <y>137</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leB2_EX</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>358</x>
+     <y>91</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>137</x>
+     <y>217</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_34</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>338</x>
+     <y>94</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>89</x>
+     <y>215</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leEnableEX</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>122</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>142</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblEnableEX</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>410</x>
+     <y>127</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>81</x>
+     <y>246</y>
     </hint>
    </hints>
   </connection>

@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     stepperdriver.cpp \
     motorconfigdialog.cpp \
     gcodeinterpreter.cpp \
-    motorcontroller.cpp
+    motorcontroller.cpp \
+    thermalprobe.cpp \
+    endstop.cpp
 
 HEADERS  += mainwindow.h \
     coildialog.h \
@@ -28,7 +30,9 @@ HEADERS  += mainwindow.h \
     stepperdriver.h \
     motorconfigdialog.h \
     gcodeinterpreter.h \
-    motorcontroller.h
+    motorcontroller.h \
+    thermalprobe.h \
+    endstop.h
 
 FORMS    += mainwindow.ui \
     coildialog.ui \

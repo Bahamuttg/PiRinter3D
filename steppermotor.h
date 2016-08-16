@@ -42,8 +42,8 @@ public:
     explicit StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep = false, string Name = "Default");
     ~StepperMotor();
 
-    void Rotate(MotorDirection Direction, const long &Steps, const int &MS_Delay);
-    void Rotate(MotorDirection Direction, const int &MS_Delay);
+    void Rotate(MotorDirection Direction, long Steps, int MS_Delay);
+    void Rotate(MotorDirection Direction, int MS_Delay);
     void StopRotation(const bool &Hold = true);
     void Enable();
     void Disable();

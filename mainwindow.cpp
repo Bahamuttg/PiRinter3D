@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "stepperdriver.h"
 #include "motorconfigdialog.h"
+#include "thermalprobe.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->insertPermanentWidget(0, _ProgressBar, 100);
     ui->statusBar->insertPermanentWidget(1, _StatusLabel, 250);
 
-    LoadConfigurations();
+    InitializeMotors();
 }
 
 MainWindow::~MainWindow()
@@ -28,12 +29,17 @@ MainWindow::~MainWindow()
 void MainWindow::LoadConfigurations()
 {
     //TODO Load Configs.
-    InitializeMotors();
+
 }
 
 void MainWindow::SaveConfigurations()
 {
     //TODO Save Configs.
+}
+
+void MainWindow::InitializeThermalProbes()
+{
+
 }
 
 void MainWindow::InitializeMotors()
@@ -50,27 +56,33 @@ void MainWindow::InitializeMotors()
                 QStringList Params = Line.split(";");
                 if(Params[0].contains("XAxis"))
                 {
-                    //TODO: check the not gate Param and invoke the NOT gate constructor if that is what we're using
-                    this->XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
-                            Params[5].toInt(), Params[0].split("::")[1].toStdString());
-                    this->XAxis->SetNotGated(Params[6].toInt());
+                    if(Params[6].toInt())
+                    {
+                        //TODO: check the not gate Param and invoke the NOT gate constructor if that is what we're using
+                    }
+                    else
+                    {
+                        this->XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                                Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->XAxis->SetNotGated(Params[6].toInt());
+                    }
                 }
                 if(Params[0].contains("YAxis"))
                 {
                     this->YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
-                            Params[5].toInt(), Params[0].split("::")[1].toStdString());
+                            Params[9].toInt(), Params[0].split("::")[1].toStdString());
                     this->YAxis->SetNotGated(Params[6].toInt());
                 }
                 if(Params[0].contains("ZAxis"))
                 {
                     this->ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
-                            Params[5].toInt(), Params[0].split("::")[1].toStdString());
+                            Params[9].toInt(), Params[0].split("::")[1].toStdString());
                     this->ZAxis->SetNotGated(Params[6].toInt());
                 }
                 if(Params[0].contains("ExtAxis"))
                 {
                     this->ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
-                            Params[5].toInt(), Params[0].split("::")[1].toStdString());
+                            Params[9].toInt(), Params[0].split("::")[1].toStdString());
                     this->ExtAxis->SetNotGated(Params[6].toInt());
                 }
             }
@@ -84,7 +96,6 @@ void MainWindow::on_action_Stepper_Utility_triggered()
 {
     StepperDriver *SD = new StepperDriver(this);
     SD->show();
-
 }
 
 void MainWindow::on_action_Exit_triggered()
@@ -115,7 +126,7 @@ void MainWindow::on_action_Configure_PiRinter_triggered()
 //==============SLOTS===============================================================
 void MainWindow::UpdateMotorConfig()
 {
-    //TODO Update the MotorCFG.ini;
+    InitializeMotors();
 }
 
 void MainWindow::UpdateTempConfig()

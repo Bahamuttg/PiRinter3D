@@ -20,6 +20,7 @@ private:
 
     void ReadCfgFile();
 
+     Ui::MotorConfigDialog *ui;
 public:
 
     explicit MotorConfigDialog(QWidget *parent = 0);
@@ -31,9 +32,6 @@ private slots:
 
 signals:
     void OnConfigChanged();
-
-private:
-    Ui::MotorConfigDialog *ui;
 };
 
 #endif // MOTORCONFIGDIALOG_H

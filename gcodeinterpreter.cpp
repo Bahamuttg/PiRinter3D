@@ -14,7 +14,60 @@ GCodeInterpreter::~GCodeInterpreter()
 {
 
 }
+//======================================Private Methods============================================
+    QList<Coordinate>  GCodeInterpreter::GetCoordValues(QString &)
+    {
+        /*
+     xchar_loc=lines.index('X');
+    i=xchar_loc+1;
+    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
+        i+=1;
+    x_pos=float(lines[xchar_loc+1:i]);
 
+    ychar_loc=lines.index('Y');
+    i=ychar_loc+1;
+    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
+        i+=1;
+    y_pos=float(lines[ychar_loc+1:i]);
+
+    extchar_loc=lines.index('E');
+    i=extchar_loc+1;
+    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
+        i+=1;
+    ext_pos=float(lines[extchar_loc+1:i]);
+    */
+    }
+    void GCodeInterpreter::MoveToolHead(const float &XPosition, const float &YPosition, const float &ZPosition, const float &ExtPosition)
+    {
+        int stepx = 0, stepy = 0, stepz = 0, stepext = 0;
+        if(XPosition != 0)
+            stepx = qFloor((XPosition/_XRes) + 0.5) - _XMotor->Position;
+        if(YPosition != 0)
+            stepy = qFloor((YPosition/_YRes) + 0.5) - _YMotor->Position;
+        if(ZPosition != 0)
+            stepz = qFloor((ZPosition/_ZRes) + 0.5) - _ZMotor->Position;
+        if(ExtPosition != 0)
+            stepext = qFloor((ExtPosition/_ExtRes) + 0.5) - _ExtMotor->Position;
+
+        float total_steps = qSqrt((qPow(stepx, 2) + qPow(stepy, 2)));
+        float total_3dsteps = 0;
+
+        if(total_steps > 0 && total_3dsteps > 0 && stepext > 0)
+             MotorController::StepMotors(_XMotor, stepx, _YMotor, setpy, _ZMotor, stepz, _ExtMotor, stepext, _SpeedFactor / qMin(_XRes, _YRes));
+        else if(total_steps > 0 && stepext > 0)
+            MotorController::StepMotors(_XMotor, stepx, _YMotor, setpy, _ExtMotor, stepext, _SpeedFactor / qMin(_XRes, _YRes));
+        else if(total_steps > 0)
+            MotorController::StepMotors(_XMotor, stepx, _YMotor, setpy, _SpeedFactor / qMin(_XRes, _YRes));
+        else
+        {
+            if(XPosition > 0)
+                MotorController::StepMotor(_XMotor, stepx, _SpeedFactor / _XRes);
+            else
+                MotorController::StepMotor(_YMotor, stepy, _SpeedFactor / _YRes);
+        }
+    }
+
+//======================================End Private Methods========================================
 void GCodeInterpreter::ParseLine()
 {
 
@@ -110,21 +163,7 @@ def PenOn(ZMotor):
     # move ZAxis ~5 steps down
     ZMotor.move(-1,5)
 
-def XYposition(lines):
-    #given a movement command line, return the X Y position
-    xchar_loc=lines.index('X');
-    i=xchar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    x_pos=float(lines[xchar_loc+1:i]);
 
-    ychar_loc=lines.index('Y');
-    i=ychar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    y_pos=float(lines[ychar_loc+1:i]);
-
-    return x_pos,y_pos;
 
 def homeAxis(motor,endStopPin):
     #need to home the axis
@@ -141,108 +180,6 @@ def homeAxis(motor,endStopPin):
     GPIO.output(endStopPin, False);
     GPIO.setup(endStopPin,GPIO.IN,pull_up_down=GPIO.PUD_DOWN); # pull_up_down=GPIO.PUD_UP  or pull_up_down=GPIO.PUD_DOWN
 
-
-def XYExtposition(lines):
-    #given a movement command line, return the X Y position
-    xchar_loc=lines.index('X');
-    i=xchar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    x_pos=float(lines[xchar_loc+1:i]);
-
-    ychar_loc=lines.index('Y');
-    i=ychar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    y_pos=float(lines[ychar_loc+1:i]);
-
-    extchar_loc=lines.index('E');
-    i=extchar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    ext_pos=float(lines[extchar_loc+1:i]);
-
-    return x_pos,y_pos,ext_pos;
-
-def SinglePosition(lines,axis):
-    extchar_loc=lines.index(axis);
-    i=extchar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    ext_pos=float(lines[extchar_loc+1:i]);
-
-    return ext_pos;
-
-def IJposition(lines):
-    #given a G02 or G03 movement command line, return the I J position
-    ichar_loc=lines.index('I');
-    i=ichar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    i_pos=float(lines[ichar_loc+1:i]);
-
-    jchar_loc=lines.index('J');
-    i=jchar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    j_pos=float(lines[jchar_loc+1:i]);
-
-    return i_pos,j_pos;
-
-def IJEposition(lines):
-    #given a G02 or G03 movement command line, return the I J position
-    ichar_loc=lines.index('I');
-    i=ichar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    i_pos=float(lines[ichar_loc+1:i]);
-
-    jchar_loc=lines.index('J');
-    i=jchar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    j_pos=float(lines[jchar_loc+1:i]);
-
-    extchar_loc=lines.index('E');
-    i=extchar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    ext_pos=float(lines[extchar_loc+1:i]);
-
-    return i_pos,j_pos,ext_pos;
-
-def moveto(MX,x_pos,dx,MY,y_pos,dy,speed,engraving):
-#Move to (x_pos,y_pos) (in real unit)
-    stepx=int(round(x_pos/dx))-MX.position;
-    stepy=int(round(y_pos/dy))-MY.position;
-
-    Total_step=sqrt((stepx**2+stepy**2));
-
-    if Total_step>0:
-        if lines[0:3]=='G0 ': #fast movement
-            print 'No Laser, fast movement: Dx=', stepx, '  Dy=', stepy;
-            Motor_control_new.Motor_Step(MX,stepx,MY,stepy,50);
-        else:
-            print 'Laser on, movement: Dx=', stepx, '  Dy=', stepy;
-            Motor_control_new.Motor_Step(MX,stepx,MY,stepy,speed);# hard 50 for now
-    return 0;
-
-def movetothree(MX,x_pos,dx,MY,y_pos,dy,MExt,ext_pos,dext,speed,engraving):
-#Move to (x_pos,y_pos) (in real unit)
-    stepx=int(round(x_pos/dx))-MX.position;
-    stepy=int(round(y_pos/dy))-MY.position;
-    stepExt=int(round(ext_pos/dext))-MExt.position;
-
-    Total_step=sqrt((stepx**2+stepy**2));
-
-    if Total_step>0:
-        if lines[0:3]=='G0 ': #fast movement
-            print 'fast movement: Dx=', stepx, '  Dy=', stepy;
-            Motor_control_new.Motor_StepThree(MX,stepx,MY,stepy,MExt,stepExt,50);
-        else:
-            print 'movement: Dx=', stepx, '  Dy=', stepy, '  Dex=', stepExt;
-            Motor_control_new.Motor_StepThree(MX,stepx,MY,stepy,MExt,stepExt,speed);
-    return 0;
 
 ###########################################################################################
 ###########################################################################################

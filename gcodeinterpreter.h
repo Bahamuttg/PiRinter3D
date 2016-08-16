@@ -10,48 +10,80 @@
 #include <QList>
 #include <QObject>
 
+struct Coordinate
+{
+    float value;
+    QString Name;
+};
+
 class GCodeInterpreter : public QObject
 {
 private:
     Q_OBJECT
 
-        //Define Stepper Motors.
-        StepperMotor *_XMotor, *_YMotor, *_ZMotor, *_ExtMotor;
-        ThermalProbe *_BedProbe, *_ExtProbe;
-        EndStop *_XStop, *_YStop, *_ZStop;
+    //Define Stepper Motors.
+    StepperMotor *_XMotor, *_YMotor, *_ZMotor, *_ExtMotor;
+    ThermalProbe *_BedProbe, *_ExtProbe;
+    EndStop *_XStop, *_YStop, *_ZStop;
 
-        //Get Resolutions from the main ui configuration.
-        float _XRes, _YRes, _ZRes, ExtRes;
+    //Get Resolutions from the main ui configuration.
+    float _XRes, _YRes, _ZRes, _ExtRes;
 
-        //Get Engraving speed from main ui config
-        float _EngravingSpeed;
-        //Extruder and Bed Temp values
-        int _ExtruderTemp, _BedTemp;
+    //Get speed factor from main ui config
+    float _SpeedFactor;
 
+    //Extruder and Bed Temp values
+    int _ExtruderTemp, _BedTemp;
+
+    bool TerminateThread;
 
     void WriteToLogFile(const QString &LogFilePath);
 
     void ParseLine();
 
+    void HomeAllAxis();
+
+    QList<Coordinate>  GetCoordValues(QString &);
+
+    void MoveToolHead(const float &XPosition, const float &YPosition, const float &ZPosition, const float &ExtPosition);
+
 public:
+    bool Stop;
+
     GCodeInterpreter(const QString &FilePath, const QString &Logpath,
                      StepperMotor *XMotor, StepperMotor *YMotor, StepperMotor *ZMotor, StepperMotor *ExtMotor,
                      ThermalProbe *BedProbe, ThermalProbe *ExtruderProbe);
-	~GCodeInterpreter();
+    ~GCodeInterpreter();
+
+    int GetExtruderTemp();
+    void SetExtruderTemp(const int &);
+
+    int GetBedTemp();
+    void SetBedTemp(const int &);
+
+public slots:
     void BeginPrint();
 
+    void PausePrint();
+
+    void TerminatePrint();
+
 signals:
-        void BeginLineProcessing(QString &);
+    void PrintStarted();
 
-        void ProcessingMoves(QString &);
+    void PrintComplete();
 
-        void ProcessingTemps(QString &);
+    void BeginLineProcessing(QString &);
 
-        void EndLineProcessing(QString &);
+    void ProcessingMoves(QString &);
 
-        void OnError(QString &);
+    void ProcessingTemps(QString &);
 
-        void OnSuccess();
+    void EndLineProcessing(QString &);
+
+    void OnError(QString &);
+
+    void OnSuccess();
 
 };
 

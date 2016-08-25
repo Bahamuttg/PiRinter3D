@@ -1,10 +1,16 @@
 #include "thermalprobe.h"
+#include <wiringPi.h>
 #include <wiringPiSPI.h>
 
-ThermalProbe::ThermalProbe(const unsigned int &Channel, const unsigned int &PinBase)
+ThermalProbe::ThermalProbe(const unsigned int &Channel, const unsigned int &SPIPinBase, const unsigned int &TriggerPin, const int &TargetTemp)
 {
-    _PinBase = PinBase;
+    _PinBase = SPIPinBase;
     _Channel = Channel;
+    _TriggerPin = TriggerPin;
+    _TargetTemp = TargetTemp;
+
+    pinMode(_TriggerPin, OUTPUT);
+
     mcp3004Setup(_PinBase, _Channel);
 }
 
@@ -34,4 +40,17 @@ int ThermalProbe::MeasureTemp()
      */
 }
 
+void ThermalProbe::TriggerElement(ElementState Value)
+{
+    if(Value == ThermalProbe::OFF)
+        digitalWrite(_TriggerPin, LOW);
+    else
+        digitalWrite(_TriggerPin, HIGH);
+    ElementCurrentState = Value;
+}
 
+void ThermalProbe::SetTargetTemp(const int &Value )
+{
+    _TargetTemp = Value;
+    MeasureTemp();
+}

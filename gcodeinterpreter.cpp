@@ -178,8 +178,8 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
         //Start the temp pull up while homing axis by spinning up the ThermalProbe threads.
         _BedThread = new QThread(this);
         _ExtruderThread = new QThread(this);
-        ThermalProbe *Bed = new ThermalProbe(0, 100);
-        ThermalProbe *Ext = new ThermalProbe(1, 101);
+        ThermalProbe *Bed = new ThermalProbe(0, 100, 0, 205);
+        ThermalProbe *Ext = new ThermalProbe(1, 101, 0, 205);
         BedProbe = new ProbeWorker(Bed, 100);
         BedProbe->moveToThread(_BedThread);
         ExtProbe = new ProbeWorker(Ext, 100);
@@ -187,8 +187,6 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
         BedProbe->DoWork();
         ExtProbe->DoWork();
 
-        //connect()
-        //Then we could move the Probes to the appropriate thread objects very easily as well as access them via other methods.
         HomeAllAxis();
         //emit ProcessingTemps(Temp object : temp deg);
         //possibly validate the functionality of the end stops too.

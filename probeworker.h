@@ -1,6 +1,7 @@
 #ifndef PROBEWORKER_H
 #define PROBEWORKER_H
 #include <QtCore>
+#include <QTimer>
 #include "thermalprobe.h"
 class ProbeWorker : public QObject
 {
@@ -10,8 +11,13 @@ private:
     bool _Suspend, _Terminate;
     ThermalProbe *_Probe;
     unsigned int _MS_ReadDelay;
+    QTimer *_DelayTimer;
+
+    int TriggerProbeRead();
+
 public:
     ProbeWorker(ThermalProbe *Probe, const unsigned int &MS_ReadDelay);
+    ~ProbeWorker();
 
 public slots:
     void DoWork();
@@ -20,11 +26,8 @@ public slots:
 
     void Resume();
 
-    void Terminate();
-
 signals:
     void ReportTemp(int);
-    void WorkComplete();
     void Error(QString err);
 };
 

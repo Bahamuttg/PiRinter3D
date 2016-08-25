@@ -3,167 +3,214 @@
 #include "steppermotor.h"
 #include "motorcontroller.h"
 
-GCodeInterpreter::GCodeInterpreter(const QString &FilePath, const QString &Logpath,
-                                   StepperMotor *XMotor, StepperMotor *YMotor, StepperMotor *ZMotor, StepperMotor *ExtMotor,
-                                   ThermalProbe *BedProbe, ThermalProbe *ExtruderProbe)
+GCodeInterpreter::GCodeInterpreter(const QString &FilePath, const QString &Logpath)
 {
-
+    InitializeMotors();
+    InitializeEndStops();
+    InitializeThermalProbes();
+    LoadGCode(FilePath);
 }
 
 GCodeInterpreter::~GCodeInterpreter()
 {
-
+    delete _XAxis;
+    delete _YAxis;
+    delete _ZAxis;
+    delete _ExtAxis;
+    delete BedProbe;
+    delete ExtProbe;
 }
-//======================================Private Methods============================================
-    QList<Coordinate>  GCodeInterpreter::GetCoordValues(QString &)
+
+void GCodeInterpreter::LoadGCode(const QString &FilePath)
+{
+    QFile PrintFile(FilePath);
+    if(PrintFile.open(QIODevice::ReadOnly | QIODevice::Text ))
     {
-        /*
-     xchar_loc=lines.index('X');
-    i=xchar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    x_pos=float(lines[xchar_loc+1:i]);
-
-    ychar_loc=lines.index('Y');
-    i=ychar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    y_pos=float(lines[ychar_loc+1:i]);
-
-    extchar_loc=lines.index('E');
-    i=extchar_loc+1;
-    while (47<ord(lines[i])<58)|(lines[i]=='.')|(lines[i]=='-'):
-        i+=1;
-    ext_pos=float(lines[extchar_loc+1:i]);
-    */
+        QTextStream Stream(&PrintFile);
+        _GCODE.append(Stream.readAll());
+        PrintFile.close();
     }
+}
+
+//======================================Private Methods============================================
+    void GCodeInterpreter::InitializeEndStops()
+    {
+    }
+
+    void GCodeInterpreter::InitializeThermalProbes()
+    {
+    }
+
+    void GCodeInterpreter::InitializeMotors()
+    {
+        QFile MotorConfig("MotorCfg.ini");
+        if(MotorConfig.open(QIODevice::ReadOnly | QIODevice::Text ))
+        {
+            QTextStream CfgStream(&MotorConfig); //load config file
+            while (!CfgStream.atEnd())
+            {
+                QString Line = CfgStream.readLine(); //read one line at a time
+                if(Line.contains("MotorConfig"))
+                {
+                    QStringList Params = Line.split(";");
+                    if(Params[0].contains("XAxis"))
+                    {
+                        if(Params[6].toInt()) //If it's using HEX inverters
+                            this->_XAxis = new StepperMotor(Params[1].toInt(),  Params[3].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        else
+                            this->_XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                                    Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                    }
+                    if(Params[0].contains("YAxis"))
+                    {
+                        if(Params[6].toInt())
+                            this->_YAxis = new StepperMotor(Params[1].toInt(),  Params[3].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        else
+                            this->_YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                                    Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                    }
+                    if(Params[0].contains("ZAxis"))
+                    {
+                        if(Params[6].toInt())
+                            this->_ZAxis = new StepperMotor(Params[1].toInt(),  Params[3].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        else
+                            this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                                    Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                    }
+                    if(Params[0].contains("ExtAxis"))
+                    {
+                        if(Params[6].toInt())
+                            this->_ExtAxis = new StepperMotor(Params[1].toInt(),  Params[3].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        else
+                            this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                                    Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                    }
+                }
+            }
+        }
+    }
+
+    void GCodeInterpreter::HomeAllAxis()
+    {
+    }
+
     void GCodeInterpreter::MoveToolHead(const float &XPosition, const float &YPosition, const float &ZPosition, const float &ExtPosition)
     {
         int stepx = 0, stepy = 0, stepz = 0, stepext = 0;
         if(XPosition != 0)
-            stepx = qFloor((XPosition/_XRes) + 0.5) - _XMotor->Position;
+            stepx = qFloor((XPosition/_XRes) + 0.5) - _XAxis->Position;
         if(YPosition != 0)
-            stepy = qFloor((YPosition/_YRes) + 0.5) - _YMotor->Position;
+            stepy = qFloor((YPosition/_YRes) + 0.5) - _YAxis->Position;
         if(ZPosition != 0)
-            stepz = qFloor((ZPosition/_ZRes) + 0.5) - _ZMotor->Position;
+            stepz = qFloor((ZPosition/_ZRes) + 0.5) - _ZAxis->Position;
         if(ExtPosition != 0)
-            stepext = qFloor((ExtPosition/_ExtRes) + 0.5) - _ExtMotor->Position;
+            stepext = qFloor((ExtPosition/_ExtRes) + 0.5) - _ExtAxis->Position;
 
         float total_steps = qSqrt((qPow(stepx, 2) + qPow(stepy, 2)));
         float total_3dsteps = 0;
 
         if(total_steps > 0 && total_3dsteps > 0 && stepext > 0)
-             MotorController::StepMotors(_XMotor, stepx, _YMotor, setpy, _ZMotor, stepz, _ExtMotor, stepext, _SpeedFactor / qMin(_XRes, _YRes));
+             _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ZAxis, stepz, *_ExtAxis, stepext, _SpeedFactor / qMin(_XRes, _YRes));
         else if(total_steps > 0 && stepext > 0)
-            MotorController::StepMotors(_XMotor, stepx, _YMotor, setpy, _ExtMotor, stepext, _SpeedFactor / qMin(_XRes, _YRes));
+            _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ExtAxis, stepext, _SpeedFactor / qMin(_XRes, _YRes));
         else if(total_steps > 0)
-            MotorController::StepMotors(_XMotor, stepx, _YMotor, setpy, _SpeedFactor / qMin(_XRes, _YRes));
-        else
-        {
-            if(XPosition > 0)
-                MotorController::StepMotor(_XMotor, stepx, _SpeedFactor / _XRes);
-            else
-                MotorController::StepMotor(_YMotor, stepy, _SpeedFactor / _YRes);
-        }
+            _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, _SpeedFactor / qMin(_XRes, _YRes));
+    }
+	
+    QList<Coordinate>  GCodeInterpreter::GetCoordValues(QString &)
+    {
+
     }
 
+	void GCodeInterpreter::ExecutePrintSequence()
+	{
+        //Move some of these outside of the loop for threading and pausing purposes.
+        int TotalLines = 0, LineCounter = 0, Progress = 0;
+		//Execute Begin print 
+        BeginPrint();
+        while(LineCounter < _GCODE.length() && !_Stop)
+        {
+            if(_TerminateThread)
+                return;
+            emit BeginLineProcessing(_GCODE[LineCounter]);
+            ParseLine(_GCODE[LineCounter]);
+                        //if it's a motor move
+                        //{
+
+                            emit ProcessingMoves(_GCODE[LineCounter]);
+                            //then call
+                            //MoveToolHead();
+                            emit MoveComplete("XAxis: " + QString::number( _XAxis->Position) +
+                                              " -- YAxis: " + QString::number( _YAxis->Position) +
+                                              " -- ZAxis: " + QString::number( _ZAxis->Position) +
+                                              " -- ExtAxis: " + QString::number( _ExtAxis->Position) );
+                        //}
+                        //else
+                        //{
+                        //Do other gCode stuff here.
+                        //}
+                    //else don't increment and
+                //}
+            Progress = (int)(LineCounter * (100.00 / TotalLines));
+            emit ReportProgress(Progress);
+        }
+	}
 //======================================End Private Methods========================================
-void GCodeInterpreter::ParseLine()
-{
 
-}
+//===========================================SLOTS=================================================
+    void GCodeInterpreter::ParseLine(QString &GString) // :-P
+    {
+		//Parse line should get the coordinates from the 
+    }
 
+    void GCodeInterpreter::BeginPrint()
+    {
+        emit BeginLineProcessing("Pre-processing G-code");
+        //This should parse the Gcode and remove any lines that start with ";"
+        //After that is done it should get a count of the lines in the file and use that for the total count for progress.
+        //and find the target temps for the heater bed and the extruder.
+        emit EndLineProcessing("Pre-processing G-code Complete");
+        //
+
+        emit ProcessingMoves("Homing All Axis");
+        //Next it should home the motors and initialize the temps for the extruder and the heater bed.
+
+        //Start the temp pull up while homing axis by spinning up the ThermalProbe threads.
+        _BedThread = new QThread(this);
+        _ExtruderThread = new QThread(this);
+        ThermalProbe *Bed = new ThermalProbe(0, 100);
+        ThermalProbe *Ext = new ThermalProbe(1, 101);
+        BedProbe = new ProbeWorker(Bed, 100);
+        BedProbe->moveToThread(_BedThread);
+        ExtProbe = new ProbeWorker(Ext, 100);
+        ExtProbe->moveToThread(_ExtruderThread);
+        BedProbe->DoWork();
+        ExtProbe->DoWork();
+
+        //connect()
+        //Then we could move the Probes to the appropriate thread objects very easily as well as access them via other methods.
+        HomeAllAxis();
+        //emit ProcessingTemps(Temp object : temp deg);
+        //possibly validate the functionality of the end stops too.
+
+        delete Bed;
+        delete Ext;
+    }
+
+    void GCodeInterpreter::PausePrint()
+    {
+		if(this->_Stop)
+			this->_Stop = false;
+		else
+			this->_Stop = true;
+    }
+
+    void GCodeInterpreter::TerminatePrint()
+    {
+        this->_TerminateThread = true;
+    }
+//=======================================END SLOTS=================================================
 /*
-
-################################################################################################
-################################################################################################
-#################                                ###############################################
-#################    G code reading Functions    ###############################################
-#################                                ###############################################
-################################################################################################
-################################################################################################
-
-def writeToLog(outputText):
-    with open('tempout.txt','a') as f:
-        f.write(outputText)
-    print outputText
-
-#these functions are for debugging purposes only
-def sampleHeaters(extThermPin,heatbeadThermPin):
-    sampleHeaterDutyCycle(extThermPin, "Extruder")
-    sampleHeaterDutyCycle(heatbeadThermPin, "Heated Bed")
-
-def sampleHeaterDutyCycle(pin, name):
-    writeToLog("Testing "+ name +" Temperature\n");
-    highTime = get555PulseHighTime(pin);
-    writeToLog(name+ " Thermistor 555 Timer High Pulse Time "+ str(highTime)+"\n")
-    estTemp = getTempFromTable(pin)
-    writeToLog(name+ " Estimated Tempurature "+ str(estTemp)+"\n")
-
-def get555PulseHighTime(pin):
-    counter = 0;
-    GPIO.wait_for_edge(pin, GPIO.RISING);
-    while GPIO.input(pin) == GPIO.HIGH:
-        counter += 1;
-        time.sleep(0.001); # may try to change this to 0.0001 for more resolution
-    return float(counter);
-
-#This function takes in the current temp and name of heater and returns the current average
- #of the last three tempurature readings.  This avoids issues with reading spikes
-def getAverageTempFromQue(temp, name):
-    retTemp = 0;
-    if(name == "Extruder"):
-        if(len(extTempQue) > 2):
-            extTempQue.pop();
-        extTempQue.appendleft(temp)
-        retTemp = sum(extTempQue)/len(extTempQue);
-    else:
-        if(len(heatBedTempQue) > 2):
-            heatBedTempQue.pop();
-        heatBedTempQue.appendleft(temp)
-        retTemp = sum(heatBedTempQue)/len(heatBedTempQue);
-    return float(retTemp);
-
-#this function gets the rise time from a pin(thermistor pin) from the 555 timer out and cross reference with
-#tempurature table to return the estimated current temperature of the cooresponding heater.
-def getTempFromTable(pin):
-    pulseHighTime = get555PulseHighTime(pin);
-    estTemp = 0;
-    #read from tempurate text file and return estimated temp from pulse time
-    linectr = 0;
-    for lines in open('Thermistor555TimerTempChart.txt','r'):
-        if linectr > 5:
-            lineSplit = lines.split();
-            if float(lineSplit[2]) <= pulseHighTime:
-                estTemp = lineSplit[1];
-                break
-        linectr += 1;
-        #if estTemp == 0: #causing temp sensing error
-            #estTemp = 250; #more than max temp
-    return float(estTemp);
-
-#polling tempurature and setting to +/- 20degC of supplied tempfrom GCode
-def checkTemps():
-    curExtTemp = getAverageTempFromQue(getTempFromTable(ExtThermistor), "Extruder");#getTempFromTable(ExtThermistor);
-    curHeatBedTemp = getAverageTempFromQue(getTempFromTable(HeatBedThermistor), "HeatBed");#getTempFromTable(HeatBedThermistor);
-    if (curExtTemp - 5) >= extTemp:
-        GPIO.output(ExtHeater, False);
-    elif(curExtTemp + 5) <= extTemp:
-        GPIO.output(ExtHeater, True);
-    if (curHeatBedTemp - 5) >= heatBedTemp:
-        GPIO.output(HeatBed, False);
-    elif(curHeatBedTemp + 5) <= heatBedTemp:
-        GPIO.output(HeatBed, True);
-
-def PenOff(ZMotor):
-    # move ZAxis ~5 steps up
-    ZMotor.move(1,5)
-
-def PenOn(ZMotor):
-    # move ZAxis ~5 steps down
-    ZMotor.move(-1,5)
-
-
 
 def homeAxis(motor,endStopPin):
     #need to home the axis

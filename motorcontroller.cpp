@@ -1,11 +1,8 @@
 #include "motorcontroller.h"
 #include "steppermotor.h"
 
-//Private::Disallow Creating instances of this class.
-MotorController::MotorController()
-{}
 //Returns the intended direction of the motor based off of the int signing.
-StepperMotor::MotorDirection GetDirection(const int &Step)
+StepperMotor::MotorDirection MotorController::GetDirection(const int &Step)
 {
 	if (Step > 0)
 		return StepperMotor::CLOCKWISE;
@@ -13,7 +10,7 @@ StepperMotor::MotorDirection GetDirection(const int &Step)
 		return StepperMotor::CTRCLOCKWISE;
 }
 //Returns the inverse direction of the motor based off of the int signing.
-StepperMotor::MotorDirection GetReverseDirection(const int &Step)
+StepperMotor::MotorDirection MotorController::GetReverseDirection(const int &Step)
 {
     if (Step > 0)
         return StepperMotor::CTRCLOCKWISE;
@@ -21,17 +18,17 @@ StepperMotor::MotorDirection GetReverseDirection(const int &Step)
         return StepperMotor::CLOCKWISE;
 }
 //Control a single stepper motor with a specified speed and direction.
-void StepMotor(StepperMotor *Motor, const long &Steps, const int &Speed)
+void MotorController::StepMotor(StepperMotor &Motor, long Steps, const int &Speed)
 {
 	//Total Time
 	float Time = (float)Steps / (float)Speed;
 	//Time delay per step
 	float deltaTime = Time / (float)Steps;
 	//Rotate...
-	Motor->Rotate(GetDirection(Steps), qAbs(Steps), deltaTime);
+    Motor.Rotate(GetDirection(Steps), qAbs(Steps), deltaTime);
 }
 //Control two stepper motors simultainously with a specified speed and direction.
-void StepMotors(StepperMotor *Motor1, long Steps1, StepperMotor *Motor2, long Steps2, const int &Speed)
+void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor &Motor2, long Steps2, const int &Speed)
 {
 	StepperMotor::MotorDirection Dir1 = GetDirection(Steps1);
 	StepperMotor::MotorDirection Dir2 = GetDirection(Steps2);
@@ -67,29 +64,29 @@ void StepMotors(StepperMotor *Motor1, long Steps1, StepperMotor *Motor2, long St
 		{
 			M1Holder -= 1;
 			M1ctr++;
-			Motor1->Rotate(Dir1, 1, deltaTime);
+			Motor1.Rotate(Dir1, 1, deltaTime);
 		}
 		if (M2Holder >= 1)
 		{
 			M2Holder -= 1;
 			M2ctr++;
-			Motor2->Rotate(Dir2, 1, deltaTime);
+			Motor2.Rotate(Dir2, 1, deltaTime);
 		}
 		//Clean-up any missed steps due to float rounding errors.
 		if (M1ctr < Steps1)
-			Motor1->Rotate(Dir1, 1, deltaTime);
+			Motor1.Rotate(Dir1, 1, deltaTime);
 		if (M2ctr < Steps2)
-			Motor2->Rotate(Dir2, 1, deltaTime);
+			Motor2.Rotate(Dir2, 1, deltaTime);
 		//Clean-up any oversteps we may have done due to rounding errors.
 		if (M1ctr > Steps1)
-            Motor1->Rotate(GetReverseDirection(Dir1), 1, deltaTime);
+            Motor1.Rotate(GetReverseDirection(Dir1), 1, deltaTime);
 		if (M2ctr > Steps2)
-            Motor2->Rotate(GetReverseDirection(Dir2), 1, deltaTime);
+            Motor2.Rotate(GetReverseDirection(Dir2), 1, deltaTime);
 	}
 }
 //Control three stepper motors simultainously with a specified speed and direction.
 //Controlling three or more motors requires some complex microstepping alogrithms.
-void StepMotors(StepperMotor *Motor1, long Steps1, StepperMotor *Motor2, long Steps2, StepperMotor *Motor3, long Steps3, const int &Speed)
+void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor &Motor2, long Steps2, StepperMotor &Motor3, long Steps3, const int &Speed)
 {
 	StepperMotor::MotorDirection Dir1 = GetDirection(Steps1);
 	StepperMotor::MotorDirection Dir2 = GetDirection(Steps2);
@@ -129,38 +126,38 @@ void StepMotors(StepperMotor *Motor1, long Steps1, StepperMotor *Motor2, long St
 		{
 			M1Holder -= 1;
 			M1ctr++;
-			Motor1->Rotate(Dir1, 1, deltaTime);
+			Motor1.Rotate(Dir1, 1, deltaTime);
 		}
 		if (M2Holder >= 1)
 		{
 			M2Holder -= 1;
 			M2ctr++;
-			Motor2->Rotate(Dir2, 1, deltaTime);
+			Motor2.Rotate(Dir2, 1, deltaTime);
 		}
 		if (M3Holder >= 1)
 		{
 			M3Holder -= 1;
 			M3ctr++;
-			Motor3->Rotate(Dir3, 1, deltaTime);
+			Motor3.Rotate(Dir3, 1, deltaTime);
 		}
 		//Clean-up any missed steps due to float rounding errors.
 		if (M1ctr < Steps1)
-			Motor1->Rotate(Dir1, 1, deltaTime);
+			Motor1.Rotate(Dir1, 1, deltaTime);
 		if (M2ctr < Steps2)
-			Motor2->Rotate(Dir2, 1, deltaTime);
+			Motor2.Rotate(Dir2, 1, deltaTime);
 		if (M3ctr < Steps3)
-			Motor3->Rotate(Dir3, 1, deltaTime);
+			Motor3.Rotate(Dir3, 1, deltaTime);
 		//Clean-up any oversteps we may have done due to rounding errors.
 		if (M1ctr > Steps1)
-            Motor1->Rotate(GetReverseDirection(Dir1), 1, deltaTime);
+            Motor1.Rotate(GetReverseDirection(Dir1), 1, deltaTime);
 		if (M2ctr > Steps2)
-            Motor2->Rotate(GetReverseDirection(Dir2), 1, deltaTime);
+            Motor2.Rotate(GetReverseDirection(Dir2), 1, deltaTime);
 		if (M3ctr > Steps3)
-            Motor3->Rotate(GetReverseDirection(Dir3), 1, deltaTime);
+            Motor3.Rotate(GetReverseDirection(Dir3), 1, deltaTime);
 	}
 }
-void StepMotors(StepperMotor *Motor1, long Steps1, StepperMotor *Motor2, long Steps2,
-                StepperMotor *Motor3, long Steps3, StepperMotor *Motor4, long Steps4, const int &Speed)
+void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor &Motor2, long Steps2,
+                StepperMotor &Motor3, long Steps3, StepperMotor &Motor4, long Steps4, const int &Speed)
 {
     StepperMotor::MotorDirection Dir1 = GetDirection(Steps1);
     StepperMotor::MotorDirection Dir2 = GetDirection(Steps2);
@@ -206,43 +203,43 @@ void StepMotors(StepperMotor *Motor1, long Steps1, StepperMotor *Motor2, long St
         {
             M1Holder -= 1;
             M1ctr++;
-            Motor1->Rotate(Dir1, 1, deltaTime);
+            Motor1.Rotate(Dir1, 1, deltaTime);
         }
         if (M2Holder >= 1)
         {
             M2Holder -= 1;
             M2ctr++;
-            Motor2->Rotate(Dir2, 1, deltaTime);
+            Motor2.Rotate(Dir2, 1, deltaTime);
         }
         if (M3Holder >= 1)
         {
             M3Holder -= 1;
             M3ctr++;
-            Motor3->Rotate(Dir3, 1, deltaTime);
+            Motor3.Rotate(Dir3, 1, deltaTime);
         }
         if (M4Holder >= 1)
         {
             M4Holder -= 1;
             M4ctr++;
-            Motor4->Rotate(Dir4, 1, deltaTime);
+            Motor4.Rotate(Dir4, 1, deltaTime);
         }
         //Clean-up any missed steps due to float rounding errors.
         if (M1ctr < Steps1)
-            Motor1->Rotate(Dir1, 1, deltaTime);
+            Motor1.Rotate(Dir1, 1, deltaTime);
         if (M2ctr < Steps2)
-            Motor2->Rotate(Dir2, 1, deltaTime);
+            Motor2.Rotate(Dir2, 1, deltaTime);
         if (M3ctr < Steps3)
-            Motor3->Rotate(Dir3, 1, deltaTime);
+            Motor3.Rotate(Dir3, 1, deltaTime);
         if (M4ctr < Steps4)
-            Motor4->Rotate(Dir4, 1, deltaTime);
+            Motor4.Rotate(Dir4, 1, deltaTime);
         //Clean-up any oversteps we may have done due to rounding errors.
         if (M1ctr > Steps1)
-            Motor1->Rotate(GetReverseDirection(Dir1), 1, deltaTime);
+            Motor1.Rotate(GetReverseDirection(Dir1), 1, deltaTime);
         if (M2ctr > Steps2)
-            Motor2->Rotate(GetReverseDirection(Dir2), 1, deltaTime);
+            Motor2.Rotate(GetReverseDirection(Dir2), 1, deltaTime);
         if (M3ctr > Steps3)
-            Motor3->Rotate(GetReverseDirection(Dir3), 1, deltaTime);
+            Motor3.Rotate(GetReverseDirection(Dir3), 1, deltaTime);
         if (M4ctr > Steps4)
-            Motor4->Rotate(GetReverseDirection(Dir4), 1, deltaTime);
+            Motor4.Rotate(GetReverseDirection(Dir4), 1, deltaTime);
     }
 }

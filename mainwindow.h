@@ -10,11 +10,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QThread>
-
-#include "steppermotor.h"
-#include "thermalprobe.h"
-#include "endstop.h"
-
+#include "gcodeinterpreter.h"
 namespace Ui {
 class MainWindow;
 }
@@ -28,20 +24,13 @@ private:
     QProgressBar *_ProgressBar;
     QString _PrintFilePath ;
 
+    GCodeInterpreter *_Interpreter;
+
     void LoadConfigurations();
 
     void SaveConfigurations();
 
-    void InitializeMotors();
-    void InitializeThermalProbes();
-    void InitializeEndStops();
-
 public:
-    StepperMotor *XAxis, *YAxis, *ZAxis, *ExtAxis;
-    ThermalProbe *_BedProbe, *_ExtProbe;
-    EndStop *_XStop, *_YStop, *_ZStop;
-
-    float _XRes, _YRes, _ZRes, ExtRes;
 
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -55,12 +44,6 @@ private slots:
     void on_action_Load_3D_Print_triggered();
 
     void on_action_Configure_PiRinter_triggered();
-
-
-    void UpdateMotorConfig();
-
-    void UpdateTempConfig();
-
 };
 
 #endif // MAINWINDOW_H

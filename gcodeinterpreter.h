@@ -4,6 +4,7 @@
 #include "steppermotor.h"
 #include "thermalprobe.h"
 #include "endstop.h"
+#include "probeworker.h"
 #include <QtCore>
 #include <QFile>
 #include <QTextStream>
@@ -21,11 +22,16 @@ class GCodeInterpreter : public QObject
 private:
     Q_OBJECT
 
+    MotorController _Controller;
+    QStringList _GCODE;
+
     //Define Stepper Motors.
-    StepperMotor *_XMotor, *_YMotor, *_ZMotor, *_ExtMotor;
-    ThermalProbe *_BedProbe, *_ExtProbe;
+    StepperMotor *_XAxis, *_YAxis, *_ZAxis, *_ExtAxis;
+
     EndStop *_XStop, *_YStop, *_ZStop;
 
+    QThread *_ExtruderThread, *_BedThread;
+	
     //Get Resolutions from the main ui configuration.
     float _XRes, _YRes, _ZRes, _ExtRes;
 
@@ -35,25 +41,27 @@ private:
     //Extruder and Bed Temp values
     int _ExtruderTemp, _BedTemp;
 
-    bool TerminateThread;
+    bool _TerminateThread, _Stop;
 
-    void WriteToLogFile(const QString &LogFilePath);
-
-    void ParseLine();
-
+    void InitializeMotors();
+    void InitializeThermalProbes();
+    void InitializeEndStops();
+	
+    void WriteToLogFile(const QString &);
+    void ParseLine(QString &);
     void HomeAllAxis();
-
+	void ExecutePrintSequence();
     QList<Coordinate>  GetCoordValues(QString &);
 
     void MoveToolHead(const float &XPosition, const float &YPosition, const float &ZPosition, const float &ExtPosition);
 
 public:
-    bool Stop;
-
-    GCodeInterpreter(const QString &FilePath, const QString &Logpath,
-                     StepperMotor *XMotor, StepperMotor *YMotor, StepperMotor *ZMotor, StepperMotor *ExtMotor,
-                     ThermalProbe *BedProbe, ThermalProbe *ExtruderProbe);
+    GCodeInterpreter(const QString &FilePath, const QString &Logpath);
     ~GCodeInterpreter();
+
+    ProbeWorker *BedProbe, *ExtProbe;
+
+    void LoadGCode(const QString &FilePath);
 
     int GetExtruderTemp();
     void SetExtruderTemp(const int &);
@@ -73,18 +81,27 @@ signals:
 
     void PrintComplete();
 
-    void BeginLineProcessing(QString &);
+    void BeginLineProcessing(QString);
+	
+    void EndLineProcessing(QString);
 
-    void ProcessingMoves(QString &);
+    void ProcessingMoves(QString);
+	
+    void MoveComplete(QString);
 
-    void ProcessingTemps(QString &);
+    void ProcessingTemps(QString);
 
-    void EndLineProcessing(QString &);
+    void TemperatureAtTarget(int);
+	
+    void TemperatureHigh(int);
+	
+    void TemperatureLow(int);
 
-    void OnError(QString &);
+    void OnError(QString);
 
     void OnSuccess();
-
+	
+    void ReportProgress(int);
 };
 
 #endif // GCODEINTERPRETER_H

@@ -167,7 +167,7 @@ void StepperMotor::SetInverted(const bool &Arg)
 
 void StepperMotor::CoilsOff()
 {
-	digitalWrite(_Coil_1, LOW);
+    digitalWrite(_Coil_1, LOW);
 	digitalWrite(_Coil_2, LOW);
 	digitalWrite(_Coil_3, LOW);
 	digitalWrite(_Coil_4, LOW);

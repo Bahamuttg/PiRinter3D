@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "stepperdriver.h"
 #include "motorconfigdialog.h"
-#include "thermalprobe.h"
+#include "gcodeinterpreter.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,7 +18,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->insertPermanentWidget(0, _ProgressBar, 100);
     ui->statusBar->insertPermanentWidget(1, _StatusLabel, 250);
 
-    InitializeMotors();
+    _Interpreter = new GCodeInterpreter("","");
+
+	//TODO:Connect up the Interpreter's signals and slots before moving it to a thread and 
+	//beginning the print somewhere in the class.
 }
 
 MainWindow::~MainWindow()
@@ -29,65 +32,11 @@ MainWindow::~MainWindow()
 void MainWindow::LoadConfigurations()
 {
     //TODO Load Configs.
-
 }
 
 void MainWindow::SaveConfigurations()
 {
     //TODO Save Configs.
-}
-
-void MainWindow::InitializeThermalProbes()
-{
-
-}
-
-void MainWindow::InitializeMotors()
-{
-    QFile MotorConfig("MotorCfg.ini");
-    if(MotorConfig.open(QIODevice::ReadOnly | QIODevice::Text ))
-    {
-        QTextStream CfgStream(&MotorConfig); //load config file
-        while (!CfgStream.atEnd())
-        {
-            QString Line = CfgStream.readLine(); //read one line at a time
-            if(Line.contains("MotorConfig"))
-            {
-                QStringList Params = Line.split(";");
-                if(Params[0].contains("XAxis"))
-                {
-                    if(Params[6].toInt())
-                    {
-                        //TODO: check the not gate Param and invoke the NOT gate constructor if that is what we're using
-                    }
-                    else
-                    {
-                        this->XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
-                                Params[9].toInt(), Params[0].split("::")[1].toStdString());
-                        this->XAxis->SetNotGated(Params[6].toInt());
-                    }
-                }
-                if(Params[0].contains("YAxis"))
-                {
-                    this->YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
-                            Params[9].toInt(), Params[0].split("::")[1].toStdString());
-                    this->YAxis->SetNotGated(Params[6].toInt());
-                }
-                if(Params[0].contains("ZAxis"))
-                {
-                    this->ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
-                            Params[9].toInt(), Params[0].split("::")[1].toStdString());
-                    this->ZAxis->SetNotGated(Params[6].toInt());
-                }
-                if(Params[0].contains("ExtAxis"))
-                {
-                    this->ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
-                            Params[9].toInt(), Params[0].split("::")[1].toStdString());
-                    this->ExtAxis->SetNotGated(Params[6].toInt());
-                }
-            }
-        }
-    }
 }
 
 //==========================End Private Methods======================================
@@ -113,26 +62,20 @@ void MainWindow::on_action_Load_3D_Print_triggered()
     if(FD.exec())
     {
         _PrintFilePath = FD.selectedFiles()[0];
+        delete _Interpreter;
+        _Interpreter = new GCodeInterpreter(_PrintFilePath, "LOG");
+        connect(_Interpreter->BedProbe, SIGNAL(ReportTemp(int)), ui->lcdBedTemp, SLOT(display(int)));
+        connect(_Interpreter->ExtProbe, SIGNAL(ReportTemp(int)), ui->lcdExtruderTemp, SLOT(display(int)));
     }
 }
 void MainWindow::on_action_Configure_PiRinter_triggered()
 {
     MotorConfigDialog Dialog;
-    connect(&Dialog, SIGNAL(OnConfigChanged()), this, SLOT(UpdateMotorConfig()));
     Dialog.exec();
 }
 //==============End Main Menu Handlers================================================
 
 //==============SLOTS===============================================================
-void MainWindow::UpdateMotorConfig()
-{
-    InitializeMotors();
-}
-
-void MainWindow::UpdateTempConfig()
-{
-    //TODO Update TempCFG.ini;
-}
 
 //==============END SLOTS============================================================
 

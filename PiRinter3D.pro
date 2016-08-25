@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     gcodeinterpreter.cpp \
     motorcontroller.cpp \
     thermalprobe.cpp \
-    endstop.cpp
+    endstop.cpp \
+    probeworker.cpp
 
 HEADERS  += mainwindow.h \
     coildialog.h \
@@ -32,7 +33,8 @@ HEADERS  += mainwindow.h \
     gcodeinterpreter.h \
     motorcontroller.h \
     thermalprobe.h \
-    endstop.h
+    endstop.h \
+    probeworker.h
 
 FORMS    += mainwindow.ui \
     coildialog.ui \
@@ -40,6 +42,8 @@ FORMS    += mainwindow.ui \
     motorconfigdialog.ui
 
 LIBS += -L/usr/local/include -lwiringPi
+
+INCLUDEPATH += /usr/include
 
 RESOURCES += \
     StepperDriverRsc.qrc \

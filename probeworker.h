@@ -2,8 +2,9 @@
 #define PROBEWORKER_H
 #include <QtCore>
 #include <QTimer>
+#include <QThread>
 #include "thermalprobe.h"
-class ProbeWorker : public QObject
+class ProbeWorker : public QThread
 {
     Q_OBJECT
 
@@ -11,20 +12,39 @@ private:
     bool _Suspend, _Terminate;
     ThermalProbe *_Probe;
     unsigned int _MS_ReadDelay;
-    QTimer *_DelayTimer;
+    QMutex _Mutex;
+    QWaitCondition _Condition;
+
+protected:
+    void run();
+
+public:
+    ProbeWorker(ThermalProbe *Probe, const unsigned int &MS_ReadDelay, QObject *parent =0);
+    ~ProbeWorker();
 
     int TriggerProbeRead();
 
-public:
-    ProbeWorker(ThermalProbe *Probe, const unsigned int &MS_ReadDelay);
-    ~ProbeWorker();
+    void SetTargetTemp(const int &CelsiusValue)
+    {
+        this->_Probe->SetTargetTemp(CelsiusValue);
+    }
+
+    int GetTargetTemp()
+    {
+        return this->_Probe->GetTargetTemp();
+    }
+
+    int GetCurrentTemp()
+    {
+        return this->_Probe->GetCurrentTemp();
+    }
 
 public slots:
-    void DoWork();
-
     void Suspend();
 
     void Resume();
+
+    void Terminate();
 
 signals:
     void ReportTemp(int);

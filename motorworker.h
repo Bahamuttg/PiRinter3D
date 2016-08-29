@@ -14,7 +14,7 @@ public:
     bool IsBusy;
 	int StepDelay;
 
-    MotorWorker(StepperMotor *Motor, int MS_Delay = 10)
+    MotorWorker(StepperMotor *Motor, int MS_Delay = 2)
     {
         this->_Motor = Motor;
         this->StopThread = false;

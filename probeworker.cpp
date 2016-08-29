@@ -1,41 +1,59 @@
 #include "probeworker.h"
 
-ProbeWorker::ProbeWorker(ThermalProbe *Probe, const unsigned int &MS_ReadDelay)
+ProbeWorker::ProbeWorker(ThermalProbe *Probe, const unsigned int &MS_ReadDelay, QObject *parent)
+    :QThread(parent)
 {
+    this->_Terminate = false;
+    this->_Suspend = false;
     this->_Probe = Probe;
     this->_MS_ReadDelay = MS_ReadDelay;
-    this->_DelayTimer = new QTimer(this);
-    this->_DelayTimer->setInterval(_MS_ReadDelay);
-    connect(this->_DelayTimer, SIGNAL(timeout()), this, SLOT(DoWork()));
 }
 ProbeWorker::~ProbeWorker()
 {
-    delete _DelayTimer;
+    _Mutex.lock();
+    _Terminate = true;
+    _Condition.wakeOne();
+    _Mutex.unlock();
+    wait();
 }
 
-void ProbeWorker::DoWork()
+void ProbeWorker::run()
 {
-    if(!_Suspend)
-        _DelayTimer->start();
-    else
-        _DelayTimer->stop();
+    while(!_Terminate)
+    {
+        if(!_Suspend)
+        {
+            _Mutex.lock();
+            TriggerProbeRead();
+            _Mutex.unlock();
+        }
+        msleep(_MS_ReadDelay);
+    }
 }
 
 int ProbeWorker::TriggerProbeRead()
 {
-    int temp = _Probe->MeasureTemp();
-    emit ReportTemp(temp);
-    return temp;
+    int TempRead = _Probe->MeasureTemp();
+    emit ReportTemp(TempRead);
+
+    if(TempRead < this->_Probe->GetTargetTemp())
+        this->_Probe->TriggerElement(ThermalProbe::ON);
+    else
+        this->_Probe->TriggerElement(ThermalProbe::OFF);
+    return TempRead;
 }
 
 void ProbeWorker::Suspend()
 {
     this->_Suspend = true;
-    DoWork();
 }
 
 void ProbeWorker::Resume()
 {
     this->_Suspend = false;
-    DoWork();
+}
+
+void ProbeWorker::Terminate()
+{
+    this->_Terminate = true;
 }

@@ -22,7 +22,9 @@ SOURCES += main.cpp\
     motorcontroller.cpp \
     thermalprobe.cpp \
     endstop.cpp \
-    probeworker.cpp
+    probeworker.cpp \
+    probeconfigdialog.cpp \
+    printareaconfigdialog.cpp
 
 HEADERS  += mainwindow.h \
     coildialog.h \
@@ -34,12 +36,16 @@ HEADERS  += mainwindow.h \
     motorcontroller.h \
     thermalprobe.h \
     endstop.h \
-    probeworker.h
+    probeworker.h \
+    probeconfigdialog.h \
+    printareaconfigdialog.h
 
 FORMS    += mainwindow.ui \
     coildialog.ui \
     stepperdriver.ui \
-    motorconfigdialog.ui
+    motorconfigdialog.ui \
+    probeconfigdialog.ui \
+    printareaconfigdialog.ui
 
 LIBS += -L/usr/local/include -lwiringPi
 

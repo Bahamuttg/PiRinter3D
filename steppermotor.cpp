@@ -60,6 +60,9 @@ void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)
     if (_Enabled)
         if(Steps < 0)
             Steps *= -1;
+     //this is the minimum speed at which we can switch the coils.
+    if(MS_Delay < 2)
+        MS_Delay = 2;
         for (int i = 0; i < Steps; i++)
 		{
 			PerformStep(Direction);
@@ -69,6 +72,9 @@ void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)
 
 void StepperMotor::Rotate(MotorDirection Direction, int MS_Delay)
 {
+    //this is the minimum speed at which we can switch the coils.
+    if(MS_Delay < 2)
+        MS_Delay = 2;
 	//This method will block indefinitely.
 	//It's up to the programmer to thread it properly.
 	while (_Enabled)

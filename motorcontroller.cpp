@@ -20,12 +20,11 @@ StepperMotor::MotorDirection MotorController::GetReverseDirection(const int &Ste
 //Control a single stepper motor with a specified speed and direction.
 void MotorController::StepMotor(StepperMotor &Motor, long Steps, const int &Speed)
 {
-	//Total Time
-	float Time = (float)Steps / (float)Speed;
-	//Time delay per step
-	float deltaTime = Time / (float)Steps;
-	//Rotate...
-    Motor.Rotate(GetDirection(Steps), qAbs(Steps), deltaTime);
+    if(Speed > 0)
+    {
+        Motor.Rotate(GetDirection(Steps), qAbs(Steps), (float)(1/(float)Speed));
+        qDebug()<< QString::fromStdString(Motor.MotorName) << " Steps -- " << QString::number(Steps) << " Speed --  " << QString::number((float)(1/(float)Speed));
+    }
 }
 //Control two stepper motors simultainously with a specified speed and direction.
 void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor &Motor2, long Steps2, const int &Speed)
@@ -49,10 +48,19 @@ void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor
 	float M2Ratio = ((float)Steps2 / (float)Iterator);
 
 
-	//Total Time
-	float Time = qSqrt(qPow(Steps1, 2) + qPow(Steps2, 2)) / Speed;
-	//Time delay per step
-	float deltaTime = Time / ((float)Steps1 + (float)Steps2);
+    //Old code, Converted to calc over the rate of travel NOT time it takes for the move.
+    //float T = (Steps1 + Steps2) / Speed
+    //Time delay per step
+    //float deltaTime = Time / ((float)Steps1 + (float)Steps2);
+
+    //Total Rate of Travel
+    float Hyp = qSqrt(qPow(Steps1, 2) + qPow(Steps2, 2));
+    float BaseDelay = (float)(1/(float)Speed);
+    float SpeedDelta = Hyp / (((float)Steps1 + (float)Steps2));
+    float deltaTime = BaseDelay * SpeedDelta;
+
+    qDebug()<< QString::fromStdString(Motor1.MotorName) << " Steps -- " << QString::number(Steps1) << " Speed --  " << QString::number(deltaTime);
+    qDebug()<< QString::fromStdString(Motor2.MotorName) << " Steps -- " << QString::number(Steps2) << " Speed --  " << QString::number(deltaTime);
 
 	//Rotate Motors...
 	for (int i = 0; i < Iterator; i++)
@@ -72,17 +80,17 @@ void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor
 			M2ctr++;
 			Motor2.Rotate(Dir2, 1, deltaTime);
 		}
-		//Clean-up any missed steps due to float rounding errors.
-		if (M1ctr < Steps1)
-			Motor1.Rotate(Dir1, 1, deltaTime);
-		if (M2ctr < Steps2)
-			Motor2.Rotate(Dir2, 1, deltaTime);
-		//Clean-up any oversteps we may have done due to rounding errors.
-		if (M1ctr > Steps1)
-            Motor1.Rotate(GetReverseDirection(Dir1), 1, deltaTime);
-		if (M2ctr > Steps2)
-            Motor2.Rotate(GetReverseDirection(Dir2), 1, deltaTime);
-	}
+    }
+    //Clean-up any missed steps due to float rounding errors.
+    if (M1ctr < Steps1)
+        Motor1.Rotate(Dir1, 1, deltaTime);
+    if (M2ctr < Steps2)
+        Motor2.Rotate(Dir2, 1, deltaTime);
+    //Clean-up any oversteps we may have done due to rounding errors.
+    if (M1ctr > Steps1)
+        Motor1.Rotate(GetReverseDirection(Dir1), 1, deltaTime);
+    if (M2ctr > Steps2)
+        Motor2.Rotate(GetReverseDirection(Dir2), 1, deltaTime);
 }
 //Control three stepper motors simultainously with a specified speed and direction.
 //Controlling three or more motors requires some complex microstepping alogrithms.
@@ -110,10 +118,14 @@ void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor
 	float M3Ratio = ((float)Steps3 / (float)Iterator);
 
 
-	//Total Time
-	float Time = qSqrt(qPow(Steps1, 2) + qPow(Steps2, 2)) / Speed;
-	//Time delay per step
-	float deltaTime = Time / ((float)Steps1 + (float)Steps2);
+    float Hyp = qSqrt(qPow(Steps1, 2) + qPow(Steps2, 2));
+    float BaseDelay = (float)(1/(float)Speed);
+    float SpeedDelta = Hyp / (((float)Steps1 + (float)Steps2));
+    float deltaTime = BaseDelay * SpeedDelta;
+
+    qDebug()<< QString::fromStdString(Motor1.MotorName) << " Steps -- " << QString::number(Steps1) << " Speed --  " << QString::number(deltaTime);
+    qDebug()<< QString::fromStdString(Motor2.MotorName) << " Steps -- " << QString::number(Steps2) << " Speed --  " << QString::number(deltaTime);
+    qDebug()<< QString::fromStdString(Motor3.MotorName) << " Steps -- " << QString::number(Steps3) << " Speed --  " << QString::number(deltaTime);
 
 	//Rotate Motors...
 	for (int i = 0; i < Iterator; i++)
@@ -140,21 +152,21 @@ void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor
 			M3ctr++;
 			Motor3.Rotate(Dir3, 1, deltaTime);
 		}
-		//Clean-up any missed steps due to float rounding errors.
-		if (M1ctr < Steps1)
-			Motor1.Rotate(Dir1, 1, deltaTime);
-		if (M2ctr < Steps2)
-			Motor2.Rotate(Dir2, 1, deltaTime);
-		if (M3ctr < Steps3)
-			Motor3.Rotate(Dir3, 1, deltaTime);
-		//Clean-up any oversteps we may have done due to rounding errors.
-		if (M1ctr > Steps1)
-            Motor1.Rotate(GetReverseDirection(Dir1), 1, deltaTime);
-		if (M2ctr > Steps2)
-            Motor2.Rotate(GetReverseDirection(Dir2), 1, deltaTime);
-		if (M3ctr > Steps3)
-            Motor3.Rotate(GetReverseDirection(Dir3), 1, deltaTime);
-	}
+    }
+    //Clean-up any missed steps due to float rounding errors.
+    if (M1ctr < Steps1)
+        Motor1.Rotate(Dir1, 1, deltaTime);
+    if (M2ctr < Steps2)
+        Motor2.Rotate(Dir2, 1, deltaTime);
+    if (M3ctr < Steps3)
+        Motor3.Rotate(Dir3, 1, deltaTime);
+    //Clean-up any oversteps we may have done due to rounding errors.
+    if (M1ctr > Steps1)
+        Motor1.Rotate(GetReverseDirection(Dir1), 1, deltaTime);
+    if (M2ctr > Steps2)
+        Motor2.Rotate(GetReverseDirection(Dir2), 1, deltaTime);
+    if (M3ctr > Steps3)
+        Motor3.Rotate(GetReverseDirection(Dir3), 1, deltaTime);
 }
 void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor &Motor2, long Steps2,
                 StepperMotor &Motor3, long Steps3, StepperMotor &Motor4, long Steps4, const int &Speed)
@@ -186,10 +198,15 @@ void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor
 
 
 
-    //Total Time
-    float Time = qSqrt(qPow(Steps1, 2) + qPow(Steps2, 2)) / Speed;
-    //Time delay per step
-    float deltaTime = Time / ((float)Steps1 + (float)Steps2);
+    float Hyp = qSqrt(qPow(Steps1, 2) + qPow(Steps2, 2));
+    float BaseDelay = (float)(1/(float)Speed);
+    float SpeedDelta = Hyp / (((float)Steps1 + (float)Steps2));
+    float deltaTime = BaseDelay * SpeedDelta;
+
+    qDebug()<< QString::fromStdString(Motor1.MotorName) << " Steps -- " << QString::number(Steps1) << " Speed --  " << QString::number(deltaTime);
+    qDebug()<< QString::fromStdString(Motor2.MotorName) << " Steps -- " << QString::number(Steps2) << " Speed --  " << QString::number(deltaTime);
+    qDebug()<< QString::fromStdString(Motor3.MotorName) << " Steps -- " << QString::number(Steps3) << " Speed --  " << QString::number(deltaTime);
+    qDebug()<< QString::fromStdString(Motor4.MotorName) << " Steps -- " << QString::number(Steps4) << " Speed --  " << QString::number(deltaTime);
 
     //Rotate Motors...
     for (int i = 0; i < Iterator; i++)
@@ -223,23 +240,23 @@ void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor
             M4ctr++;
             Motor4.Rotate(Dir4, 1, deltaTime);
         }
-        //Clean-up any missed steps due to float rounding errors.
-        if (M1ctr < Steps1)
-            Motor1.Rotate(Dir1, 1, deltaTime);
-        if (M2ctr < Steps2)
-            Motor2.Rotate(Dir2, 1, deltaTime);
-        if (M3ctr < Steps3)
-            Motor3.Rotate(Dir3, 1, deltaTime);
-        if (M4ctr < Steps4)
-            Motor4.Rotate(Dir4, 1, deltaTime);
-        //Clean-up any oversteps we may have done due to rounding errors.
-        if (M1ctr > Steps1)
-            Motor1.Rotate(GetReverseDirection(Dir1), 1, deltaTime);
-        if (M2ctr > Steps2)
-            Motor2.Rotate(GetReverseDirection(Dir2), 1, deltaTime);
-        if (M3ctr > Steps3)
-            Motor3.Rotate(GetReverseDirection(Dir3), 1, deltaTime);
-        if (M4ctr > Steps4)
-            Motor4.Rotate(GetReverseDirection(Dir4), 1, deltaTime);
     }
+    //Clean-up any missed steps due to float rounding errors.
+    if (M1ctr < Steps1)
+        Motor1.Rotate(Dir1, 1, deltaTime);
+    if (M2ctr < Steps2)
+        Motor2.Rotate(Dir2, 1, deltaTime);
+    if (M3ctr < Steps3)
+        Motor3.Rotate(Dir3, 1, deltaTime);
+    if (M4ctr < Steps4)
+        Motor4.Rotate(Dir4, 1, deltaTime);
+    //Clean-up any oversteps we may have done due to rounding errors.
+    if (M1ctr > Steps1)
+        Motor1.Rotate(GetReverseDirection(Dir1), 1, deltaTime);
+    if (M2ctr > Steps2)
+        Motor2.Rotate(GetReverseDirection(Dir2), 1, deltaTime);
+    if (M3ctr > Steps3)
+        Motor3.Rotate(GetReverseDirection(Dir3), 1, deltaTime);
+    if (M4ctr > Steps4)
+        Motor4.Rotate(GetReverseDirection(Dir4), 1, deltaTime);
 }

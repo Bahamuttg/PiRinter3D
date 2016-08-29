@@ -12,7 +12,7 @@ ThermalProbe::ThermalProbe(const unsigned int &Channel, const unsigned int &SPIP
     _TargetTemp = TargetTemp;
     _CurrentTemp = 0;
 
-    //Values that can be overriden by get/set.
+    //Values that can be overridden by get/set.
     _RefVoltage = 3.3;
     _R1 = 1000;
     _DefaultThermistorOHM = 10000;
@@ -32,23 +32,38 @@ ThermalProbe::~ThermalProbe()
 
 int ThermalProbe::MeasureTemp()
 {
-//    int ADCValue = 0, TempRead = 0;
+//									NEED A MUTEX FOR THIS METHOD WHEN USED IN WORKER...
+//    int ADCValue = 0;
 //    float VOut = 0, ThermOhms = 0;
 
 //     ADCValue = analogRead(_PinBase); //this gives us the ADC value between 1024 (10bit)
 //     VOut = _RefVoltage * ((float)ADCValue / 1024); //this calculates the voltage differential over the thermistor (with respect to ground)
 //     ThermOhms = (VOut * _R1) / (_RefVoltage - VOut); //this finds the current resistance of the thermistor
 //     //now that we have the resistance we can figure out how hot the thing is... by using the smart guys formula
-//     TempRead =
+//     _CurrentTemp =
 //             ((_DefaultThermistorTempK * _ThermistorBeta) / log(_DefaultThermistorOHM / ThermOhms) / (_ThermistorBeta / log(_DefaultThermistorOHM / ThermOhms) - _DefaultThermistorTempK) -273.15);
 
-//     return TempRead;
-    if(FakerCtr < _TargetTemp)
+
+    if(_CurrentTemp > _TargetTemp)
+    {
+        if(ElementCurrentState == ThermalProbe::ON)
+            TriggerElement(ThermalProbe::OFF);
+    }
+    else if(_CurrentTemp < _TargetTemp)
+    {
+            if(ElementCurrentState == ThermalProbe::OFF)
+                TriggerElement(ThermalProbe::ON);
+    }
+    else
+        TriggerElement(ThermalProbe::OFF);
+
+    if(FakerCtr < _TargetTemp +5)
         FakerCtr ++;
-    else if(FakerCtr >= _TargetTemp)
-        FakerCtr -= 5;
+    else if(FakerCtr >= _TargetTemp + 5)
+        FakerCtr -= 10;
     _CurrentTemp = FakerCtr;
-    return FakerCtr;
+
+	return _CurrentTemp;
 }
 
 void ThermalProbe::TriggerElement(ElementState Value)

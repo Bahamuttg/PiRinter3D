@@ -13,6 +13,7 @@ ProbeWorker::~ProbeWorker()
     _Mutex.lock();
     _Terminate = true;
     _Condition.wakeOne();
+     this->_Probe->TriggerElement(ThermalProbe::OFF);
     _Mutex.unlock();
     wait();
 }
@@ -25,10 +26,12 @@ void ProbeWorker::run()
         {
             _Mutex.lock();
             TriggerProbeRead();
+            emit ReportElementState(this->_Probe->ElementCurrentState);
             _Mutex.unlock();
         }
         msleep(_MS_ReadDelay);
     }
+    this->_Probe->TriggerElement(ThermalProbe::OFF);
 }
 
 int ProbeWorker::TriggerProbeRead()
@@ -56,4 +59,6 @@ void ProbeWorker::Resume()
 void ProbeWorker::Terminate()
 {
     this->_Terminate = true;
+    this->_Probe->TriggerElement(ThermalProbe::OFF);
+    emit ReportTemp(0);
 }

@@ -47,6 +47,7 @@ public slots:
     void Terminate();
 
 signals:
+    void ReportElementState(bool);
     void ReportTemp(int);
     void Error(QString err);
 };

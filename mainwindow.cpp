@@ -27,6 +27,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    if(_Interpreter != 0)
+    {
+        _Interpreter->terminate();
+    }
     delete ui;
 }
 //==========================Private Methods===========================================
@@ -51,9 +55,10 @@ void MainWindow::on_action_Stepper_Utility_triggered()
 }
 void MainWindow::on_action_Exit_triggered()
 {
+    if(_Interpreter->IsPrinting())
+        _Interpreter->TerminatePrint();
     _Interpreter->terminate();
     _Interpreter->wait();
-    delete _Interpreter;
     this->close();
 }
 void MainWindow::on_action_Load_3D_Print_triggered()
@@ -112,8 +117,14 @@ void MainWindow::on_actionS_tart_triggered()
        }
        else
        {
+           //Connect the probe reads to the lcd displays
            connect(_Interpreter->BedProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdBedTemp, SLOT(display(int)));
            connect(_Interpreter->ExtProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdExtruderTemp, SLOT(display(int)));
+           //connect the Probe element states to the UI
+           //connect(_Interpreter->BedProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdBedTemp, SLOT(display(int)));
+           //connect(_Interpreter->ExtProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdExtruderTemp, SLOT(display(int)));
+
+           //Connect the interpereter feedback to the ui controls
            connect(_Interpreter, SIGNAL(ReportProgress(int)), this->_ProgressBar, SLOT(setValue(int)));
            connect(_Interpreter, SIGNAL(BeginLineProcessing(QString)), ui->txtGCode, SLOT(append(QString)));
            connect(_Interpreter, SIGNAL(ProcessingTemps(QString)), this->_StatusLabel, SLOT(setText(QString)));
@@ -121,7 +132,7 @@ void MainWindow::on_actionS_tart_triggered()
            connect(_Interpreter, SIGNAL(ProcessingMoves(QString)), this->_StatusLabel, SLOT(setText(QString)));
            connect(_Interpreter, SIGNAL(PrintComplete()), this, SLOT(on_action_Stop_triggered()));
 
-           _Interpreter->start();
+           _Interpreter->start();//Kick the tires and light the fires...
 
            ui->menuPrint_Actions->actions()[0]->setText("Pause");
        }
@@ -138,6 +149,9 @@ void MainWindow::on_action_Stop_triggered()
     if(_Interpreter != 0)
     {
         _Interpreter->TerminatePrint();
+        _Interpreter->terminate();
+        delete _Interpreter;
+        _Interpreter = 0;
         ui->menuPrint_Actions->actions()[0]->setText("S&tart");
         _ProgressBar->setValue(0);
         _StatusLabel->setText("Ready");

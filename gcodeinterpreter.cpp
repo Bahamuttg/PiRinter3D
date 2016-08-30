@@ -2,10 +2,14 @@
 #include "thermalprobe.h"
 #include "steppermotor.h"
 #include "motorcontroller.h"
+#include <QMessageBox>
 
-GCodeInterpreter::GCodeInterpreter(const QString &FilePath, QObject *parent)
+GCodeInterpreter::GCodeInterpreter(const QString &FilePath, const int &XArea, const int &YArea, QObject *parent)
     :QThread(parent)
 {
+    _XArea = XArea;
+    _YArea  = YArea;
+
     _XAxis = 0;
     _YAxis = 0;
     _ZAxis = 0;
@@ -44,12 +48,24 @@ GCodeInterpreter::~GCodeInterpreter()
     delete _XStop;
     delete _YStop;
     delete _ZStop;
+    BedProbeWorker->Terminate();
+    ExtProbeWorker->Terminate();
+    ExtProbeWorker->wait();
+    BedProbeWorker->wait();
     delete BedProbeWorker;
     delete ExtProbeWorker;
 }
 
+
+void GCodeInterpreter::run()
+{
+    BeginPrint();
+}
+
+//======================================Private Methods============================================
 void GCodeInterpreter::LoadGCode(const QString &FilePath)
 {
+    bool IsTooBig = false;
     QFile PrintFile(FilePath);
     if(PrintFile.open(QIODevice::ReadOnly | QIODevice::Text ))
     {
@@ -65,6 +81,7 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
              * M104 S205 ; set temperature
              */
             if(this->BedProbeWorker->GetTargetTemp() == 0 || this->ExtProbeWorker->GetTargetTemp() == 0)
+            {
                 if(Line.split(" ")[0].toUpper().startsWith("M"))
                 {
                     QStringList MCode = Line.split(" ");
@@ -79,17 +96,28 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
                         emit ExtruderTemperatureChanged(this->ExtProbeWorker->GetTargetTemp());
                     }
                 }
+            }
+            else if (Line.split(" ")[0].toUpper().startsWith("G") && !IsTooBig)
+            {
+                QList<Coordinate> Coords = GetCoordValues(Line);
+                float XVal =0, YVal =0;
+                for(int i =0; i < Coords.length(); i++)
+                {
+                    if(Coords[i].Name == "XAxis")
+                        XVal = Coords[i].value;
+                    if(Coords[i].Name == "YAxis")
+                        YVal = Coords[i].value;
+                }
+                if(XVal > _XArea || YVal > _YArea)
+                    IsTooBig = true;
+            }
         }
         PrintFile.close();
+        if(IsTooBig)
+            emit OnError("This print has a print area that is larger than the print area defined in the settings! /n If you continue you could bust your shit up!!!");
     }
 }
 
-void GCodeInterpreter::run()
-{
-    BeginPrint();
-}
-
-//======================================Private Methods============================================
     void GCodeInterpreter::InitializeEndStops()
     {
     }
@@ -149,6 +177,7 @@ void GCodeInterpreter::run()
                         else
                             this->_XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
                                     Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_XRes = Params[10].toFloat();
                     }
                     if(Params[0].contains("YAxis"))
                     {
@@ -157,6 +186,7 @@ void GCodeInterpreter::run()
                         else
                             this->_YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
                                     Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_YRes = Params[10].toFloat();
                     }
                     if(Params[0].contains("ZAxis"))
                     {
@@ -165,6 +195,7 @@ void GCodeInterpreter::run()
                         else
                             this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
                                     Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_ZRes = Params[10].toFloat();
                     }
                     if(Params[0].contains("ExtAxis"))
                     {
@@ -173,6 +204,7 @@ void GCodeInterpreter::run()
                         else
                             this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
                                     Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_ExtRes = Params[10].toFloat();
                     }
                 }
             }
@@ -182,12 +214,17 @@ void GCodeInterpreter::run()
 
     void GCodeInterpreter::HomeAllAxis()
     {
+        //Move all Axis to the end stops if they are available.
     }
 
-    void GCodeInterpreter::ChangeTemps(const int &ExtruderCelsius, const int &BedCelsius)
+    void GCodeInterpreter::ChangeBedTemp(const int &Celsius)
     {
-        this->BedProbeWorker->SetTargetTemp(BedCelsius);
-        this->ExtProbeWorker->SetTargetTemp(ExtruderCelsius);
+        this->BedProbeWorker->SetTargetTemp(Celsius);
+    }
+
+    void GCodeInterpreter::ChangeExtTemp(const int &Celsius)
+    {
+        this->ExtProbeWorker->SetTargetTemp(Celsius);
     }
 
     void GCodeInterpreter::MoveToolHead(const float &XPosition, const float &YPosition, const float &ZPosition, const float &ExtPosition)
@@ -207,15 +244,18 @@ void GCodeInterpreter::run()
 
         if(total_steps != 0 && total_3dsteps != 0 && stepext != 0)
             //Future Overload the Step motors to contain a delay for each individual motor based upon their individual Resolution.
-             _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ZAxis, stepz, *_ExtAxis, stepext, _SpeedFactor / qMin(_XRes, _YRes));
+             _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ZAxis, stepz, *_ExtAxis, stepext,
+                                    (1 / (_SpeedFactor / qMin(_XRes, qMin(_ZRes, _YRes)))));
         else if(total_steps != 0 && stepext != 0)
-            _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ExtAxis, stepext, _SpeedFactor / qMin(_XRes, _YRes));
+            _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ExtAxis, stepext,
+                                   (1 / (_SpeedFactor / qMin(_XRes, _YRes))));
         else if(total_steps != 0)
-            _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, _SpeedFactor / qMin(_XRes, _YRes));
+            _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy,
+                                   (1 / (_SpeedFactor / qMin(_XRes, _YRes))));
         else
         {
-            _Controller.StepMotor(*_ZAxis, stepz, _SpeedFactor / _ZRes);
-            _Controller.StepMotor(*_ExtAxis, stepext, _SpeedFactor / _ExtRes);
+            _Controller.StepMotor(*_ZAxis, stepz, (1 / (_SpeedFactor / _ZRes)));
+            _Controller.StepMotor(*_ExtAxis, stepext,(1 / (_SpeedFactor / _ExtRes)));
         }
     }
 	
@@ -269,14 +309,15 @@ void GCodeInterpreter::run()
             for(int i = 0; i < GVals.length(); i++)
                 if(GVals[i].contains("F") && !GVals[i].mid(1).isEmpty())
                     //convert to units per second
-                    _SpeedFactor =  GVals[i].mid(1).toFloat() / 60;
+                    _SpeedFactor =  GVals[i].mid(1).toFloat() / 60000;
         }
-
+        if(_TerminateThread)
+            return;
         if(GString.startsWith("G"))
         {
             if(GVals[0].mid(1) == "1" && !GVals[0].mid(1).isEmpty())
             {
-                emit ProcessingMoves("Moving Head --- " + GString);
+                emit ProcessingMoves("Moving to ---> " + GString);
                 QList<Coordinate> Coords = GetCoordValues(GString);
                 float XVal =0, YVal =0, ZVal =0, ExtVal =0;
                 for(int i =0; i < Coords.length(); i++)
@@ -291,9 +332,10 @@ void GCodeInterpreter::run()
                         ExtVal = Coords[i].value;
                 }
                 MoveToolHead(XVal, YVal, ZVal, ExtVal);
-                emit MoveComplete("Move Complete --- " + GString);
+                emit MoveComplete("Move Complete");
             }
-
+            if(_TerminateThread)
+                return;
             else if (GVals[0].mid(1) == "2" || GVals[0].mid(1) == "3")
             {
                 /*
@@ -356,6 +398,8 @@ void GCodeInterpreter::run()
                     movetothree(MX,tmp_x_pos,dx,MY, tmp_y_pos,dy,MExt,MExt.position+extruderMovePerStep,dext,speed,True);
                  */
             }
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "20")
             {
                 emit ProcessingMoves("Working in Imperial Measure (SAE)");
@@ -364,19 +408,23 @@ void GCodeInterpreter::run()
                 _ZRes /= 25.4;
                 _ExtRes /= 25.4;
             }
-
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "21")
                 emit ProcessingMoves("Working in Metric Measure");
-
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "28")
             {
                 emit ProcessingMoves("Homing All Axis");
                 HomeAllAxis();
             }
-
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "90")
                 emit PrintStarted();
-
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "92")
             {
                 emit ProcessingMoves("Resetting Extruder Position");
@@ -389,7 +437,8 @@ void GCodeInterpreter::run()
                     _ExtAxis->Position = 0;
             }
         }
-
+        if(_TerminateThread)
+            return;
         else if(GString.startsWith("M"))
         {
             if(GVals[0].mid(1) == "02")
@@ -398,7 +447,8 @@ void GCodeInterpreter::run()
                 Finished Shutting off...
                  */
             }
-
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "03")
             {
                 /*
@@ -407,7 +457,8 @@ void GCodeInterpreter::run()
                 print 'Pen turned off';
                  */
             }
-
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "05")
             {
                 /*
@@ -416,24 +467,28 @@ void GCodeInterpreter::run()
                 print 'Pen turned off';
                  */
             }
-
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "104")
             {
                 this->ExtProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
                 emit SetExtruderTemp(GVals[1].mid(1).toInt());
                 emit ExtruderTemperatureChanged(this->ExtProbeWorker->GetTargetTemp());
             }
-
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "106")
             {
                 //Fan on
             }
-
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "107")
             {
                 //Fan Off
             }
-
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "109")
             {
                 this->ExtProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
@@ -443,17 +498,22 @@ void GCodeInterpreter::run()
                 if(ExtProbeWorker->GetCurrentTemp() > ExtProbeWorker->GetTargetTemp())
                     while(ExtProbeWorker->GetCurrentTemp() > ExtProbeWorker->GetTargetTemp())
                     {
+                        if(_TerminateThread)
+                            return;
                         emit TemperatureHigh(ExtProbeWorker->GetCurrentTemp() - ExtProbeWorker->GetTargetTemp());
                         msleep(100);//sleep for 100 MS while we wait
                     }
                 else
                     while(ExtProbeWorker->GetCurrentTemp() < ExtProbeWorker->GetTargetTemp())
                     {
+                        if(_TerminateThread)
+                            return;
                         emit TemperatureLow(ExtProbeWorker->GetCurrentTemp() - ExtProbeWorker->GetTargetTemp());
                         msleep(100);//sleep for 100 MS while we wait
                     }
             }
-
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "140")
             {
                 this->BedProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
@@ -461,7 +521,8 @@ void GCodeInterpreter::run()
                 emit BedTemperatureChanged( this->BedProbeWorker->GetTargetTemp());
 
             }
-
+            if(_TerminateThread)
+                return;
             else if(GVals[0].mid(1) == "190")
             {
                 this->BedProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
@@ -471,40 +532,48 @@ void GCodeInterpreter::run()
                 if(BedProbeWorker->GetCurrentTemp() > BedProbeWorker->GetTargetTemp())
                     while(BedProbeWorker->GetCurrentTemp() > BedProbeWorker->GetTargetTemp())
                     {
+                        if(_TerminateThread)
+                            return;
                         emit TemperatureHigh(BedProbeWorker->GetCurrentTemp() - BedProbeWorker->GetTargetTemp());
                         msleep(100);//sleep for 100 MS while we wait
                     }
                 else
                     while(BedProbeWorker->GetCurrentTemp() < BedProbeWorker->GetTargetTemp())
                     {
+                        if(_TerminateThread)
+                            return;
                         emit TemperatureLow(BedProbeWorker->GetCurrentTemp() - BedProbeWorker->GetTargetTemp());
                         msleep(100);//sleep for 100 MS while we wait
                     }
             }
         }
+        emit EndLineProcessing("Line Processed");
     }
 
 	void GCodeInterpreter::ExecutePrintSequence()
 	{
         //Move some of these outside of the loop for threading and pausing purposes.
-        int LineCounter = 0, Progress = 0;
+        long long int LineCounter = 0;
+        int Progress = 0;
         while(LineCounter < _GCODE.length() && !_TerminateThread)
         {
             if(_TerminateThread)
                 return;
             while(_Stop)
             {
+                if(_TerminateThread)
+                    return;
                 emit MoveComplete("Paused");
-                //msleep(50);
+                msleep(50);
             }
             emit BeginLineProcessing(_GCODE[LineCounter]);
             ParseLine(_GCODE[LineCounter]);
-            //Debugging
-            //msleep(50);
             LineCounter ++;
             Progress = (int)(LineCounter * (100.00 / _GCODE.length()));
             emit ReportProgress(Progress);
         }
+        _SpeedFactor = .15;
+        MoveToolHead(1, 1, 0, _ExtAxis->Position - 5);
         emit ReportProgress(100);
 	}
 //======================================End Private Methods========================================
@@ -523,21 +592,13 @@ void GCodeInterpreter::run()
             //Fire the threads
             BedProbeWorker->start();
             ExtProbeWorker->start();
-//            while(ExtProbeWorker->GetCurrentTemp() < ExtProbeWorker->GetTargetTemp()
-//                  && BedProbeWorker->GetCurrentTemp() < BedProbeWorker->GetTargetTemp())
-//                msleep(500);
-            emit ProcessingMoves("Homing All Axis");
-            //Next it should home the motors.
-            HomeAllAxis();
-            //possibly validate the functionality of the end stops too.
-
             ExecutePrintSequence();
             BedProbeWorker->Terminate();
             ExtProbeWorker->Terminate();
             BedProbeWorker->wait();
             ExtProbeWorker->wait();
-            emit PrintComplete();
             TerminatePrint();
+            emit PrintComplete();
         }
     }
 
@@ -552,8 +613,8 @@ void GCodeInterpreter::run()
     void GCodeInterpreter::TerminatePrint()
     {
         this->_TerminateThread = true;
-        BedProbeWorker->terminate();
-        ExtProbeWorker->terminate();
+        BedProbeWorker->Terminate();
+        ExtProbeWorker->Terminate();
         BedProbeWorker->wait();
         ExtProbeWorker->wait();
     }

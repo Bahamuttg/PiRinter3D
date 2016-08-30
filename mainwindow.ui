@@ -99,6 +99,15 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dkGCode">
+   <property name="minimumSize">
+    <size>
+     <width>350</width>
+     <height>253</height>
+    </size>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
    <property name="features">
     <set>QDockWidget::DockWidgetMovable</set>
    </property>
@@ -112,6 +121,9 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QGroupBox" name="groupBox">
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
        <property name="title">
         <string>GCode Execution</string>
        </property>
@@ -245,25 +257,12 @@
                    <enum>QFrame::Raised</enum>
                   </property>
                   <layout class="QGridLayout" name="gridLayout">
-                   <item row="0" column="0" colspan="2">
-                    <widget class="QLabel" name="label">
+                   <item row="3" column="0">
+                    <widget class="QCheckBox" name="chkBedOverride">
                      <property name="text">
-                      <string>Target Temp</string>
+                      <string>Override</string>
                      </property>
                     </widget>
-                   </item>
-                   <item row="1" column="0">
-                    <spacer name="horizontalSpacer">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>85</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
                    </item>
                    <item row="1" column="1">
                     <widget class="QSpinBox" name="seBed">
@@ -275,10 +274,33 @@
                      </property>
                     </widget>
                    </item>
-                   <item row="2" column="0" colspan="2">
-                    <widget class="QCheckBox" name="chkBedOverride">
+                   <item row="3" column="1">
+                    <widget class="QCheckBox" name="chkBedOn">
+                     <property name="toolTip">
+                      <string/>
+                     </property>
+                     <property name="whatsThis">
+                      <string>Indicates the state of the Probe element. Checked is on.</string>
+                     </property>
+                     <property name="layoutDirection">
+                      <enum>Qt::RightToLeft</enum>
+                     </property>
                      <property name="text">
-                      <string>Override</string>
+                      <string/>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="PiRinter.qrc">
+                       <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</iconset>
+                     </property>
+                     <property name="checkable">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label">
+                     <property name="text">
+                      <string>Target Temp</string>
                      </property>
                     </widget>
                    </item>
@@ -316,19 +338,6 @@
                    <enum>QFrame::Raised</enum>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_3">
-                   <item row="1" column="0">
-                    <spacer name="horizontalSpacer_2">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
                    <item row="1" column="1">
                     <widget class="QSpinBox" name="seExt">
                      <property name="enabled">
@@ -339,17 +348,40 @@
                      </property>
                     </widget>
                    </item>
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="label_2">
+                   <item row="3" column="1">
+                    <widget class="QCheckBox" name="chkExtOn">
+                     <property name="toolTip">
+                      <string/>
+                     </property>
+                     <property name="whatsThis">
+                      <string>Indicates the state of the Probe element. Checked is on.</string>
+                     </property>
+                     <property name="layoutDirection">
+                      <enum>Qt::RightToLeft</enum>
+                     </property>
                      <property name="text">
-                      <string>Target Temp</string>
+                      <string/>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="PiRinter.qrc">
+                       <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</iconset>
+                     </property>
+                     <property name="checkable">
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>
-                   <item row="2" column="0">
+                   <item row="3" column="0">
                     <widget class="QCheckBox" name="chkExtOverride">
                      <property name="text">
                       <string>Override</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_2">
+                     <property name="text">
+                      <string>Target Temp</string>
                      </property>
                     </widget>
                    </item>
@@ -491,12 +523,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>873</x>
-     <y>433</y>
+     <x>942</x>
+     <y>428</y>
     </hint>
     <hint type="destinationlabel">
-     <x>972</x>
-     <y>404</y>
+     <x>1007</x>
+     <y>392</y>
     </hint>
    </hints>
   </connection>
@@ -507,12 +539,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>902</x>
-     <y>193</y>
+     <x>942</x>
+     <y>187</y>
     </hint>
     <hint type="destinationlabel">
-     <x>976</x>
-     <y>155</y>
+     <x>1007</x>
+     <y>151</y>
     </hint>
    </hints>
   </connection>

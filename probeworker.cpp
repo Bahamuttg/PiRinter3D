@@ -60,5 +60,6 @@ void ProbeWorker::Terminate()
 {
     this->_Terminate = true;
     this->_Probe->TriggerElement(ThermalProbe::OFF);
+    emit ReportElementState(this->_Probe->ElementCurrentState);
     emit ReportTemp(0);
 }

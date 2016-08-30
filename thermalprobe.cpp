@@ -57,10 +57,10 @@ int ThermalProbe::MeasureTemp()
     else
         TriggerElement(ThermalProbe::OFF);
 
-    if(FakerCtr < _TargetTemp +5)
+    if(FakerCtr < _TargetTemp + 1)
         FakerCtr ++;
-    else if(FakerCtr >= _TargetTemp + 5)
-        FakerCtr -= 10;
+    else if(FakerCtr >= _TargetTemp + 1)
+        FakerCtr -= 3;
     _CurrentTemp = FakerCtr;
 
 	return _CurrentTemp;

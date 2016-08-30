@@ -42,6 +42,9 @@ private:
     //Extruder and Bed Temp values
     int _ExtruderTemp, _BedTemp;
 
+    //Print dimensions
+    int _XArea, _YArea;
+
     bool _TerminateThread, _Stop, _IsPrinting;
 
     void InitializeMotors();
@@ -60,7 +63,7 @@ protected:
     void run();
 
 public:
-    GCodeInterpreter(const QString &FilePath, QObject * parent = 0);
+    GCodeInterpreter(const QString &FilePath, const int &XArea, const int & YArea, QObject * parent = 0);
     ~GCodeInterpreter();
 
     ProbeWorker *BedProbeWorker, *ExtProbeWorker;
@@ -112,9 +115,10 @@ public slots:
     void PausePrint();
 
     void TerminatePrint();
-    //Intended for the override functionality in the ui.
-    //should connect to the signals from the spin edits and such...
-    void ChangeTemps(const int &ExtruderCelsius, const int &BedCelsius);
+
+    void ChangeBedTemp(const int &Celsius);
+
+    void ChangeExtTemp(const int &Celsius);
 
 signals:
     void PrintStarted();

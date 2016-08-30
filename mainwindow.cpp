@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->insertPermanentWidget(0, _ProgressBar, 100);
     ui->statusBar->insertPermanentWidget(1, _StatusLabel, 250);
 
+
     _Interpreter = 0;
 }
 
@@ -29,7 +30,8 @@ MainWindow::~MainWindow()
 {
     if(_Interpreter != 0)
     {
-        _Interpreter->terminate();
+        _Interpreter->TerminatePrint();
+        _Interpreter->wait();
     }
     delete ui;
 }
@@ -58,11 +60,13 @@ void MainWindow::on_action_Exit_triggered()
     if(_Interpreter->IsPrinting())
         _Interpreter->TerminatePrint();
     _Interpreter->terminate();
-    _Interpreter->wait();
     this->close();
 }
 void MainWindow::on_action_Load_3D_Print_triggered()
 {
+    if(_Interpreter != 0)
+        if(_Interpreter->IsPrinting())
+        return;
     QFileDialog FD(this);
     FD.setFileMode(QFileDialog::ExistingFile);
     FD.setNameFilter(tr("G-Code files (*.gcode);;Text files (*.txt)"));
@@ -73,8 +77,8 @@ void MainWindow::on_action_Load_3D_Print_triggered()
         _PrintFilePath = FD.selectedFiles()[0];
         if(_Interpreter != 0)
             delete _Interpreter;
-        _Interpreter = new GCodeInterpreter(_PrintFilePath, this);
-
+        _StatusLabel->setText("Processing GCODE...");
+        _Interpreter = new GCodeInterpreter(_PrintFilePath, 200, 200, this);
         ui->seBed->setValue(_Interpreter->BedProbeWorker->GetTargetTemp());
         ui->seExt->setValue(_Interpreter->ExtProbeWorker->GetTargetTemp());
         _StatusLabel->setText("Processed " + QString::number(_Interpreter->GetTotalLines()) + " Lines of GCODE...");
@@ -120,11 +124,16 @@ void MainWindow::on_actionS_tart_triggered()
            //Connect the probe reads to the lcd displays
            connect(_Interpreter->BedProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdBedTemp, SLOT(display(int)));
            connect(_Interpreter->ExtProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdExtruderTemp, SLOT(display(int)));
-           //connect the Probe element states to the UI
-           //connect(_Interpreter->BedProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdBedTemp, SLOT(display(int)));
-           //connect(_Interpreter->ExtProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdExtruderTemp, SLOT(display(int)));
 
-           //Connect the interpereter feedback to the ui controls
+           //connect the Probe element states to the UI
+           connect(_Interpreter->BedProbeWorker, SIGNAL(ReportElementState(bool)), ui->chkBedOn, SLOT(setChecked(bool)));
+           connect(_Interpreter->ExtProbeWorker, SIGNAL(ReportElementState(bool)), ui->chkExtOn, SLOT(setChecked(bool)));
+
+           //Connect the Temp Overrides
+           connect(ui->seBed, SIGNAL(valueChanged(int)), _Interpreter, SLOT(ChangeBedTemp(int)));
+           connect(ui->seExt, SIGNAL(valueChanged(int)), _Interpreter, SLOT(ChangeExtTemp(int)));
+
+           //Connect the interpreter feedback to the ui controls
            connect(_Interpreter, SIGNAL(ReportProgress(int)), this->_ProgressBar, SLOT(setValue(int)));
            connect(_Interpreter, SIGNAL(BeginLineProcessing(QString)), ui->txtGCode, SLOT(append(QString)));
            connect(_Interpreter, SIGNAL(ProcessingTemps(QString)), this->_StatusLabel, SLOT(setText(QString)));
@@ -149,7 +158,7 @@ void MainWindow::on_action_Stop_triggered()
     if(_Interpreter != 0)
     {
         _Interpreter->TerminatePrint();
-        _Interpreter->terminate();
+        _Interpreter->wait();
         delete _Interpreter;
         _Interpreter = 0;
         ui->menuPrint_Actions->actions()[0]->setText("S&tart");

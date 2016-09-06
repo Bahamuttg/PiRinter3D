@@ -1,5 +1,6 @@
 # PiRinter3D
-Full featured 3D printer interface for use with Raspberry Pi.
-C++ based GUI for all 3D printer types.
+Full featured all in one 3D printer/CNC interface for a Raspberry Pi. 
 
-This project is still a WIP.
+This software is a full featured GCODE interpreter designed to run on any Raspberry Pi and replace the need for a separate PC and Arduino setup. It features a C++ based GUI, heater pulse width modulation, print simulation mode, and pause/resume style functionalities. Easily converts into CNC and Laser Cutter/Engraver mode for use on all 3D printer types.
+
+This project is still under development and has not been released in the beta stage yet.

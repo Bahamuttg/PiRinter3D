@@ -52,6 +52,8 @@ void MainWindow::SaveConfigurations()
 //==========================Main Menu Handlers========================================
 void MainWindow::on_action_Stepper_Utility_triggered()
 {
+    //TODO: if interpreter is already running get the motors from the interpreter
+    //otherwise we will need to init them from the settings file.
     StepperDriver *SD = new StepperDriver(this);
     SD->show();
 }
@@ -66,7 +68,12 @@ void MainWindow::on_action_Load_3D_Print_triggered()
 {
     if(_Interpreter != 0)
         if(_Interpreter->IsPrinting())
-        return;
+        {
+            QMessageBox Msg(this);
+            Msg.setText("A Print is currently in process!\nStop the current print operation before loading a new print!");
+            Msg.exec();
+            return;
+        }
     QFileDialog FD(this);
     FD.setFileMode(QFileDialog::ExistingFile);
     FD.setNameFilter(tr("G-Code files (*.gcode);;Text files (*.txt)"));
@@ -92,10 +99,10 @@ void MainWindow::on_action_Configure_Motors_triggered()
     MotorConfigDialog Dialog(this);
     Dialog.exec();
 }
-void MainWindow::on_actionConfigure_Temperatures_triggered()
+void MainWindow::on_actionConfigure_Probes_triggered()
 {
-     ProbeConfigDialog Dialog(this);
-     Dialog.exec();
+    ProbeConfigDialog Dialog(this);
+    Dialog.exec();
 }
 void MainWindow::on_actionSetup_Print_Area_triggered()
 {
@@ -137,7 +144,7 @@ void MainWindow::on_actionS_tart_triggered()
            connect(_Interpreter, SIGNAL(ReportProgress(int)), this->_ProgressBar, SLOT(setValue(int)));
            connect(_Interpreter, SIGNAL(BeginLineProcessing(QString)), ui->txtGCode, SLOT(append(QString)));
            connect(_Interpreter, SIGNAL(ProcessingTemps(QString)), this->_StatusLabel, SLOT(setText(QString)));
-           connect(_Interpreter, SIGNAL(MoveComplete(QString)), this->_StatusLabel, SLOT(setText(QString)));
+           //connect(_Interpreter, SIGNAL(MoveComplete(QString)), this->_StatusLabel, SLOT(setText(QString)));
            connect(_Interpreter, SIGNAL(ProcessingMoves(QString)), this->_StatusLabel, SLOT(setText(QString)));
            connect(_Interpreter, SIGNAL(PrintComplete()), this, SLOT(on_action_Stop_triggered()));
 
@@ -171,6 +178,8 @@ void MainWindow::on_action_Stop_triggered()
 }
 //==============End Main Menu Handlers=================================================
 //==============END SLOTS============================================================
+
+
 
 
 

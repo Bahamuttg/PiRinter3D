@@ -1,6 +1,24 @@
+/*
+* =================BEGIN GPL LICENSE BLOCK=========================================
+* 
+*  This program is free software; you can redistribute it and/or 
+*  modify it under the terms of the GNU General Public License 
+*  as published by the Free Software Foundation; either version 2 
+*  of the License, or (at your option) any later version. 
+* 
+*  This program is distributed in the hope that it will be useful, 
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of 
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+*  GNU General Public License for more details. 
+* 
+*  You should have received a copy of the GNU General Public License 
+*  along with this program; if not, write to the Free Software Foundation, 
+*  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+* 
+* =================END GPL LICENSE BLOCK=========================================
+*/
 #include "thermalprobe.h"
-#include <wiringPi.h>
-#include <wiringPiSPI.h>
+#include <pigpio.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -20,14 +38,14 @@ ThermalProbe::ThermalProbe(const unsigned int &Channel, const unsigned int &SPIP
     _ThermistorBeta = 3974;
     //==================================
 
-    pinMode(_TriggerPin, OUTPUT);
-    //mcp3004Setup(_PinBase, _Channel);
+    gpioSetMode(_TriggerPin, PI_OUTPUT);
+
     FakerCtr =0;
 }
 
 ThermalProbe::~ThermalProbe()
 {
-    digitalWrite(_TriggerPin, LOW);
+    gpioWrite(_TriggerPin, PI_LOW);
 }
 
 int ThermalProbe::MeasureTemp()
@@ -69,9 +87,9 @@ int ThermalProbe::MeasureTemp()
 void ThermalProbe::TriggerElement(ElementState Value)
 {
     if(Value == ThermalProbe::OFF)
-        digitalWrite(_TriggerPin, LOW);
+        gpioWrite(_TriggerPin, PI_LOW);
     else
-        digitalWrite(_TriggerPin, HIGH);
+        gpioWrite(_TriggerPin, PI_HIGH);
     ElementCurrentState = Value;
 }
 

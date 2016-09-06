@@ -53,7 +53,8 @@
      <string>&amp;Settings</string>
     </property>
     <addaction name="action_Configure_Motors"/>
-    <addaction name="actionConfigure_Temperatures"/>
+    <addaction name="actionConfigure_Probes"/>
+    <addaction name="actionConfigure_T_ools"/>
     <addaction name="actionSetup_Print_Area"/>
     <addaction name="separator"/>
     <addaction name="action_Preferences"/>
@@ -63,7 +64,7 @@
      <string>&amp;Tools</string>
     </property>
     <addaction name="action_Stepper_Utility"/>
-    <addaction name="action_Temperature_Utility"/>
+    <addaction name="action_Probe_Utility"/>
    </widget>
    <widget class="QMenu" name="menu_About">
     <property name="title">
@@ -234,89 +235,64 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QFrame" name="pnlBedTemp">
-            <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
+           <widget class="QGroupBox" name="gbExtTemp">
+            <property name="title">
+             <string>Extruder Temperature</string>
             </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
+            <layout class="QVBoxLayout" name="verticalLayout_7">
              <item>
-              <widget class="QGroupBox" name="groupBox_2">
-               <property name="title">
-                <string>Bed Temperature</string>
+              <widget class="QFrame" name="frame_3">
+               <property name="frameShape">
+                <enum>QFrame::WinPanel</enum>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_6">
-                <item>
-                 <widget class="QFrame" name="frame_2">
-                  <property name="frameShape">
-                   <enum>QFrame::WinPanel</enum>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_3">
+                <item row="1" column="1">
+                 <widget class="QSpinBox" name="seExt">
+                  <property name="enabled">
+                   <bool>false</bool>
                   </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                  <property name="maximum">
+                   <number>999</number>
                   </property>
-                  <layout class="QGridLayout" name="gridLayout">
-                   <item row="3" column="0">
-                    <widget class="QCheckBox" name="chkBedOverride">
-                     <property name="text">
-                      <string>Override</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="1">
-                    <widget class="QSpinBox" name="seBed">
-                     <property name="enabled">
-                      <bool>false</bool>
-                     </property>
-                     <property name="maximum">
-                      <number>999</number>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="1">
-                    <widget class="QCheckBox" name="chkBedOn">
-                     <property name="toolTip">
-                      <string/>
-                     </property>
-                     <property name="whatsThis">
-                      <string>Indicates the state of the Probe element. Checked is on.</string>
-                     </property>
-                     <property name="layoutDirection">
-                      <enum>Qt::RightToLeft</enum>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="PiRinter.qrc">
-                       <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</iconset>
-                     </property>
-                     <property name="checkable">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label">
-                     <property name="text">
-                      <string>Target Temp</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
                  </widget>
                 </item>
-                <item>
-                 <widget class="QLCDNumber" name="lcdBedTemp">
-                  <property name="frameShape">
-                   <enum>QFrame::WinPanel</enum>
+                <item row="3" column="1">
+                 <widget class="QCheckBox" name="chkExtOn">
+                  <property name="toolTip">
+                   <string/>
                   </property>
-                  <property name="midLineWidth">
-                   <number>0</number>
+                  <property name="whatsThis">
+                   <string>Indicates the state of the Probe element. Checked is on.</string>
                   </property>
-                  <property name="digitCount">
-                   <number>3</number>
+                  <property name="layoutDirection">
+                   <enum>Qt::RightToLeft</enum>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="PiRinter.qrc">
+                    <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</iconset>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QCheckBox" name="chkExtOverride">
+                  <property name="text">
+                   <string>Override</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_2">
+                  <property name="text">
+                   <string>Target Temp</string>
                   </property>
                  </widget>
                 </item>
@@ -324,89 +300,114 @@
               </widget>
              </item>
              <item>
-              <widget class="QGroupBox" name="groupBox_3">
-               <property name="title">
-                <string>Extruder Temperature</string>
+              <widget class="QLCDNumber" name="lcdExtruderTemp">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_7">
-                <item>
-                 <widget class="QFrame" name="frame_3">
-                  <property name="frameShape">
-                   <enum>QFrame::WinPanel</enum>
+               <property name="frameShape">
+                <enum>QFrame::WinPanel</enum>
+               </property>
+               <property name="lineWidth">
+                <number>1</number>
+               </property>
+               <property name="digitCount">
+                <number>3</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QFrame" name="pnlBedTemp">
+         <property name="frameShape">
+          <enum>QFrame::WinPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QGroupBox" name="gbBedTemp">
+            <property name="title">
+             <string>Bed Temperature</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <widget class="QFrame" name="frame_2">
+               <property name="frameShape">
+                <enum>QFrame::WinPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QGridLayout" name="gridLayout">
+                <item row="3" column="0">
+                 <widget class="QCheckBox" name="chkBedOverride">
+                  <property name="text">
+                   <string>Override</string>
                   </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QGridLayout" name="gridLayout_3">
-                   <item row="1" column="1">
-                    <widget class="QSpinBox" name="seExt">
-                     <property name="enabled">
-                      <bool>false</bool>
-                     </property>
-                     <property name="maximum">
-                      <number>999</number>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="1">
-                    <widget class="QCheckBox" name="chkExtOn">
-                     <property name="toolTip">
-                      <string/>
-                     </property>
-                     <property name="whatsThis">
-                      <string>Indicates the state of the Probe element. Checked is on.</string>
-                     </property>
-                     <property name="layoutDirection">
-                      <enum>Qt::RightToLeft</enum>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="PiRinter.qrc">
-                       <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</iconset>
-                     </property>
-                     <property name="checkable">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="0">
-                    <widget class="QCheckBox" name="chkExtOverride">
-                     <property name="text">
-                      <string>Override</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_2">
-                     <property name="text">
-                      <string>Target Temp</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
                  </widget>
                 </item>
-                <item>
-                 <widget class="QLCDNumber" name="lcdExtruderTemp">
-                  <property name="font">
-                   <font>
-                    <pointsize>12</pointsize>
-                   </font>
+                <item row="1" column="1">
+                 <widget class="QSpinBox" name="seBed">
+                  <property name="enabled">
+                   <bool>false</bool>
                   </property>
-                  <property name="frameShape">
-                   <enum>QFrame::WinPanel</enum>
+                  <property name="maximum">
+                   <number>999</number>
                   </property>
-                  <property name="lineWidth">
-                   <number>1</number>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QCheckBox" name="chkBedOn">
+                  <property name="toolTip">
+                   <string/>
                   </property>
-                  <property name="digitCount">
-                   <number>3</number>
+                  <property name="whatsThis">
+                   <string>Indicates the state of the Probe element. Checked is on.</string>
+                  </property>
+                  <property name="layoutDirection">
+                   <enum>Qt::RightToLeft</enum>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="PiRinter.qrc">
+                    <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</iconset>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label">
+                  <property name="text">
+                   <string>Target Temp</string>
                   </property>
                  </widget>
                 </item>
                </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="lcdBedTemp">
+               <property name="frameShape">
+                <enum>QFrame::WinPanel</enum>
+               </property>
+               <property name="midLineWidth">
+                <number>0</number>
+               </property>
+               <property name="digitCount">
+                <number>3</number>
+               </property>
               </widget>
              </item>
             </layout>
@@ -440,9 +441,9 @@
     <string>Configure &amp;Motors</string>
    </property>
   </action>
-  <action name="actionConfigure_Temperatures">
+  <action name="actionConfigure_Probes">
    <property name="text">
-    <string>Configure &amp;Temperatures</string>
+    <string>Configure &amp;Probes</string>
    </property>
   </action>
   <action name="actionSetup_Print_Area">
@@ -505,9 +506,14 @@
     <string>&amp;Info</string>
    </property>
   </action>
-  <action name="action_Temperature_Utility">
+  <action name="action_Probe_Utility">
    <property name="text">
-    <string>&amp;Temperature Utility</string>
+    <string>&amp;Probe Utility</string>
+   </property>
+  </action>
+  <action name="actionConfigure_T_ools">
+   <property name="text">
+    <string>Configure T&amp;ools</string>
    </property>
   </action>
  </widget>
@@ -516,22 +522,6 @@
   <include location="PiRinter.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>chkExtOverride</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>seExt</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>942</x>
-     <y>428</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1007</x>
-     <y>392</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>chkBedOverride</sender>
    <signal>toggled(bool)</signal>
@@ -545,6 +535,22 @@
     <hint type="destinationlabel">
      <x>1007</x>
      <y>151</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkExtOverride</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>seExt</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>942</x>
+     <y>428</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1007</x>
+     <y>392</y>
     </hint>
    </hints>
   </connection>

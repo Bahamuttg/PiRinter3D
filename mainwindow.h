@@ -49,9 +49,9 @@ private slots:
     void on_action_Load_3D_Print_triggered();
     void on_actionS_tart_triggered();
     void on_action_Stop_triggered();
-    void on_actionConfigure_Temperatures_triggered();
     void on_action_Configure_Motors_triggered();
     void on_actionSetup_Print_Area_triggered();
+    void on_actionConfigure_Probes_triggered();
 };
 
 #endif // MAINWINDOW_H

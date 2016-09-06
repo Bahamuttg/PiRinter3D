@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     endstop.cpp \
     probeworker.cpp \
     probeconfigdialog.cpp \
-    printareaconfigdialog.cpp
+    printareaconfigdialog.cpp \
+    Lib/pigpio.c \
+    Lib/command.c
 
 HEADERS  += mainwindow.h \
     coildialog.h \
@@ -38,7 +40,10 @@ HEADERS  += mainwindow.h \
     endstop.h \
     probeworker.h \
     probeconfigdialog.h \
-    printareaconfigdialog.h
+    printareaconfigdialog.h \
+    Lib/pigpio.h \
+    Lib/command.h \
+    Lib/custom.cext
 
 FORMS    += mainwindow.ui \
     coildialog.ui \
@@ -47,9 +52,8 @@ FORMS    += mainwindow.ui \
     probeconfigdialog.ui \
     printareaconfigdialog.ui
 
-LIBS += -L/usr/local/include -lwiringPi
-
 INCLUDEPATH += /usr/include
+
 
 RESOURCES += \
     StepperDriverRsc.qrc \

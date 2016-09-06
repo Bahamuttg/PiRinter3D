@@ -1,39 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>ProbeConfigDialog</class>
- <widget name="ProbeConfigDialog" class="QDialog">
+ <widget class="QDialog" name="ProbeConfigDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>586</width>
+    <height>350</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Probe Configurations</string>
   </property>
-  <widget name="buttonBox" class="QDialogButtonBox">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>240</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
+  <property name="windowIcon">
+   <iconset resource="PiRinter.qrc">
+    <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_106.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_106.png</iconset>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <widget class="QTabWidget" name="tabThermalProbes">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tpBedProbe">
+        <attribute name="title">
+         <string>Bed Probe</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="0" column="1">
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="title">
+              <string>GPIO/SPI Settings</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <layout class="QFormLayout" name="formLayout_2">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="elementGPIOPinLabel">
+                  <property name="text">
+                   <string>Element</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="leBedElementPin"/>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="mOSIPinLabel">
+                  <property name="text">
+                   <string>MOSI</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="leBedMOSI"/>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="mISOPinLabel">
+                  <property name="text">
+                   <string>MISO</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="leBedMISO"/>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="readDelayLabel">
+                  <property name="text">
+                   <string>Read Delay (MS)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QSpinBox" name="seBedPWM">
+                  <property name="maximum">
+                   <number>9999</number>
+                  </property>
+                  <property name="value">
+                   <number>100</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="aDCChannelLabel_2">
+                  <property name="text">
+                   <string>ADC Channel</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QSpinBox" name="seBedADCCh"/>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="verticalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="gbResistors">
+             <property name="title">
+              <string>Probe Settings</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <layout class="QFormLayout" name="formLayout">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="referenceVoltageLabel">
+                  <property name="text">
+                   <string>Reference Voltage</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QDoubleSpinBox" name="seBedRefV">
+                  <property name="value">
+                   <double>3.300000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="r1ValueLabel">
+                  <property name="text">
+                   <string>R1 Ohms</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QSpinBox" name="seBedR1Ohms">
+                  <property name="maximum">
+                   <number>99999999</number>
+                  </property>
+                  <property name="value">
+                   <number>1000</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="thermistorBetaLabel">
+                  <property name="text">
+                   <string>Thermistor Beta</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QSpinBox" name="seBedBeta">
+                  <property name="maximum">
+                   <number>99999999</number>
+                  </property>
+                  <property name="value">
+                   <number>3974</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="thermistorDefaultOhmsLabel">
+                  <property name="text">
+                   <string>Thermistor Default Ohms</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QSpinBox" name="seBedProbeOhms">
+                  <property name="maximum">
+                   <number>99999999</number>
+                  </property>
+                  <property name="value">
+                   <number>10000</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="thermistorDefaultTempLabel">
+                  <property name="text">
+                   <string>Thermistor Default Temp</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QDoubleSpinBox" name="seBedProbeTemp">
+                  <property name="maximum">
+                   <double>999.990000000000009</double>
+                  </property>
+                  <property name="value">
+                   <double>298.149999999999977</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tpExtProbe">
+        <attribute name="title">
+         <string>Extruder Probe</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="1">
+            <widget class="QGroupBox" name="groupBox_3">
+             <property name="title">
+              <string>GPIO/SPI Settings</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_5">
+              <item>
+               <layout class="QFormLayout" name="formLayout_4">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="elementGPIOPinLabel_2">
+                  <property name="text">
+                   <string>Element</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="leBedElementPin_2"/>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="mOSIPinLabel_2">
+                  <property name="text">
+                   <string>MOSI</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="leBedMOSI_2"/>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="mISOPinLabel_2">
+                  <property name="text">
+                   <string>MISO</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="leBedMISO_2"/>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="readDelayMSLabel">
+                  <property name="text">
+                   <string>Read Delay (MS)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QSpinBox" name="seExtPWM">
+                  <property name="maximum">
+                   <number>9999</number>
+                  </property>
+                  <property name="value">
+                   <number>100</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="aDCChannelLabel">
+                  <property name="text">
+                   <string>ADC Channel</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QSpinBox" name="seExtADCCh"/>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="gbResistors_2">
+             <property name="title">
+              <string>Probe Settings</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <layout class="QFormLayout" name="formLayout_5">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="referenceVoltageLabel_3">
+                  <property name="text">
+                   <string>Reference Voltage</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QDoubleSpinBox" name="seBedRefV_3">
+                  <property name="value">
+                   <double>3.300000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="r1ValueLabel_3">
+                  <property name="text">
+                   <string>R1 Ohms</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QSpinBox" name="seBedR1Ohms_3">
+                  <property name="maximum">
+                   <number>99999999</number>
+                  </property>
+                  <property name="value">
+                   <number>1000</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="thermistorBetaLabel_3">
+                  <property name="text">
+                   <string>Thermistor Beta</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QSpinBox" name="seBedBeta_3">
+                  <property name="maximum">
+                   <number>99999999</number>
+                  </property>
+                  <property name="value">
+                   <number>3974</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="thermistorDefaultOhmsLabel_3">
+                  <property name="text">
+                   <string>Thermistor Default Ohms</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QSpinBox" name="seBedProbeOhms_3">
+                  <property name="maximum">
+                   <number>99999999</number>
+                  </property>
+                  <property name="value">
+                   <number>10000</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="thermistorDefaultTempLabel_3">
+                  <property name="text">
+                   <string>Thermistor Default Temp</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QDoubleSpinBox" name="seBedProbeTemp_3">
+                  <property name="maximum">
+                   <double>999.990000000000009</double>
+                  </property>
+                  <property name="value">
+                   <double>298.149999999999977</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
- <pixmapfunction/>
- <resources/>
+ <resources>
+  <include location="PiRinter.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

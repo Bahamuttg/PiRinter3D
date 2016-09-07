@@ -24,6 +24,7 @@
 #include "thermalprobe.h"
 #include "endstop.h"
 #include "probeworker.h"
+#include "adccontroller.h"
 #include <QtCore>
 #include <QFile>
 #include <QTextStream>
@@ -43,6 +44,7 @@ private:
     Q_OBJECT
 
     MotorController _Controller;
+
     QStringList _GCODE;
 
     //Define Stepper Motors.
@@ -52,6 +54,7 @@ private:
 
     ThermalProbe *_BedProbe, *_ExtProbe;
 	
+    ADCController *_ADCController;
     //Get Resolutions from the main ui configuration.
     float _XRes, _YRes, _ZRes, _ExtRes;
 
@@ -71,7 +74,8 @@ private:
     void InitializeMotors();
     void InitializeThermalProbes();
     void InitializeEndStops();
-	
+    void InitializeADCConverter();
+
     void WriteToLogFile(const QString &);
     void ParseLine(QString &GString);
     void HomeAllAxis();

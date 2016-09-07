@@ -18,13 +18,14 @@
 * =================END GPL LICENSE BLOCK=========================================
 */
 #include "thermalprobe.h"
+#include "adccontroller.h"
 #include <pigpio.h>
 #include <math.h>
 #include <stdio.h>
 
-ThermalProbe::ThermalProbe(const unsigned int &Channel, const unsigned int &SPIPinBase, const unsigned int &TriggerPin, const int &TargetTemp)
+ThermalProbe::ThermalProbe(ADCController *ADC, const unsigned int &Channel, const unsigned int &TriggerPin, const int &TargetTemp)
 {
-    _PinBase = SPIPinBase;
+	_ADCReader = ADC;
     _Channel = Channel;
     _TriggerPin = TriggerPin;
     _TargetTemp = TargetTemp;
@@ -54,7 +55,7 @@ int ThermalProbe::MeasureTemp()
 //    int ADCValue = 0;
 //    float VOut = 0, ThermOhms = 0;
 
-//     ADCValue = analogRead(_PinBase); //this gives us the ADC value between 1024 (10bit)
+        int ADCValue = _ADCReader->GetChannelValue(_Channel); //this gives us the ADC value between 1024 (10bit)
 //     VOut = _RefVoltage * ((float)ADCValue / 1024); //this calculates the voltage differential over the thermistor (with respect to ground)
 //     ThermOhms = (VOut * _R1) / (_RefVoltage - VOut); //this finds the current resistance of the thermistor
 //     //now that we have the resistance we can figure out how hot the thing is... by using the smart guys formula

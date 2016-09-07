@@ -52,6 +52,7 @@ GCodeInterpreter::GCodeInterpreter(const QString &FilePath, const int &XArea, co
 
     InitializeMotors();
     InitializeEndStops();
+    InitializeADCConverter();
     InitializeThermalProbes();
     LoadGCode(FilePath);
 }
@@ -135,6 +136,10 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
     }
 }
 
+void GCodeInterpreter::InitializeADCConverter()
+{
+}
+
 void GCodeInterpreter::InitializeEndStops()
 {
 }
@@ -153,11 +158,11 @@ void GCodeInterpreter::InitializeThermalProbes()
                 QStringList Params = Line.split(";");
                 if(Params[0].contains("ExtruderProbe"))
                 {
-                    _ExtProbe = new ThermalProbe(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt());
+                    _ExtProbe = new ThermalProbe(_ADCController, Params[1].toInt(), Params[2].toInt(), Params[3].toInt());
                 }
                 if(Params[0].contains("BedProbe"))
                 {
-                    _BedProbe = new ThermalProbe(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt());
+                    _BedProbe = new ThermalProbe(_ADCController, Params[1].toInt(), Params[2].toInt(), Params[3].toInt());
                 }
             }
         }
@@ -166,8 +171,8 @@ void GCodeInterpreter::InitializeThermalProbes()
     else
     {
         //Debugging Code
-        _BedProbe = new ThermalProbe(0, 100, 0, 0);
-        _ExtProbe = new ThermalProbe(0, 101, 0, 0);
+        _BedProbe = new ThermalProbe(_ADCController, 0, 0, 0);
+        _ExtProbe = new ThermalProbe(_ADCController, 1, 1, 0);
         BedProbeWorker = new ProbeWorker(_BedProbe, 100, this);
         ExtProbeWorker = new ProbeWorker(_ExtProbe, 100, this);
     }

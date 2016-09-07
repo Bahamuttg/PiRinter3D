@@ -22,16 +22,22 @@
 #include <pigpio.h>
 #include <math.h>
 #include <stdio.h>
+#include "adccontroller.h"
 class ThermalProbe
 {
 private:
-    unsigned int  _Channel, _PinBase, _TriggerPin;
+	ADCController *_ADCReader; 
+	//ADC needs the channel to read on. 
+	//It needs to be part of the interpreter so we can control the mutex needed because we have more than one probe.
+	//It will control the waveform and return an int value between 0 - 1024;
+	
+    unsigned int  _Channel,  _TriggerPin;
     float _R1, _DefaultThermistorOHM, _DefaultThermistorTempK, _RefVoltage;
     int _TargetTemp, _ThermistorBeta, _CurrentTemp;
     //Debugging Code
     int FakerCtr;
 public:
-    ThermalProbe(const unsigned int &Channel, const unsigned int &SPIPinBase, const unsigned int &TriggerPin, const int &TargetTemp);
+    ThermalProbe(ADCController *ADC, const unsigned int &Channel, const unsigned int &TriggerPin, const int &TargetTemp);
     ~ThermalProbe();
 
     enum ElementState

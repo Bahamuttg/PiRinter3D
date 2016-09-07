@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     probeconfigdialog.cpp \
     printareaconfigdialog.cpp \
     Lib/pigpio.c \
-    Lib/command.c
+    Lib/command.c \
+    adccontroller.cpp
 
 HEADERS  += mainwindow.h \
     coildialog.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwindow.h \
     printareaconfigdialog.h \
     Lib/pigpio.h \
     Lib/command.h \
-    Lib/custom.cext
+    Lib/custom.cext \
+    adccontroller.h
 
 FORMS    += mainwindow.ui \
     coildialog.ui \

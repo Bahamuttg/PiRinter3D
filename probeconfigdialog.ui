@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>586</width>
+    <width>592</width>
     <height>350</height>
    </rect>
   </property>
@@ -51,42 +51,9 @@
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="leBedElementPin"/>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="mOSIPinLabel">
-                  <property name="text">
-                   <string>MOSI</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="leBedMOSI"/>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="mISOPinLabel">
-                  <property name="text">
-                   <string>MISO</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="leBedMISO"/>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="readDelayLabel">
-                  <property name="text">
-                   <string>Read Delay (MS)</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
-                 <widget class="QSpinBox" name="seBedPWM">
-                  <property name="maximum">
-                   <number>9999</number>
-                  </property>
-                  <property name="value">
-                   <number>100</number>
+                 <widget class="QLineEdit" name="txtBedElementPin">
+                  <property name="inputMask">
+                   <string>00</string>
                   </property>
                  </widget>
                 </item>
@@ -99,6 +66,26 @@
                 </item>
                 <item row="1" column="1">
                  <widget class="QSpinBox" name="seBedADCCh"/>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="readDelayLabel">
+                  <property name="text">
+                   <string>Read Delay (MS)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QSpinBox" name="seBedPWM">
+                  <property name="minimum">
+                   <number>100</number>
+                  </property>
+                  <property name="maximum">
+                   <number>9999</number>
+                  </property>
+                  <property name="value">
+                   <number>100</number>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -272,42 +259,9 @@
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="leBedElementPin_2"/>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="mOSIPinLabel_2">
-                  <property name="text">
-                   <string>MOSI</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="leBedMOSI_2"/>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="mISOPinLabel_2">
-                  <property name="text">
-                   <string>MISO</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="leBedMISO_2"/>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="readDelayMSLabel">
-                  <property name="text">
-                   <string>Read Delay (MS)</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
-                 <widget class="QSpinBox" name="seExtPWM">
-                  <property name="maximum">
-                   <number>9999</number>
-                  </property>
-                  <property name="value">
-                   <number>100</number>
+                 <widget class="QLineEdit" name="txtExtElementPin">
+                  <property name="inputMask">
+                   <string>00</string>
                   </property>
                  </widget>
                 </item>
@@ -320,6 +274,26 @@
                 </item>
                 <item row="1" column="1">
                  <widget class="QSpinBox" name="seExtADCCh"/>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="readDelayMSLabel">
+                  <property name="text">
+                   <string>Read Delay (MS)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QSpinBox" name="seExtPWM">
+                  <property name="minimum">
+                   <number>100</number>
+                  </property>
+                  <property name="maximum">
+                   <number>9999</number>
+                  </property>
+                  <property name="value">
+                   <number>100</number>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -358,7 +332,7 @@
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="seBedRefV_3">
+                 <widget class="QDoubleSpinBox" name="seExtRefV">
                   <property name="value">
                    <double>3.300000000000000</double>
                   </property>
@@ -372,7 +346,7 @@
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QSpinBox" name="seBedR1Ohms_3">
+                 <widget class="QSpinBox" name="seExtR1Ohms">
                   <property name="maximum">
                    <number>99999999</number>
                   </property>
@@ -389,7 +363,7 @@
                  </widget>
                 </item>
                 <item row="2" column="1">
-                 <widget class="QSpinBox" name="seBedBeta_3">
+                 <widget class="QSpinBox" name="seExtBeta">
                   <property name="maximum">
                    <number>99999999</number>
                   </property>
@@ -406,7 +380,7 @@
                  </widget>
                 </item>
                 <item row="3" column="1">
-                 <widget class="QSpinBox" name="seBedProbeOhms_3">
+                 <widget class="QSpinBox" name="seExtProbeOhms">
                   <property name="maximum">
                    <number>99999999</number>
                   </property>
@@ -423,7 +397,7 @@
                  </widget>
                 </item>
                 <item row="4" column="1">
-                 <widget class="QDoubleSpinBox" name="seBedProbeTemp_3">
+                 <widget class="QDoubleSpinBox" name="seExtProbeTemp">
                   <property name="maximum">
                    <double>999.990000000000009</double>
                   </property>
@@ -467,6 +441,158 @@
          </item>
         </layout>
        </widget>
+       <widget class="QWidget" name="tabADC">
+        <attribute name="title">
+         <string>ADC Converter</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string>Analog to Digital Converter GPIO</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <layout class="QFormLayout" name="formLayout_3">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="clockLabel">
+                  <property name="text">
+                   <string>Clock</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="txtClock">
+                  <property name="minimumSize">
+                   <size>
+                    <width>50</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="mISOLabel">
+                  <property name="text">
+                   <string>MISO</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="txtMISO">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="mOSILabel">
+                  <property name="text">
+                   <string>MOSI</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="txtMOSI">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="cSLabel">
+                  <property name="text">
+                   <string>CS</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="txtCS">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="0">
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -494,8 +620,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>340</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -510,8 +636,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>340</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

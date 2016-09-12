@@ -52,7 +52,6 @@ GCodeInterpreter::GCodeInterpreter(const QString &FilePath, const int &XArea, co
 
     InitializeMotors();
     InitializeEndStops();
-    InitializeADCConverter();
     InitializeThermalProbes();
     LoadGCode(FilePath);
 }
@@ -74,6 +73,7 @@ GCodeInterpreter::~GCodeInterpreter()
     BedProbeWorker->wait();
     delete BedProbeWorker;
     delete ExtProbeWorker;
+    delete _ADCController;
 }
 
 void GCodeInterpreter::run()
@@ -138,6 +138,26 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
 
 void GCodeInterpreter::InitializeADCConverter()
 {
+    QFile ProbeConfig("ProbeCfg.ini");
+    if(ProbeConfig.open(QIODevice::ReadOnly | QIODevice::Text ))
+    {
+        QTextStream CfgStream(&ProbeConfig); //load config file
+        while (!CfgStream.atEnd())
+        {
+             QString Line = CfgStream.readLine(); //read one line at a time
+             if(Line.contains("ADCConfig"))
+             {
+                 QStringList Params = Line.split(";");
+                 if(Params[0].contains("ADC1"))
+                 {
+                     _ADCController = new ADCController(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), this);
+                 }
+             }
+        }
+        ProbeConfig.close();
+    }
+    else
+        _ADCController = 0;
 }
 
 void GCodeInterpreter::InitializeEndStops()
@@ -146,6 +166,11 @@ void GCodeInterpreter::InitializeEndStops()
 
 void GCodeInterpreter::InitializeThermalProbes()
 {
+    InitializeADCConverter();
+
+    if(_ADCController == 0)
+        return;
+
     QFile ProbeConfig("ProbeCfg.ini");
     if(ProbeConfig.open(QIODevice::ReadOnly | QIODevice::Text ))
     {
@@ -153,31 +178,29 @@ void GCodeInterpreter::InitializeThermalProbes()
         while (!CfgStream.atEnd())
         {
             QString Line = CfgStream.readLine(); //read one line at a time
-            if(Line.contains("ProbeConfig"))
+            if(Line.contains("ProbeCfg"))
             {
                 QStringList Params = Line.split(";");
-                if(Params[0].contains("ExtruderProbe"))
+                if(Params[0].contains("Extruder"))
                 {
-                    _ExtProbe = new ThermalProbe(_ADCController, Params[1].toInt(), Params[2].toInt(), Params[3].toInt());
+                    _ExtProbe = new ThermalProbe(Params[1].toDouble(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                            Params[5].toDouble(), Params[6].toInt(),  Params[7].toInt(), _ADCController);
+                    ExtProbeWorker = new ProbeWorker(_ExtProbe, Params[8].toInt(), this);
+                    connect(this, SIGNAL(terminated()), ExtProbeWorker, SLOT(terminate()));
                 }
-                if(Params[0].contains("BedProbe"))
+                if(Params[0].contains("Bed"))
                 {
-                    _BedProbe = new ThermalProbe(_ADCController, Params[1].toInt(), Params[2].toInt(), Params[3].toInt());
+                    _BedProbe = new ThermalProbe(Params[1].toDouble(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                            Params[5].toDouble(), Params[6].toInt(),  Params[7].toInt(), _ADCController);
+                    BedProbeWorker = new ProbeWorker(_BedProbe, Params[8].toInt(), this);
+                    connect(this, SIGNAL(terminated()), BedProbeWorker, SLOT(terminate()));
                 }
             }
         }
         ProbeConfig.close();
     }
     else
-    {
-        //Debugging Code
-        _BedProbe = new ThermalProbe(_ADCController, 0, 0, 0);
-        _ExtProbe = new ThermalProbe(_ADCController, 1, 1, 0);
-        BedProbeWorker = new ProbeWorker(_BedProbe, 100, this);
-        ExtProbeWorker = new ProbeWorker(_ExtProbe, 100, this);
-    }
-    connect(this, SIGNAL(terminated()), BedProbeWorker, SLOT(terminate()));
-    connect(this, SIGNAL(terminated()), ExtProbeWorker, SLOT(terminate()));
+        QMessageBox::critical(0, "Error Opening File!", ProbeConfig.errorString(), QMessageBox::Ok);
 }
 
 void GCodeInterpreter::InitializeMotors()
@@ -232,6 +255,8 @@ void GCodeInterpreter::InitializeMotors()
         }
         MotorConfig.close();
     }
+    else
+        QMessageBox::critical(0, "Error Opening File!", MotorConfig.errorString(), QMessageBox::Ok);
 }
 
 void GCodeInterpreter::HomeAllAxis()
@@ -430,14 +455,10 @@ void GCodeInterpreter::ParseLine(QString &GString)
 
         else if (GVals[0].mid(1) == "4" || GVals[0].mid(1) == "04")
         {
-            //                if(GVals[i].contains("S") && !GVals[i].mid(1).isEmpty())
-            //                {
-            //                    //pause for Seconds
-            //                }
-            //                else if(GVals[i].contains("P") && !GVals[i].mid(1).isEmpty())
-            //                {
-            //                    //Pause for Miliseconds
-            //                }
+            if(GVals[1].contains("S") && !GVals[1].mid(1).isEmpty())
+                msleep((GVals[1].mid(1).toInt() * 1000));//Sleep for seconds
+            else if(GVals[1].contains("P") && !GVals[1].mid(1).isEmpty())
+                msleep(GVals[1].mid(1).toInt());//Sleep for miliseconds
         }
 
         else if(GVals[0].mid(1) == "10")
@@ -713,6 +734,8 @@ Be aware that by disabling idle hold during printing, you will get quality issue
 
         else if(GVals[0].mid(1) == "109")
         {
+            if(!ExtProbeWorker->isRunning())
+                ExtProbeWorker->start();
             this->ExtProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
             emit SetExtruderTemp(GVals[1].mid(1).toInt());
             emit ExtruderTemperatureChanged(this->ExtProbeWorker->GetTargetTemp());
@@ -746,6 +769,8 @@ Be aware that by disabling idle hold during printing, you will get quality issue
 
         else if(GVals[0].mid(1) == "190")
         {
+            if(!BedProbeWorker->isRunning())
+                BedProbeWorker->start();
             this->BedProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
             emit SetBedTemp(GVals[1].mid(1).toInt());
             emit BedTemperatureChanged( this->BedProbeWorker->GetTargetTemp());
@@ -825,7 +850,7 @@ Switches to laser mode. This mode enables handling of a laser pin and makes sure
 if laser was enabled or E is increasing. G0 moves should never enable the laser. M3/M5 can be used to enable/disable the laser for moves.
 
  M453: Select CNC Printer Mode
-Usage
+Usage_Clock
     M453
 Example
     M453
@@ -858,9 +883,13 @@ void GCodeInterpreter::ExecutePrintSequence()
         Progress = (int)(LineCounter * (100.00 / _GCODE.length()));
         emit ReportProgress(Progress);
     }
-    _SpeedFactor = .15;
-    MoveToolHead(1, 1, 0, _ExtAxis->Position - 5);
-    emit ReportProgress(100);
+
+    if(!_TerminateThread)
+    {
+         _SpeedFactor = .15;
+        MoveToolHead(1, 1, 0, _ExtAxis->Position - 5);
+        emit ReportProgress(100);
+    }
 }
 //======================================End Private Methods========================================
 
@@ -870,13 +899,6 @@ void GCodeInterpreter::BeginPrint()
     if(!_IsPrinting)
     {
         _IsPrinting = true;
-        //Start the temp pull-up  by spinning up the ThermalProbe threads.
-        emit ProcessingTemps("Spinning up Heaters");
-        emit BedTemperatureChanged( this->BedProbeWorker->GetTargetTemp());
-        emit ExtruderTemperatureChanged(this->ExtProbeWorker->GetTargetTemp());
-        //Fire the threads
-        BedProbeWorker->start();
-        ExtProbeWorker->start();
         ExecutePrintSequence();
         BedProbeWorker->Terminate();
         ExtProbeWorker->Terminate();

@@ -1,7 +1,9 @@
 #include "adccontroller.h"
 #include "pigpio.h"
 #include <QMutex>
-ADCController::ADCController(const unsigned int &Clock, const unsigned int &MOSI, const unsigned int &MISO, const unsigned int &CS, QObject *parent) :
+#include <QDebug>
+
+ADCController::ADCController(const int &Clock, const int &MISO, const int &MOSI, const int &CS, QObject *parent) :
     QObject(parent)
 {
     _Clock = Clock;
@@ -11,68 +13,95 @@ ADCController::ADCController(const unsigned int &Clock, const unsigned int &MOSI
 
     gpioSetMode(_Clock, PI_OUTPUT);
     gpioSetMode(_MOSI, PI_OUTPUT);
+    gpioSetMode(_MISO, PI_INPUT);
     gpioSetMode(_CS, PI_OUTPUT);
+
+    gpioWrite(_Clock, PI_LOW);
+    gpioWrite(_MOSI, PI_LOW);
+    gpioWrite(_CS, PI_LOW);
 }
 
- ADCController::~ADCController()
- {
-        gpioWaveClear();
-        gpioWrite(_Clock, PI_LOW);
-        gpioWrite(_MISO, PI_LOW);
-        gpioWrite(_MOSI, PI_LOW);
- }
+ADCController::~ADCController()
+{
+    gpioWaveClear();
+    gpioWrite(_Clock, PI_LOW);
+    gpioWrite(_MISO, PI_LOW);
+    gpioWrite(_MOSI, PI_LOW);
+    gpioWrite(_CS, PI_LOW);
+}
+
+int ADCController::GetChannelAverage(const unsigned int &Channel, const int &Reads)
+{
+    if(Reads <= 0)
+        return -1;
+    int average =0;
+    for(int i = 0; i < Reads; i++)
+        average += GetChannelValue(Channel);
+    return average / Reads;
+}
 
 int ADCController::GetChannelValue(const unsigned int &Channel)
-{
-    rawSPI =
+{	
+    unsigned int RX = 0, TX = 0;
+    if(!_Mutex.tryLock() || Channel > 7)//we must have exclusive access.
+        return -1;
+
+   /*
+   MCP3004/8 10-bit ADC 4/8 ch_Clockannels
+
+   1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17
+   SB SD D2 D1 D0 NA NA B9 B8 B7 B6, B5 B4 B3 B2 B1 B0
+
+   SB       1
+   SD       0=differential 1=single
+   D2/D1/D0 0-7 channel
+   */
+
+   //Now we need to set up 5 bits of data to push to the ADC.
+   //So we need to take the channel number (three bits) and do a bitwise OR on it with 11000;
+   //This gives us a leading 1 start bit and a 1 for the single-ended read. Then the three following bits
+   //are the channel selection on the ADC.
+   TX = Channel; //0000 0XXX
+   TX |= 0x18; //Start bit + single/diff bit. 0001 1XXX
+   //We only need to send 5 bits so we are going to left shift the bits 3 spaces to the front of the byte.
+   TX <<= 3; //11XX X000
+
+    gpioWrite(_CS, PI_HIGH);//Start with CS high so we can latch the clock.
+    gpioWrite(_Clock, PI_LOW);//start clock on the low side.
+    gpioWrite(_CS, PI_LOW);//Bring CS low now to start bit banging the ADC.
+
+    //Now we need to send those bits to the ADC.
+    for(int i = 0; i < 5; i++)
     {
-       .clk     =  _Clock, // GPIO for SPI clock.
-       .mosi    = _MOSI, // GPIO for SPI MOSI.
-       .ss_pol  =  1, // Slave select resting level.
-       .ss_us   =  1, // Wait 1 micro after asserting slave select.
-       .clk_pol =  0, // Clock resting level.
-       .clk_pha =  0, // 0 sample on first edge, 1 sample on second edge.
-       .clk_us  =  1, // 2 clocks needed per bit so 500 kbps.
-    };
+        //TX starts with a 1? Do a bitwise AND to see if it matches the mask.
+        if(TX & 0x80)// 0x80 is 1000 0000
+            gpioWrite(_MOSI, PI_HIGH);
+        else
+            gpioWrite(_MOSI, PI_LOW);
+        //now shift the bits in the TX byte left 1;
+        TX <<= 1;
+        //bounce the clock and start again...
+        gpioWrite(_Clock, PI_HIGH);
+        gpioDelay(5000);
+        gpioWrite(_Clock, PI_LOW);
+    }
 
-    /*
-    MCP3004/8 10-bit ADC 4/8 channels
+    //Now we need to read in one empty bit, one null bit, and the 10 bits with our value.
+    for(int i = 0; i < 12; i++)
+    {
+        gpioWrite(_Clock, PI_HIGH);
+        gpioDelay(5000);
+        gpioWrite(_Clock, PI_LOW);
+        RX <<= 1; //Shift our bit over so when we read the MISO we can OR the value with RX.
+        if(gpioRead(_MISO))
+            RX |= 0x1;
+    }
 
-    1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17
-    SB SD D2 D1 D0 NA NA B9 B8 B7 B6 B5 B4 B3 B2 B1 B0
+    gpioWrite(_CS, PI_HIGH); //Bring the CS pin back high to end our transaction.
 
-    SB       1
-    SD       0=differential 1=single
-    D2/D1/D0 0-7 channel
-    */
-
-    _Mutex.lock();
-        /*
-                           void getReading(
-                           int adcs,  // Number of attached ADCs.
-                           int *MISO, // The GPIO connected to the ADCs data out.
-                           int OOL,   // Address of first OOL for this reading.
-                           int bytes, // Bytes between readings.
-                           int bits,  // Bits per reading.
-                           char *buf)
-                        {
-                           int i, a, p;
-                           uint32_t level;
-
-                           p = OOL;
-
-                           for (i=0; i<bits; i++)
-                           {
-                              level = rawWaveGetOut(p);
-
-                              for (a=0; a<adcs; a++)
-                              {
-                                 putBitInBytes(i, buf+(bytes*a), level & (1<<MISO[a]));
-                              }
-
-                              p--;
-                           }
-                        }
-         */
     _Mutex.unlock();
+
+    //right shift the first bit because it's the null one. What's left will be our value;
+    RX >>= 1;
+    return RX;
 }

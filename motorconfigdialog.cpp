@@ -119,6 +119,7 @@ void MotorConfigDialog::ReadCfgFile()
                     ui->dsbResEX->setValue(Params[10].toDouble());
                 }
             }
+            MotorCfg.close();
         }
     }
     else

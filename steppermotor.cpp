@@ -37,7 +37,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil3, bool IsHalfStep, string Name)
     //Setup Pin->Coil Mappings
     gpioSetMode(_Coil_1, PI_OUTPUT);
     gpioSetMode(_Coil_3, PI_OUTPUT);
-	
+	//Write pins low to start
     this->_Phase = 0;
     this->Direction = CLOCKWISE;
     this->Position = 0;
@@ -62,7 +62,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHa
     gpioSetMode(_Coil_2, PI_OUTPUT);
     gpioSetMode(_Coil_3, PI_OUTPUT);
     gpioSetMode(_Coil_4, PI_OUTPUT);
-
+	//Write pins low to start
     this->_Phase = 0;
 	this->Direction = CLOCKWISE;
 	this->Position = 0;

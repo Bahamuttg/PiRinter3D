@@ -11,17 +11,17 @@ class ADCController : public QObject
 private:
     Q_OBJECT
 
-    unsigned int _Clock, _CS, _MISO, _MOSI;
+    int _Clock, _CS, _MISO, _MOSI;
 
     QMutex _Mutex;
 
-    rawSPI_t rawSPI();
-
 public:
-    explicit ADCController(const unsigned int &Clock, const unsigned int &MOSI, const unsigned int &MISO, const unsigned int &CS, QObject *parent = 0);
+    explicit ADCController(const int &Clock, const int &MISO, const int &MOSI, const int &CS, QObject *parent = 0);
     ~ADCController();
 
     int GetChannelValue(const unsigned int &Channel);
+
+    int GetChannelAverage(const unsigned int &Channel, const int &Reads);
 
 signals:
 

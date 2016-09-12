@@ -23,25 +23,26 @@
 #include <math.h>
 #include <stdio.h>
 
-ThermalProbe::ThermalProbe(ADCController *ADC, const unsigned int &Channel, const unsigned int &TriggerPin, const int &TargetTemp)
+ThermalProbe::ThermalProbe(const double &RefV, const unsigned int &R1Ohm, const int &Beta, const unsigned int &ProbeOhm,
+        const unsigned int &DefaultTemp, const unsigned int &TriggerPin, const int &ADCCh, ADCController *ADC)
 {
 	_ADCReader = ADC;
-    _Channel = Channel;
+    _Channel = ADCCh;
     _TriggerPin = TriggerPin;
-    _TargetTemp = TargetTemp;
+    _TargetTemp = 0;
     _CurrentTemp = 0;
 
     //Values that can be overridden by get/set.
-    _RefVoltage = 3.3;
-    _R1 = 1000;
-    _DefaultThermistorOHM = 10000;
-    _DefaultThermistorTempK = 298.15;
-    _ThermistorBeta = 3974;
+    _RefVoltage = RefV;
+    _R1 = R1Ohm;
+    _DefaultThermistorOHM = ProbeOhm;
+    _DefaultThermistorTempK = DefaultTemp;
+    _ThermistorBeta = Beta;
     //==================================
 
     gpioSetMode(_TriggerPin, PI_OUTPUT);
-
-    FakerCtr =0;
+	//Write pins low to start
+    gpioWrite(_TriggerPin, PI_LOW);
 }
 
 ThermalProbe::~ThermalProbe()
@@ -51,17 +52,17 @@ ThermalProbe::~ThermalProbe()
 
 int ThermalProbe::MeasureTemp()
 {
-//									NEED A MUTEX FOR THIS METHOD WHEN USED IN WORKER...
-//    int ADCValue = 0;
-//    float VOut = 0, ThermOhms = 0;
+    int ADCValue = 0;
+    float VOut = 0, ThermOhms = 0;
 
-        int ADCValue = _ADCReader->GetChannelValue(_Channel); //this gives us the ADC value between 1024 (10bit)
-//     VOut = _RefVoltage * ((float)ADCValue / 1024); //this calculates the voltage differential over the thermistor (with respect to ground)
-//     ThermOhms = (VOut * _R1) / (_RefVoltage - VOut); //this finds the current resistance of the thermistor
-//     //now that we have the resistance we can figure out how hot the thing is... by using the smart guys formula
-//     _CurrentTemp =
-//             ((_DefaultThermistorTempK * _ThermistorBeta) / log(_DefaultThermistorOHM / ThermOhms) / (_ThermistorBeta / log(_DefaultThermistorOHM / ThermOhms) - _DefaultThermistorTempK) -273.15);
-
+    ADCValue = _ADCReader->GetChannelValue(_Channel); //this gives us the ADC value between 1024 (10bit)
+    if(ADCValue < 1) //Don't want to divide by  0...
+		return _CurrentTemp; //couldn't read this time...
+    VOut = _RefVoltage * ((float)ADCValue / 1024); //this calculates the voltage differential over the thermistor (with respect to ground)
+    ThermOhms = (VOut * _R1) / (_RefVoltage - VOut); //this finds the current resistance of the thermistor
+    //now that we have the resistance we can figure out how hot the thing is... by using the smart guys formula
+    _CurrentTemp =
+            ((_DefaultThermistorTempK * _ThermistorBeta) / log(_DefaultThermistorOHM / ThermOhms) / (_ThermistorBeta / log(_DefaultThermistorOHM / ThermOhms) - _DefaultThermistorTempK) -273.15);
 
     if(_CurrentTemp > _TargetTemp)
     {
@@ -75,13 +76,6 @@ int ThermalProbe::MeasureTemp()
     }
     else
         TriggerElement(ThermalProbe::OFF);
-
-    if(FakerCtr < _TargetTemp + 1)
-        FakerCtr ++;
-    else if(FakerCtr >= _TargetTemp + 1)
-        FakerCtr -= 3;
-    _CurrentTemp = FakerCtr;
-
 	return _CurrentTemp;
 }
 

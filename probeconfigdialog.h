@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QFile>
 #include <QTextStream>
+#include <QMessageBox>
 
 namespace Ui {
 class ProbeConfigDialog;
@@ -26,7 +27,6 @@ public:
     ~ProbeConfigDialog();
 
 private slots:
-
     void on_buttonBox_accepted();
 
 signals:

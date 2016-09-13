@@ -23,7 +23,7 @@
 #include <pigpio.h>
 #include <string>
 
-StepperMotor::StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, bool IsHalfStep, string Name)
+StepperMotor::StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, string Name)
 {
     this->MotorName = Name;
     this->_Coil_1 = Coil1;
@@ -31,7 +31,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, bool IsHalfS
     this->_Coil_3 = Coil3;
     this->_Coil_4 = 0;
     this->_IsNOTGated = true;
-    this->_IsHalfStep = IsHalfStep;
+    this->_IsHalfStep = false;
     this->_Enabled = true;
     this->_IsInverted = false;
     this->_IsRotating = false;
@@ -41,6 +41,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, bool IsHalfS
     gpioSetMode(_Coil_1, PI_OUTPUT);
     gpioSetMode(_Coil_3, PI_OUTPUT);
 	//Write pins low to start
+    CoilsOff();
     this->_Phase = 0;
     this->Direction = CLOCKWISE;
     this->Position = 0;
@@ -67,6 +68,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, int MinPh
     gpioSetMode(_Coil_3, PI_OUTPUT);
     gpioSetMode(_Coil_4, PI_OUTPUT);
 	//Write pins low to start
+    CoilsOff();
     this->_Phase = 0;
 	this->Direction = CLOCKWISE;
 	this->Position = 0;
@@ -198,9 +200,12 @@ void StepperMotor::SetInverted(const bool &Arg)
 void StepperMotor::CoilsOff()
 {
     gpioWrite(_Coil_1, PI_LOW);
-    gpioWrite(_Coil_2, PI_LOW);
     gpioWrite(_Coil_3, PI_LOW);
-    gpioWrite(_Coil_4, PI_LOW);
+    if(!this->_IsNOTGated)
+    {
+        gpioWrite(_Coil_2, PI_LOW);
+        gpioWrite(_Coil_4, PI_LOW);
+    }
 }
 
 void StepperMotor::InvertDirection()

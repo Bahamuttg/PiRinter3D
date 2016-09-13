@@ -1,6 +1,5 @@
 #include "probeconfigdialog.h"
 #include "ui_probeconfigdialog.h"
-#include <QMessageBox>
 
 ProbeConfigDialog::ProbeConfigDialog(QWidget *parent) :
     QDialog(parent),

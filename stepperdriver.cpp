@@ -16,7 +16,7 @@ StepperDriver::StepperDriver(QWidget *parent) :
 
 	ButtonTimer = new QTimer(this);
 	MotorThread = new QThread(this);
-    Motor_1 = new StepperMotor(_A1, _A2, _B1, _B2);
+    Motor_1 = new StepperMotor(_A1, _A2, _B1, _B2, 5);
 	Worker = new MotorWorker(Motor_1);
 	_UseHexInverter = false;
 	_A1 = 0;
@@ -47,7 +47,7 @@ StepperDriver::~StepperDriver()
 void StepperDriver::on_pushButton_2_pressed()
 {
 	Worker->StopThread = false;
-	Motor_1->Rotate(StepperMotor::CTRCLOCKWISE, 1, 50);
+    Motor_1->Rotate(StepperMotor::CTRCLOCKWISE, 1, 5);
 	UpdatePositionLabel(QString::number(Motor_1->Position));
 	qDebug() << "Rotating Counter Clockwise!";
 }
@@ -55,7 +55,7 @@ void StepperDriver::on_pushButton_2_pressed()
 void StepperDriver::on_pushButton_pressed()
 {
 	Worker->StopThread = false;
-	Motor_1->Rotate(StepperMotor::CLOCKWISE, 1, 50);
+    Motor_1->Rotate(StepperMotor::CLOCKWISE, 1, 5);
 	UpdatePositionLabel(QString::number(Motor_1->Position));
 	qDebug() << "Rotating Clockwise!";
 }

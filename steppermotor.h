@@ -60,7 +60,7 @@ public:
     MotorDirection Direction;
     long Position;
     volatile bool HoldPosition;
-    explicit StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, bool IsHalfStep = false, string Name = "Default");
+    explicit StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, string Name = "Default");
     explicit StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, int MinPhaseDelay, bool IsHalfStep = false, string Name = "Default");
     ~StepperMotor();
 

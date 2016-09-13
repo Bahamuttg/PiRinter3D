@@ -65,6 +65,7 @@
     </property>
     <addaction name="action_Stepper_Utility"/>
     <addaction name="action_Probe_Utility"/>
+    <addaction name="actionPre_Heat_Elements"/>
    </widget>
    <widget class="QMenu" name="menu_About">
     <property name="title">
@@ -514,6 +515,11 @@
   <action name="actionConfigure_T_ools">
    <property name="text">
     <string>Configure T&amp;ools</string>
+   </property>
+  </action>
+  <action name="actionPre_Heat_Elements">
+   <property name="text">
+    <string>Pre-&amp;Heat Elements</string>
    </property>
   </action>
  </widget>

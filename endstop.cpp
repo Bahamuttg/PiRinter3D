@@ -22,7 +22,7 @@
 #include "endstop.h"
 #include <QtCore>
 
-EndStop::EndStop()
+EndStop::EndStop(const unsigned int &Pin)
 {
 }
 EndStop::~EndStop()

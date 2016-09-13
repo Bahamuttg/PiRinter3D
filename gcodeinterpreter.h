@@ -126,6 +126,7 @@ public:
     {
         return _IsPrinting;
     }
+
     bool IsPaused()
     {
         return _Stop;

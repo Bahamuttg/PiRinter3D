@@ -1,4 +1,4 @@
-/*
+﻿/*
 * =================BEGIN GPL LICENSE BLOCK=========================================
 * 
 *  This program is free software; you can redistribute it and/or 
@@ -163,6 +163,36 @@ void GCodeInterpreter::InitializeADCConverter()
 
 void GCodeInterpreter::InitializeEndStops()
 {
+    QFile AreaCfg("AreaCfg.ini");
+    if(AreaCfg.open(QIODevice::ReadOnly | QIODevice::Text ))
+    {
+        QTextStream CfgStream(&AreaCfg); //load config file
+        while (!CfgStream.atEnd())
+        {
+            QString Line = CfgStream.readLine(); //read one line at a time
+            if(Line.contains("PrintAreaCfg"))
+            {
+                QStringList Params = Line.split(";");
+                if(Params[0].contains("XArea"))
+                    _XArea = Params[1].toInt();
+                if(Params[0].contains("YArea"))
+                    _YArea = Params[1].toInt();
+            }
+            if(Line.contains("EndStopCfg"))
+            {
+                QStringList Params = Line.split(";");
+                if(Params[0].contains("XStop"))
+                    _XStop = new EndStop(Params[1].toInt());
+                if(Params[0].contains("YStop"))
+                    _YStop = new EndStop(Params[1].toInt());
+                if(Params[0].contains("ZStop"))
+                    _ZStop = new EndStop(Params[1].toInt());
+            }
+        }
+        AreaCfg.close();
+    }
+    else
+        QMessageBox::critical(0, "Error Opening File!", AreaCfg.errorString(), QMessageBox::Ok);
 }
 
 void GCodeInterpreter::InitializeThermalProbes()
@@ -219,7 +249,7 @@ void GCodeInterpreter::InitializeMotors()
                 if(Params[0].contains("XAxis"))
                 {
                     if(Params[6].toInt()) //If it's using HEX inverters
-                        this->_XAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_XAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString());
                     else
                         this->_XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString());
@@ -228,7 +258,7 @@ void GCodeInterpreter::InitializeMotors()
                 if(Params[0].contains("YAxis"))
                 {
                     if(Params[6].toInt())
-                        this->_YAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_YAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString());
                     else
                         this->_YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString());
@@ -237,7 +267,7 @@ void GCodeInterpreter::InitializeMotors()
                 if(Params[0].contains("ZAxis"))
                 {
                     if(Params[6].toInt())
-                        this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString());
                     else
                         this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString());
@@ -246,7 +276,7 @@ void GCodeInterpreter::InitializeMotors()
                 if(Params[0].contains("ExtAxis"))
                 {
                     if(Params[6].toInt())
-                        this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString());
                     else
                         this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString());

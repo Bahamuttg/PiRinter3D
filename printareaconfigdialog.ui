@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Print Area Configuration</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="PiRinter.qrc">
+    <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_138.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_138.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -202,7 +206,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="PiRinter.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

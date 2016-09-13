@@ -29,7 +29,7 @@ class EndStop : public QObject
      Q_OBJECT
 
 public:
-    EndStop();
+    EndStop(const unsigned int &Pin);
     ~EndStop();
 };
 

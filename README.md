@@ -10,5 +10,6 @@ https://youtu.be/uy3GgEZYO7g
 https://youtu.be/NaSzriIJ_i4
 
 PiRinter 3D has produced its first 3D print! (09/13/2016)
+https://youtu.be/IOSjGzJbEpU
 
 This project is still under development and has not been released in the beta stage yet. (09/08/2016)

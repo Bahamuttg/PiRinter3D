@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
-    <height>441</height>
+    <width>573</width>
+    <height>473</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -312,6 +312,20 @@
                      </property>
                      <property name="singleStep">
                       <double>0.010000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="minPhaseDelayLabel">
+                     <property name="text">
+                      <string>Min Phase Delay</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QSpinBox" name="seMinDelayX">
+                     <property name="value">
+                      <number>3</number>
                      </property>
                     </widget>
                    </item>
@@ -624,6 +638,20 @@
                      </property>
                     </widget>
                    </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="minPhaseDelayLabel_2">
+                     <property name="text">
+                      <string>Min Phase Delay</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QSpinBox" name="seMinDelayY">
+                     <property name="value">
+                      <number>3</number>
+                     </property>
+                    </widget>
+                   </item>
                   </layout>
                  </item>
                  <item>
@@ -929,6 +957,20 @@
                      </property>
                     </widget>
                    </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="minPhaseDelayLabel_3">
+                     <property name="text">
+                      <string>Min Phase Delay</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QSpinBox" name="seMinDelayZ">
+                     <property name="value">
+                      <number>3</number>
+                     </property>
+                    </widget>
+                   </item>
                   </layout>
                  </item>
                  <item>
@@ -1231,6 +1273,20 @@
                      </property>
                      <property name="singleStep">
                       <double>0.010000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="minPhaseDelayLabel_4">
+                     <property name="text">
+                      <string>Min Phase Delay</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QSpinBox" name="seMinDelayExt">
+                     <property name="value">
+                      <number>3</number>
                      </property>
                     </widget>
                    </item>

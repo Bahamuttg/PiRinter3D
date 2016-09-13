@@ -1,9 +1,11 @@
 /*
 * =================BEGIN GPL LICENSE BLOCK=========================================
-* 
+*  Author: Thomas George
+*  PiRinter3D Copyright (C) 2016
+*
 *  This program is free software; you can redistribute it and/or 
 *  modify it under the terms of the GNU General Public License 
-*  as published by the Free Software Foundation; either version 2 
+*  as published by the Free Software Foundation; either version 3 
 *  of the License, or (at your option) any later version. 
 * 
 *  This program is distributed in the hope that it will be useful, 
@@ -65,7 +67,7 @@ private:
     int _ExtruderTemp, _BedTemp;
 
     //Print dimensions
-    int _XArea, _YArea;
+    int _XArea, _YArea, _ZArea;
 
     //TODO: Add ofsets for multiple tool heads.
 

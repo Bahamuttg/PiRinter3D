@@ -1,6 +1,8 @@
 /*
 * =================BEGIN GPL LICENSE BLOCK=========================================
-* 
+*  Author: Thomas George
+*  PiRinter3D Copyright (C) 2016
+*
 *  This program is free software; you can redistribute it and/or 
 *  modify it under the terms of the GNU General Public License 
 *  as published by the Free Software Foundation; either version 2 
@@ -19,6 +21,7 @@
 */
 #include "motorcontroller.h"
 #include "steppermotor.h"
+#include <QtCore>
 
 //Returns the intended direction of the motor based off of the int signing.
 StepperMotor::MotorDirection MotorController::GetDirection(const int &Step)
@@ -39,11 +42,8 @@ StepperMotor::MotorDirection MotorController::GetReverseDirection(const int &Ste
 //Control a single stepper motor with a specified speed and direction.
 void MotorController::StepMotor(StepperMotor &Motor, long Steps, const int &MSDelay)
 {
-    if(MSDelay > 0)
-    {
-        Motor.Rotate(GetDirection(Steps), qAbs(Steps), MSDelay);
-        qDebug()<< QString::fromStdString(Motor.MotorName) << " Steps -- " << QString::number(Steps) << " Speed --  " << QString::number(MSDelay);
-    }
+    Motor.Rotate(GetDirection(Steps), qAbs(Steps), MSDelay);
+    qDebug()<< QString::fromStdString(Motor.MotorName) << " Steps -- " << QString::number(Steps) << " Speed --  " << QString::number(MSDelay);
 }
 //Control two stepper motors simultaneously with a specified speed and direction.
 void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor &Motor2, long Steps2, const float &MSDelay)

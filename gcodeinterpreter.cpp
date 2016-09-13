@@ -28,6 +28,7 @@ GCodeInterpreter::GCodeInterpreter(const QString &FilePath, const int &XArea, co
 {
     _XArea = XArea;
     _YArea  = YArea;
+    _ZArea = 1000;
 
     _XAxis = 0;
     _YAxis = 0;
@@ -218,36 +219,36 @@ void GCodeInterpreter::InitializeMotors()
                 if(Params[0].contains("XAxis"))
                 {
                     if(Params[6].toInt()) //If it's using HEX inverters
-                        this->_XAxis = new StepperMotor(Params[1].toInt(),  Params[3].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_XAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
                     else
-                        this->_XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                        this->_XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString());
                     this->_XRes = Params[10].toFloat();
                 }
                 if(Params[0].contains("YAxis"))
                 {
                     if(Params[6].toInt())
-                        this->_YAxis = new StepperMotor(Params[1].toInt(),  Params[3].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_YAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
                     else
-                        this->_YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                        this->_YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString());
                     this->_YRes = Params[10].toFloat();
                 }
                 if(Params[0].contains("ZAxis"))
                 {
                     if(Params[6].toInt())
-                        this->_ZAxis = new StepperMotor(Params[1].toInt(),  Params[3].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
                     else
-                        this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                        this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString());
                     this->_ZRes = Params[10].toFloat();
                 }
                 if(Params[0].contains("ExtAxis"))
                 {
                     if(Params[6].toInt())
-                        this->_ExtAxis = new StepperMotor(Params[1].toInt(),  Params[3].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[9].toInt(), Params[0].split("::")[1].toStdString());
                     else
-                        this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
+                        this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString());
                     this->_ExtRes = Params[10].toFloat();
                 }
@@ -261,7 +262,13 @@ void GCodeInterpreter::InitializeMotors()
 
 void GCodeInterpreter::HomeAllAxis()
 {
-    //Move all Axis to the end stops if they are available.
+
+//    for(int i = 0; i <  )
+//    _XAxis->Position = 0;
+//    _YAxis->Position = 0;
+//    _ZAxis->Position = 0;
+//    _ExtAxis->Position = 0;
+    emit MoveComplete("Homing Complete");
 }
 
 void GCodeInterpreter::ChangeBedTemp(const int &Celsius)

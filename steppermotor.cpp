@@ -1,6 +1,8 @@
 /*
 * =================BEGIN GPL LICENSE BLOCK=========================================
-* 
+*  Author: Thomas George
+*  PiRinter3D Copyright (C) 2016
+*
 *  This program is free software; you can redistribute it and/or 
 *  modify it under the terms of the GNU General Public License 
 *  as published by the Free Software Foundation; either version 2 
@@ -21,7 +23,7 @@
 #include <pigpio.h>
 #include <string>
 
-StepperMotor::StepperMotor(int Coil1, int Coil3, bool IsHalfStep, string Name)
+StepperMotor::StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, bool IsHalfStep, string Name)
 {
     this->MotorName = Name;
     this->_Coil_1 = Coil1;
@@ -33,6 +35,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil3, bool IsHalfStep, string Name)
     this->_Enabled = true;
     this->_IsInverted = false;
     this->_IsRotating = false;
+    this->_MinPhaseDelay = MinPhaseDelay;
 
     //Setup Pin->Coil Mappings
     gpioSetMode(_Coil_1, PI_OUTPUT);
@@ -44,7 +47,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil3, bool IsHalfStep, string Name)
     this->HoldPosition = true;
 }
 
-StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep, string Name)
+StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, int MinPhaseDelay, bool IsHalfStep, string Name)
 {
     this->MotorName = Name;
 	this->_Coil_1 = Coil1;
@@ -56,6 +59,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHa
 	this->_Enabled = true;
 	this->_IsInverted = false;
 	this->_IsRotating = false;
+    this->_MinPhaseDelay = MinPhaseDelay;
 
 	//Setup Pin->Coil Mappings
     gpioSetMode(_Coil_1, PI_OUTPUT);
@@ -80,8 +84,8 @@ void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)
         if(Steps < 0)
             Steps *= -1;
      //this is the minimum speed at which we can switch the coils.
-    if(MS_Delay < 2)
-        MS_Delay = 2;
+    if(MS_Delay < this->_MinPhaseDelay)
+        MS_Delay = this->_MinPhaseDelay;
         for (int i = 0; i < Steps; i++)
 		{
 			PerformStep(Direction);
@@ -92,8 +96,8 @@ void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)
 void StepperMotor::Rotate(MotorDirection Direction, int MS_Delay)
 {
     //this is the minimum speed at which we can switch the coils.
-    if(MS_Delay < 2)
-        MS_Delay = 2;
+    if(MS_Delay < this->_MinPhaseDelay)
+        MS_Delay = this->_MinPhaseDelay;
 	//This method will block indefinitely.
 	//It's up to the programmer to thread it properly.
 	while (_Enabled)

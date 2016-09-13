@@ -1,9 +1,11 @@
 /*
 * =================BEGIN GPL LICENSE BLOCK=========================================
-* 
+*  Author: Thomas George
+*  PiRinter3D Copyright (C) 2016
+*
 *  This program is free software; you can redistribute it and/or 
 *  modify it under the terms of the GNU General Public License 
-*  as published by the Free Software Foundation; either version 2 
+*  as published by the Free Software Foundation; either version 3 
 *  of the License, or (at your option) any later version. 
 * 
 *  This program is distributed in the hope that it will be useful, 
@@ -36,7 +38,8 @@ private:
     unsigned int _Coil_3;
     unsigned int _Coil_4;
     unsigned int _Phase;
-
+	unsigned int _MinPhaseDelay;
+	
 	volatile bool _IsNOTGated;
     volatile bool _IsHalfStep;
     volatile bool _Enabled;
@@ -57,8 +60,8 @@ public:
     MotorDirection Direction;
     long Position;
     volatile bool HoldPosition;
-    explicit StepperMotor(int Coil1, int Coil3, bool IsHalfStep = false, string Name = "Default");
-    explicit StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep = false, string Name = "Default");
+    explicit StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, bool IsHalfStep = false, string Name = "Default");
+    explicit StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, int MinPhaseDelay, bool IsHalfStep = false, string Name = "Default");
     ~StepperMotor();
 
     void Rotate(MotorDirection Direction, long Steps, int MS_Delay);

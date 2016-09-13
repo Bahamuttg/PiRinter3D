@@ -1,9 +1,11 @@
 /*
 * =================BEGIN GPL LICENSE BLOCK=========================================
-* 
+*  Author: Thomas George
+*  PiRinter3D Copyright (C) 2016
+*
 *  This program is free software; you can redistribute it and/or 
 *  modify it under the terms of the GNU General Public License 
-*  as published by the Free Software Foundation; either version 2 
+*  as published by the Free Software Foundation; either version 3 
 *  of the License, or (at your option) any later version. 
 * 
 *  This program is distributed in the hope that it will be useful, 
@@ -56,10 +58,12 @@ int ThermalProbe::MeasureTemp()
     float VOut = 0, ThermOhms = 0;
 
     ADCValue = _ADCReader->GetChannelValue(_Channel); //this gives us the ADC value between 1024 (10bit)
-    if(ADCValue < 1) //Don't want to divide by  0...
+    if(ADCValue <= 0 || _RefVoltage <= 0) //Don't want to divide by  0...
 		return _CurrentTemp; //couldn't read this time...
     VOut = _RefVoltage * ((float)ADCValue / 1024); //this calculates the voltage differential over the thermistor (with respect to ground)
-    ThermOhms = (VOut * _R1) / (_RefVoltage - VOut); //this finds the current resistance of the thermistor
+	if(VOut == _RefVoltage) //need to make sure we don't divide by zero again.
+		return _CurrentTemp;
+	ThermOhms = (VOut * _R1) / (_RefVoltage - VOut); //this finds the current resistance of the thermistor
     //now that we have the resistance we can figure out how hot the thing is... by using the smart guys formula
     _CurrentTemp =
             ((_DefaultThermistorTempK * _ThermistorBeta) / log(_DefaultThermistorOHM / ThermOhms) / (_ThermistorBeta / log(_DefaultThermistorOHM / ThermOhms) - _DefaultThermistorTempK) -273.15);

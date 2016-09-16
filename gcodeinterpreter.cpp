@@ -26,26 +26,27 @@
 GCodeInterpreter::GCodeInterpreter(const QString &FilePath, const int &XArea, const int &YArea, QObject *parent)
     :QThread(parent)
 {
-    _XArea = XArea;
-    _YArea  = YArea;
-    _ZArea = 1000;
-
+    //===========Objects================
     _XAxis = 0;
     _YAxis = 0;
     _ZAxis = 0;
     _ExtAxis = 0;
+
     _ExtProbe = 0;
     _BedProbe = 0;
     BedProbeWorker = 0;
     ExtProbeWorker = 0;
-    _XStop = 0;
-    _YStop = 0;
-    _ZStop = 0;
+    //=========== END Objects================
 
-    _ExtRes = .20;
-    _XRes = .20;
-    _YRes = .20;
-    _ZRes = .20;
+    _XArea = XArea;
+    _YArea  = YArea;
+    _ZArea = 1000;
+    _ExtRes = 0;
+    _XRes = 0;
+    _YRes = 0;
+    _ZRes = 0;
+
+    _SpeedFactor = .15;
 
     _IsPrinting = false;
     _Stop = false;
@@ -65,9 +66,7 @@ GCodeInterpreter::~GCodeInterpreter()
     delete _ExtAxis;
     delete _ExtProbe;
     delete _BedProbe;
-    delete _XStop;
-    delete _YStop;
-    delete _ZStop;
+
     BedProbeWorker->Terminate();
     ExtProbeWorker->Terminate();
     ExtProbeWorker->wait();
@@ -84,6 +83,10 @@ void GCodeInterpreter::run()
 //======================================Private Methods============================================
 void GCodeInterpreter::LoadGCode(const QString &FilePath)
 {
+
+    //TODO: ZAxis tracking for Print recovery. Possibly a QList  of Z Move indexes so we can reset the loop counter.
+    //Home motors and/or offer up dialog for head positioning then restart layer when triggered.
+
     bool IsTooBig = false;
     QFile PrintFile(FilePath);
     if(PrintFile.open(QIODevice::ReadOnly | QIODevice::Text ))
@@ -93,42 +96,24 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
         {
             QString Line = Stream.readLine();
             if(!Line.startsWith(";") && !Line.isEmpty())//Weed out the comment lines and empties.
+            {
                 _GCODE << Line.split(";")[0];//Again weed out any comments, we want just raw GCODE.
 
-            /*
-             * M190 S60 ; set bed temperature
-             * M104 S205 ; set temperature
-             */
-            if(this->BedProbeWorker->GetTargetTemp() == 0 || this->ExtProbeWorker->GetTargetTemp() == 0)
-            {
-                if(Line.split(" ")[0].toUpper().startsWith("M"))
+                //Validate the GCODE and make sure the print isn't too big to fit on the bed.
+                if (Line.split(" ")[0].toUpper().startsWith("G") && !IsTooBig)
                 {
-                    QStringList MCode = Line.split(" ");
-                    if(MCode[0].toUpper() == "M190")
+                    QList<Coordinate> Coords = GetCoordValues(Line);
+                    float XVal =0, YVal =0;
+                    for(int i =0; i < Coords.length(); i++)
                     {
-                        this->BedProbeWorker->SetTargetTemp(MCode[1].mid(1).toInt());
-                        emit BedTemperatureChanged( this->BedProbeWorker->GetTargetTemp());
+                        if(Coords[i].Name == "XAxis")
+                            XVal = Coords[i].value;
+                        if(Coords[i].Name == "YAxis")
+                            YVal = Coords[i].value;
                     }
-                    if(MCode[0].toUpper() == "M104")
-                    {
-                        this->ExtProbeWorker->SetTargetTemp(MCode[1].mid(1).toInt());
-                        emit ExtruderTemperatureChanged(this->ExtProbeWorker->GetTargetTemp());
-                    }
+                    if(XVal > _XArea || YVal > _YArea)
+                        IsTooBig = true;
                 }
-            }
-            else if (Line.split(" ")[0].toUpper().startsWith("G") && !IsTooBig)
-            {
-                QList<Coordinate> Coords = GetCoordValues(Line);
-                float XVal =0, YVal =0;
-                for(int i =0; i < Coords.length(); i++)
-                {
-                    if(Coords[i].Name == "XAxis")
-                        XVal = Coords[i].value;
-                    if(Coords[i].Name == "YAxis")
-                        YVal = Coords[i].value;
-                }
-                if(XVal > _XArea || YVal > _YArea)
-                    IsTooBig = true;
             }
         }
         PrintFile.close();
@@ -182,11 +167,11 @@ void GCodeInterpreter::InitializeEndStops()
             {
                 QStringList Params = Line.split(";");
                 if(Params[0].contains("XStop"))
-                    _XStop = new EndStop(Params[1].toInt());
+                    _XAxis->SetEndstop(Params[1].toInt());
                 if(Params[0].contains("YStop"))
-                    _YStop = new EndStop(Params[1].toInt());
+                    _YAxis->SetEndstop(Params[1].toInt());
                 if(Params[0].contains("ZStop"))
-                    _ZStop = new EndStop(Params[1].toInt());
+                    _ZAxis->SetEndstop(Params[1].toInt());
             }
         }
         AreaCfg.close();
@@ -292,12 +277,44 @@ void GCodeInterpreter::InitializeMotors()
 
 void GCodeInterpreter::HomeAllAxis()
 {
+    bool Done = false;
+    while(!Done)
+    {
+        Done = true;
+        if(_XAxis->HasEndstop() && !_XAxis->IsAgainstStop())
+        {
+            _XAxis->Rotate(StepperMotor::CTRCLOCKWISE, _XAxis->MaxSpeed());
+            Done = false;
+        }
 
-//    for(int i = 0; i <  )
-//    _XAxis->Position = 0;
-//    _YAxis->Position = 0;
-//    _ZAxis->Position = 0;
-//    _ExtAxis->Position = 0;
+        if(_YAxis->HasEndstop() && !_YAxis->IsAgainstStop())
+        {
+            _YAxis->Rotate(StepperMotor::CTRCLOCKWISE, _XAxis->MaxSpeed());
+             Done = false;
+        }
+
+        if(_ZAxis->HasEndstop() && !_ZAxis->IsAgainstStop())
+        {
+            _ZAxis->Rotate(StepperMotor::CTRCLOCKWISE, _XAxis->MaxSpeed());
+             Done = false;
+        }
+
+        if(_ExtAxis->HasEndstop() && !_ExtAxis->IsAgainstStop())
+        {
+            _ExtAxis->Rotate(StepperMotor::CTRCLOCKWISE, _XAxis->MaxSpeed());
+             Done = false;
+        }
+    }
+    //Get them off of the stops.
+    while(!_XAxis->MoveFromEndstop());
+    while(!_YAxis->MoveFromEndstop());
+    while(!_ZAxis->MoveFromEndstop());
+    while(!_ExtAxis->MoveFromEndstop());
+    //Reset the positions of the motors to the origins.
+    _XAxis->Position = 0;
+    _YAxis->Position = 0;
+    _ZAxis->Position = 0;
+    _ExtAxis->Position = 0;
     emit MoveComplete("Homing Complete");
 }
 
@@ -401,6 +418,7 @@ void GCodeInterpreter::ParseLine(QString &GString)
             if(GVals[i].contains("F") && !GVals[i].mid(1).isEmpty())
                 //convert to units per second
                 _SpeedFactor =  GVals[i].mid(1).toFloat() / 60000;
+        //TODO: Setup for speed multiplier from user input from UI.
     }
 
     if(GString.startsWith("G"))
@@ -896,6 +914,7 @@ Output
 Switches to CNC mode. In this mode M3/M4/M5 control the pins defined for the milling device.
              */
     }
+
     emit EndLineProcessing("Line Processed");
 }
 
@@ -923,8 +942,9 @@ void GCodeInterpreter::ExecutePrintSequence()
 
     if(!_TerminateThread)
     {
-         _SpeedFactor = .15;
-        MoveToolHead(1, 1, 0, _ExtAxis->Position - 5);
+        _SpeedFactor = .15;
+         //Extend the bed so we can remove the part.
+        MoveToolHead(1, _YArea, 0, _ExtAxis->Position - 5);
         emit ReportProgress(100);
     }
 }

@@ -58,5 +58,4 @@ INCLUDEPATH += /usr/include
 
 
 RESOURCES += \
-    StepperDriverRsc.qrc \
     PiRinter.qrc

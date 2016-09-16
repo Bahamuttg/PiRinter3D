@@ -33,6 +33,7 @@
 #include <QList>
 #include <QObject>
 #include <QThread>
+#include <QList>
 
 struct Coordinate
 {
@@ -47,16 +48,23 @@ private:
 
     MotorController _Controller;
 
+    //GCODE entries
     QStringList _GCODE;
+
+    //List of Z Axis only moves. For 3D prints only. Disable for CNC mode.
+    QList<int> _Layers;
+    //TODO: ZAxis tracking for Print recovery. Possibly a QList  of Z Move indexes so we can reset the loop counter.
+    //Home motors and/or offer up dialog for head positioning then restart layer when triggered.
 
     //Define Stepper Motors.
     StepperMotor *_XAxis, *_YAxis, *_ZAxis, *_ExtAxis;
 
-    EndStop *_XStop, *_YStop, *_ZStop;
+    //EndStop *_XStop, *_YStop, *_ZStop; //May do something fancy with end stops someday.
 
     ThermalProbe *_BedProbe, *_ExtProbe;
-	
+    //Need a pointer so we can share this resource with the probes.
     ADCController *_ADCController;
+
     //Get Resolutions from the main ui configuration.
     float _XRes, _YRes, _ZRes, _ExtRes;
 
@@ -69,7 +77,7 @@ private:
     //Print dimensions
     int _XArea, _YArea, _ZArea;
 
-    //TODO: Add ofsets for multiple tool heads.
+    //TODO: Add offsets for multiple tool heads.
 
     bool _TerminateThread, _Stop, _IsPrinting;
 

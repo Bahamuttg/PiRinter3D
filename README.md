@@ -5,10 +5,15 @@ This software is a full featured GCODE interpreter designed to run on any Raspbe
 
 Features:
 Print simulation mode
+
 Failed print recovery
+
 Supports billions of lines of GCODE per print!
+
 Dynamic layer navigation
+
 Supports hundreds of hardware configurations
+
 
 http://www.pirinter3d.com
 

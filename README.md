@@ -3,17 +3,12 @@ Full featured all in one 3D printer/CNC interface for a Raspberry Pi.
 
 This software is a full featured GCODE interpreter designed to run on any Raspberry Pi and replace the need for a separate PC and Arduino setup. It features a C++ based GUI, heater pulse width modulation, print simulation mode, and pause/resume style functionalities. Easily converts into CNC and Laser Cutter/Engraver mode for use on all 3D printer types.
 
-Features:
-Print simulation mode
-
-Failed print recovery
-
-Supports billions of lines of GCODE per print!
-
-Dynamic layer navigation
-
-Supports hundreds of hardware configurations
-
+Features:</br>
+Print simulation mode</br>
+Failed print recovery</br>
+Supports billions of lines of GCODE per print!</br>
+Dynamic layer navigation</br>
+Supports hundreds of hardware configurations</br>
 
 http://www.pirinter3d.com
 

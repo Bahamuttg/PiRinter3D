@@ -23,7 +23,7 @@
 #include "motorcontroller.h"
 #include <QMessageBox>
 
-GCodeInterpreter::GCodeInterpreter(const QString &FilePath, const int &XArea, const int &YArea, QObject *parent)
+GCodeInterpreter::GCodeInterpreter(const QString &FilePath, QObject *parent)
     :QThread(parent)
 {
     //===========Objects================
@@ -38,9 +38,6 @@ GCodeInterpreter::GCodeInterpreter(const QString &FilePath, const int &XArea, co
     ExtProbeWorker = 0;
     //=========== END Objects================
 
-    _XArea = XArea;
-    _YArea  = YArea;
-    _ZArea = 1000;
     _ExtRes = 0;
     _XRes = 0;
     _YRes = 0;
@@ -234,37 +231,37 @@ void GCodeInterpreter::InitializeMotors()
                 if(Params[0].contains("XAxis"))
                 {
                     if(Params[6].toInt()) //If it's using HEX inverters
-                        this->_XAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_XAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     else
                         this->_XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
-                            Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     this->_XRes = Params[10].toFloat();
                 }
                 if(Params[0].contains("YAxis"))
                 {
                     if(Params[6].toInt())
-                        this->_YAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_YAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     else
                         this->_YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
-                            Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     this->_YRes = Params[10].toFloat();
                 }
                 if(Params[0].contains("ZAxis"))
                 {
                     if(Params[6].toInt())
-                        this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     else
                         this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
-                            Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     this->_ZRes = Params[10].toFloat();
                 }
                 if(Params[0].contains("ExtAxis"))
                 {
                     if(Params[6].toInt())
-                        this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString());
+                        this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     else
                         this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
-                            Params[9].toInt(), Params[0].split("::")[1].toStdString());
+                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     this->_ExtRes = Params[10].toFloat();
                 }
             }
@@ -277,8 +274,8 @@ void GCodeInterpreter::InitializeMotors()
 
 void GCodeInterpreter::HomeAllAxis()
 {
-    bool Done = false;
-    while(!Done)
+    bool Done;
+    do
     {
         Done = true;
         if(_XAxis->HasEndstop() && !_XAxis->IsAgainstStop())
@@ -289,32 +286,32 @@ void GCodeInterpreter::HomeAllAxis()
 
         if(_YAxis->HasEndstop() && !_YAxis->IsAgainstStop())
         {
-            _YAxis->Rotate(StepperMotor::CTRCLOCKWISE, _XAxis->MaxSpeed());
+            _YAxis->Rotate(StepperMotor::CTRCLOCKWISE, _YAxis->MaxSpeed());
              Done = false;
         }
 
         if(_ZAxis->HasEndstop() && !_ZAxis->IsAgainstStop())
         {
-            _ZAxis->Rotate(StepperMotor::CTRCLOCKWISE, _XAxis->MaxSpeed());
+            _ZAxis->Rotate(StepperMotor::CTRCLOCKWISE, _ZAxis->MaxSpeed());
              Done = false;
         }
 
         if(_ExtAxis->HasEndstop() && !_ExtAxis->IsAgainstStop())
         {
-            _ExtAxis->Rotate(StepperMotor::CTRCLOCKWISE, _XAxis->MaxSpeed());
+            _ExtAxis->Rotate(StepperMotor::CTRCLOCKWISE, _ExtAxis->MaxSpeed());
              Done = false;
         }
-    }
+    } while(!Done);
     //Get them off of the stops.
     while(!_XAxis->MoveFromEndstop());
     while(!_YAxis->MoveFromEndstop());
     while(!_ZAxis->MoveFromEndstop());
     while(!_ExtAxis->MoveFromEndstop());
-    //Reset the positions of the motors to the origins.
-    _XAxis->Position = 0;
-    _YAxis->Position = 0;
-    _ZAxis->Position = 0;
-    _ExtAxis->Position = 0;
+//    //Reset the positions of the motors to the origins.
+//    _XAxis->Position = 0;
+//    _YAxis->Position = 0;
+//    _ZAxis->Position = 0;
+//    _ExtAxis->Position = 0;
     emit MoveComplete("Homing Complete");
 }
 
@@ -481,7 +478,7 @@ void GCodeInterpreter::ParseLine(QString &GString)
             #[Dx,Dy]=e1*cos(theta)+e2*sin(theta), theta is the open angle
 
             costheta=(Dx*e1[0]+Dy*e1[1])/r**2;
-            sintheta=(Dx*e2[0]+Dy*e2[1])/r**2;        #theta is the angule spanned by the circular interpolation curve
+            sintheta=(Dx*e2[0]+Dy*e2[1])/r**2;        #theta is the angle spanned by the circular interpolation curve
 
             if costheta>1:  # there will always be some numerical errors! Make sure abs(costheta)<=1
                 costheta=1;
@@ -567,11 +564,15 @@ void GCodeInterpreter::ParseLine(QString &GString)
         }
 
         else if(GVals[0].mid(1) == "90") //Set to absolute positioning
+		{	
+            emit ProcessingMoves("Using Absolute Positioning");
             emit PrintStarted();
-
+		}
+	
         else if(GVals[0].mid(1) == "91") //Set to relative positioning
         {
-            //compute and set relative offsets for all axis.
+            emit ProcessingMoves("Using Relative Positioning");
+            emit PrintStarted();
         }
 
         else if(GVals[0].mid(1) == "92")
@@ -624,7 +625,7 @@ void GCodeInterpreter::ParseLine(QString &GString)
              */
         }
 
-        else if(GVals[0].mid(1) == "161")
+        else if(GVals[0].mid(1) == "162")
         {
             /*
              Parameters
@@ -772,8 +773,8 @@ Be aware that by disabling idle hold during printing, you will get quality issue
              */
         else if(GVals[0].mid(1) == "104")
         {
-            this->ExtProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
-            emit SetExtruderTemp(GVals[1].mid(1).toInt());
+            _ExtruderTemp = GVals[1].mid(1).toInt();
+            SetExtruderTemp(GVals[1].mid(1).toInt());
             emit ExtruderTemperatureChanged(this->ExtProbeWorker->GetTargetTemp());
         }
 
@@ -791,8 +792,8 @@ Be aware that by disabling idle hold during printing, you will get quality issue
         {
             if(!ExtProbeWorker->isRunning())
                 ExtProbeWorker->start();
-            this->ExtProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
-            emit SetExtruderTemp(GVals[1].mid(1).toInt());
+            _ExtruderTemp = GVals[1].mid(1).toInt();
+            SetExtruderTemp(GVals[1].mid(1).toInt());
             emit ExtruderTemperatureChanged(this->ExtProbeWorker->GetTargetTemp());
             //We need to wait until the temp is reached before proceeding...
             emit ProcessingTemps("Spinning up Heaters");
@@ -816,8 +817,8 @@ Be aware that by disabling idle hold during printing, you will get quality issue
 
         else if(GVals[0].mid(1) == "140")
         {
-            this->BedProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
-            emit SetBedTemp(GVals[1].mid(1).toInt());
+            _BedTemp = GVals[1].mid(1).toInt();
+            SetBedTemp(GVals[1].mid(1).toInt());
             emit BedTemperatureChanged( this->BedProbeWorker->GetTargetTemp());
 
         }
@@ -826,8 +827,9 @@ Be aware that by disabling idle hold during printing, you will get quality issue
         {
             if(!BedProbeWorker->isRunning())
                 BedProbeWorker->start();
-            this->BedProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
-            emit SetBedTemp(GVals[1].mid(1).toInt());
+            _BedTemp = GVals[1].mid(1).toInt();
+           //this->BedProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
+            SetBedTemp(GVals[1].mid(1).toInt());
             emit BedTemperatureChanged( this->BedProbeWorker->GetTargetTemp());
             //We need to wait until the temp is reached before proceeding...
             emit ProcessingTemps("Spinning up Heaters");
@@ -944,7 +946,7 @@ void GCodeInterpreter::ExecutePrintSequence()
     {
         _SpeedFactor = .15;
          //Extend the bed so we can remove the part.
-        MoveToolHead(1, _YArea, 0, _ExtAxis->Position - 5);
+        MoveToolHead(1, _YArea - 50, 0, _ExtAxis->Position - 5);
         emit ReportProgress(100);
     }
 }

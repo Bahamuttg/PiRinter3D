@@ -43,6 +43,10 @@ public:
 
 
 private slots:
+
+    void on_BedTempOverride(bool Arg);
+    void on_ExtTempOverride(bool Arg);
+
     void on_action_Stepper_Utility_triggered();
 
     void on_action_Exit_triggered();

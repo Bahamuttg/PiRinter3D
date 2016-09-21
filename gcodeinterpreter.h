@@ -71,7 +71,7 @@ private:
     //Get speed factor from main ui config
     float _SpeedFactor;
 
-    //Extruder and Bed Temp values
+    //Extruder and Bed target temperature values from GCODE
     int _ExtruderTemp, _BedTemp;
 
     //Print dimensions
@@ -98,7 +98,7 @@ protected:
     void run();
 
 public:
-    GCodeInterpreter(const QString &FilePath, const int &XArea, const int & YArea, QObject * parent = 0);
+    GCodeInterpreter(const QString &FilePath, QObject * parent = 0);
     ~GCodeInterpreter();
 
     ProbeWorker *BedProbeWorker, *ExtProbeWorker;
@@ -116,7 +116,6 @@ public:
     }
     void SetExtruderTemp(const int &CelsiusValue)
     {
-        this->_ExtruderTemp = CelsiusValue;
         this->ExtProbeWorker->SetTargetTemp(CelsiusValue);
     }
 
@@ -126,7 +125,6 @@ public:
     }
     void SetBedTemp(const int &CelsiusValue)
     {
-        this->_BedTemp = CelsiusValue;
         this->BedProbeWorker->SetTargetTemp(CelsiusValue);
     }
 
@@ -143,6 +141,16 @@ public:
     bool IsFinished()
     {
         return _TerminateThread;
+    }
+
+    int GetBedGcodeTemp()
+    {
+        return _BedTemp;
+    }
+
+    int GetExtGcodeTemp()
+    {
+        return _ExtruderTemp;
     }
 
 public slots:

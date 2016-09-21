@@ -99,106 +99,25 @@
              </property>
             </widget>
            </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="maxHeightLabel">
+             <property name="text">
+              <string>Max Height</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QSpinBox" name="seMaxHeight"/>
+           </item>
           </layout>
          </item>
         </layout>
        </widget>
        <widget class="QWidget" name="tabEndStops">
         <attribute name="title">
-         <string>End Stop Config</string>
+         <string>Movement Modifiers</string>
         </attribute>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="1">
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="0">
-          <layout class="QFormLayout" name="formLayout_2">
-           <item row="0" column="0">
-            <widget class="QLabel" name="xAxisStopLabel">
-             <property name="text">
-              <string>X Axis Stop</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="txtXStop">
-             <property name="maximumSize">
-              <size>
-               <width>50</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="inputMask">
-              <string>00</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="yAxisStopLabel">
-             <property name="text">
-              <string>Y Axis Stop</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="txtYStop">
-             <property name="maximumSize">
-              <size>
-               <width>50</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="inputMask">
-              <string>00</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="zAxisStopLabel">
-             <property name="text">
-              <string>Z Axis Stop</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="txtZStop">
-             <property name="maximumSize">
-              <size>
-               <width>50</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="inputMask">
-              <string>00</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="0">
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
+        <layout class="QGridLayout" name="gridLayout_3"/>
        </widget>
       </widget>
      </item>

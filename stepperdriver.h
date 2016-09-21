@@ -7,7 +7,9 @@
 #include "ui_stepperdriver.h"
 #include <QtCore>
 #include <QPushButton>
-#include "coildialog.h"
+#include <QTimer>
+#include <QThread>
+#include <QMessageBox>
 
 namespace Ui {
 class StepperDriver;
@@ -20,16 +22,11 @@ private:
 
     Q_OBJECT
     bool StopThread;
-    bool _UseHexInverter;
-    unsigned int _A1;
-    unsigned int _A2;
-    unsigned int _B1;
-    unsigned int _B2;
 
     void UpdateLabels();
 
 public:
-    StepperMotor *Motor_1;
+    StepperMotor *Motor;
     QTimer *ButtonTimer;
     QThread *MotorThread;
     MotorWorker *Worker;
@@ -45,23 +42,11 @@ private slots:
 
     void errorString(QString);
 
-    void ResetThreadStop();
-
     void UpdatePositionLabel(QString);
 
     void UpdateMotorSettings();
 
-    void on_action_Exit_triggered();
-
-    void on_action_Configure_Coils_triggered();
-
-    void on_actionUse_NOT_Gates_toggled(bool arg1);
-
-    void on_action_Reset_MotorPosition_triggered();
-
-    void on_action_Turn_Off_Coils_triggered();
-
-    void on_action_Enable_Motor_triggered();
+    void InitializeMotor(const QString &MotorName);
 
 signals:
     void CoilSettingsChanged();

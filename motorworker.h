@@ -43,11 +43,9 @@ public:
 public slots:
     void DoWork()
     {
-        qDebug()<< "Firing Thread!";
         while (!this->StopThread)
         {
-            _Motor->Rotate(_Motor->Direction, 1, StepDelay);
-            qDebug()<< "Stepping";
+            _Motor->Rotate(_Motor->Direction, 1, _Motor->MaxSpeed());
             emit ProgressChanged(QString::number(_Motor->Position));
         }
         this->StopThread = false;
@@ -56,7 +54,6 @@ public slots:
 
     void Stop()
     {
-        qDebug()<< "Setting Stop Flag!";
         this->StopThread = true;
     }
 

@@ -6,7 +6,6 @@
 #include <QTimer>
 #include <QThread>
 #include <QDebug>
-#include "coildialog.h"
 
 StepperDriver::StepperDriver(QWidget *parent) :
     QMainWindow(parent),
@@ -15,15 +14,16 @@ StepperDriver::StepperDriver(QWidget *parent) :
     ui->setupUi(this);
 
     ButtonTimer = new QTimer(this);
-    MotorThread = new QThread(this);
-    Motor_1 = new StepperMotor(_A1, _A2, _B1, _B2, 5);
-    Worker = new MotorWorker(Motor_1);
-    _UseHexInverter = false;
-    _A1 = 0;
-    _A2 = 0;
-    _B1 = 0;
-    _B2 = 0;
-    ButtonTimer->setInterval(1000);
+    MotorThread  = 0;
+    Motor = 0;
+    Worker = 0;
+
+    ButtonTimer->setInterval(300);
+
+    connect (ui->rbX, SIGNAL(toggled(bool)), this, SLOT(UpdateMotorSettings()));
+    connect (ui->rbY, SIGNAL(toggled(bool)), this, SLOT(UpdateMotorSettings()));
+    connect (ui->rbX, SIGNAL(toggled(bool)), this, SLOT(UpdateMotorSettings()));
+    connect (ui->rbExt, SIGNAL(toggled(bool)), this, SLOT(UpdateMotorSettings()));
 
     //Link the Timer elapsed to the Timer stop so we can use it again.
     connect(ButtonTimer, SIGNAL(timeout()), ButtonTimer, SLOT(stop()));
@@ -34,6 +34,8 @@ StepperDriver::StepperDriver(QWidget *parent) :
     //Link the Buttons released signal to the ButtonTimer stop.
     connect(ui->pushButton, SIGNAL(released()), ButtonTimer, SLOT(stop()));
     connect(ui->pushButton_2, SIGNAL(released()), ButtonTimer, SLOT(stop()));
+    //Setup a default motor;
+    UpdateMotorSettings();
 }
 
 StepperDriver::~StepperDriver()
@@ -41,75 +43,65 @@ StepperDriver::~StepperDriver()
     delete ui;
     delete MotorThread;
     delete ButtonTimer;
-    delete Motor_1;
+    delete Motor;
 }
 
-void StepperDriver::on_pushButton_2_pressed()
+void StepperDriver::InitializeMotor(const QString &MotorName)
 {
-    Worker->StopThread = false;
-    Motor_1->Rotate(StepperMotor::CTRCLOCKWISE, 1, 5);
-    UpdatePositionLabel(QString::number(Motor_1->Position));
-    qDebug() << "Rotating Counter Clockwise!";
-}
-
-void StepperDriver::on_pushButton_pressed()
-{
-    Worker->StopThread = false;
-    Motor_1->Rotate(StepperMotor::CLOCKWISE, 1, 5);
-    UpdatePositionLabel(QString::number(Motor_1->Position));
-    qDebug() << "Rotating Clockwise!";
-}
-
-void StepperDriver::ResetThreadStop()
-{
-    Worker->StopThread = false;
-    this->StopThread = false;
-}
-
-void StepperDriver::errorString(QString err)
-{
-    qDebug() << err;
-}
-
-void StepperDriver::on_pushButton_released()
-{
-    qDebug() << "Button Released!";
-    Worker->Stop();
-}
-
-void StepperDriver::on_pushButton_2_released()
-{
-    qDebug() << "Button Released!";
-    Worker->Stop();
-}
-
-void StepperDriver::UpdatePositionLabel(QString Arg)
-{
-    ui->lblMotorPosition->setText(Arg);
-}
-
-void StepperDriver::UpdateLabels()
-{
-    ui->lcdA1->display((int)_A1);
-    ui->lcdA2->display((int)_A2);
-    ui->lcdB1->display((int)_B1);
-    ui->lcdB2->display((int)_B2);
-    ui->lblMotorPosition->setText("0");
+    QFile MotorConfig("MotorCfg.ini");
+    if(MotorConfig.open(QIODevice::ReadOnly | QIODevice::Text ))
+    {
+        QTextStream CfgStream(&MotorConfig); //load config file
+        while (!CfgStream.atEnd())
+        {
+            QString Line = CfgStream.readLine(); //read one line at a time
+            if(Line.contains("MotorConfig"))
+            {
+                QStringList Params = Line.split(";");
+                if(Params[0].contains(MotorName))
+                {
+                    if(Params[6].toInt()) //If it's using HEX inverters
+                        this->Motor = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else
+                        this->Motor = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
+                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                }
+            }
+        }
+        MotorConfig.close();
+    }
+    else
+    {
+        QMessageBox::critical(this, "Error Opening File!", MotorConfig.errorString(), QMessageBox::Ok);
+        this->close();
+    }
 }
 
 void StepperDriver::UpdateMotorSettings()
 {
-    if (Worker->IsBusy)
+    if (Worker != 0 && Worker->IsBusy)
         Worker->Stop();
 
-    delete Motor_1;
-    delete Worker;
-    delete MotorThread;
+    if(MotorThread != 0)
+        delete MotorThread;
+    if(Worker != 0)
+        delete Worker;
+    if(Motor != 0)
+        delete Motor;
 
     MotorThread = new QThread(this);
-    Motor_1 = new StepperMotor(_A1, _A2, _B1, _B2, false);
-    Motor_1->SetNotGated(_UseHexInverter);
-    Worker = new MotorWorker(Motor_1);
+
+    //This logic loop sets up the motor based upon the radio box value;
+    if(ui->rbX->isChecked())
+        InitializeMotor("XAxis");
+    else if(ui->rbY->isChecked())
+        InitializeMotor("YAxis");
+    else if (ui->rbZ->isChecked())
+        InitializeMotor("ZAxis");
+    else if(ui->rbExt->isChecked())
+        InitializeMotor("ExtAxis");
+
+    Worker = new MotorWorker(Motor);
     Worker->moveToThread(MotorThread);
 
     //Link the MotorThread to the DoWork Slot.
@@ -123,42 +115,48 @@ void StepperDriver::UpdateMotorSettings()
     connect(ui->pushButton_2, SIGNAL(released()), MotorThread, SLOT(quit()));
 }
 
-void StepperDriver::on_action_Exit_triggered()
+void StepperDriver::on_pushButton_2_pressed()
 {
-    this->close();
+    Worker->StopThread = false;
+    Motor->Rotate(StepperMotor::CTRCLOCKWISE, 1, Motor->MaxSpeed());
+    UpdatePositionLabel(QString::number(Motor->Position));
 }
 
-void StepperDriver::on_action_Configure_Coils_triggered()
+void StepperDriver::on_pushButton_pressed()
 {
-    CoilDialog *CD = new CoilDialog(_A1, _A2, _B1, _B2, this);
-    CD->setModal(true);
-    CD->exec();
-    this->_A1 = CD->A1;
-    this->_A2 = CD->A2;
-    this->_B1 = CD->B1;
-    this->_B2 = CD->B2;
-    delete CD;
-    UpdateLabels();
-    UpdateMotorSettings();
+    Worker->StopThread = false;
+    Motor->Rotate(StepperMotor::CLOCKWISE, 1, Motor->MaxSpeed());
+    UpdatePositionLabel(QString::number(Motor->Position));
 }
 
-void StepperDriver::on_actionUse_NOT_Gates_toggled(bool arg1)
+void StepperDriver::errorString(QString err)
 {
-    this->_UseHexInverter = arg1;
+    qDebug() << err;
 }
 
-void StepperDriver::on_action_Reset_MotorPosition_triggered()
+void StepperDriver::on_pushButton_released()
 {
-    this->Motor_1->Position = 0;
+    Worker->Stop();
+}
+
+void StepperDriver::on_pushButton_2_released()
+{
+    Worker->Stop();
+}
+
+void StepperDriver::UpdatePositionLabel(QString Arg)
+{
+    ui->lblMotorPosition->setText(Arg);
+}
+
+void StepperDriver::UpdateLabels()
+{
     ui->lblMotorPosition->setText("0");
 }
 
-void StepperDriver::on_action_Turn_Off_Coils_triggered()
-{
-    this->Motor_1->Disable();
-}
 
-void StepperDriver::on_action_Enable_Motor_triggered()
-{
-    this->Motor_1->Enable();
-}
+//void StepperDriver::on_action_Reset_MotorPosition_triggered()
+//{
+//    this->Motor->Position = 0;
+//    ui->lblMotorPosition->setText("0");
+//}

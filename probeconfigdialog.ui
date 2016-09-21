@@ -45,6 +45,9 @@
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="elementGPIOPinLabel">
+                  <property name="toolTip">
+                   <string>This is the GPIO pin that is tied to the heater element.&lt;br/&gt;It is responsible for switching the element on and off.</string>
+                  </property>
                   <property name="text">
                    <string>Element</string>
                   </property>
@@ -52,6 +55,9 @@
                 </item>
                 <item row="0" column="1">
                  <widget class="QLineEdit" name="txtBedElementPin">
+                  <property name="toolTip">
+                   <string>This is the GPIO pin that is tied to the heater element.&lt;br/&gt;It is responsible for switching the element on and off.</string>
+                  </property>
                   <property name="inputMask">
                    <string>00</string>
                   </property>
@@ -59,16 +65,26 @@
                 </item>
                 <item row="1" column="0">
                  <widget class="QLabel" name="aDCChannelLabel_2">
+                  <property name="toolTip">
+                   <string>This is the channel of the ADC chip that this probe is assigned to use.</string>
+                  </property>
                   <property name="text">
                    <string>ADC Channel</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QSpinBox" name="seBedADCCh"/>
+                 <widget class="QSpinBox" name="seBedADCCh">
+                  <property name="toolTip">
+                   <string>This is the channel of the ADC chip that this probe is assigned to use.</string>
+                  </property>
+                 </widget>
                 </item>
                 <item row="2" column="0">
                  <widget class="QLabel" name="readDelayLabel">
+                  <property name="toolTip">
+                   <string>This is the read delay (in milliseconds) for the probe.&lt;br/&gt;It is also the maximum speed at which the probes will be modulated.</string>
+                  </property>
                   <property name="text">
                    <string>Read Delay (MS)</string>
                   </property>
@@ -76,6 +92,9 @@
                 </item>
                 <item row="2" column="1">
                  <widget class="QSpinBox" name="seBedPWM">
+                  <property name="toolTip">
+                   <string>This is the read delay (in milliseconds) for the probe.&lt;br/&gt;It is also the maximum speed at which the probes will be modulated.</string>
+                  </property>
                   <property name="minimum">
                    <number>100</number>
                   </property>
@@ -118,6 +137,9 @@
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="referenceVoltageLabel">
+                  <property name="toolTip">
+                   <string>This is the reference voltage the ADC is using as a benchmark.</string>
+                  </property>
                   <property name="text">
                    <string>Reference Voltage</string>
                   </property>
@@ -125,6 +147,9 @@
                 </item>
                 <item row="0" column="1">
                  <widget class="QDoubleSpinBox" name="seBedRefV">
+                  <property name="toolTip">
+                   <string>This is the reference voltage the ADC is using as a benchmark.</string>
+                  </property>
                   <property name="value">
                    <double>3.300000000000000</double>
                   </property>
@@ -132,6 +157,9 @@
                 </item>
                 <item row="1" column="0">
                  <widget class="QLabel" name="r1ValueLabel">
+                  <property name="toolTip">
+                   <string>This is the Ohms value (typical 1K) of the R1 resistor&lt;br/&gt;at the top of the voltage divider circut with respect to ground.</string>
+                  </property>
                   <property name="text">
                    <string>R1 Ohms</string>
                   </property>
@@ -139,6 +167,9 @@
                 </item>
                 <item row="1" column="1">
                  <widget class="QSpinBox" name="seBedR1Ohms">
+                  <property name="toolTip">
+                   <string>This is the Ohms value (typical 1K) of the R1 resistor&lt;br/&gt;at the top of the voltage divider circut with respect to ground.</string>
+                  </property>
                   <property name="maximum">
                    <number>99999999</number>
                   </property>
@@ -149,6 +180,9 @@
                 </item>
                 <item row="2" column="0">
                  <widget class="QLabel" name="thermistorBetaLabel">
+                  <property name="toolTip">
+                   <string>This is the Beta value for the thermistor. The Beta for your thermistor&lt;br/&gt;can be found on the manufacturers datasheet.</string>
+                  </property>
                   <property name="text">
                    <string>Thermistor Beta</string>
                   </property>
@@ -156,6 +190,9 @@
                 </item>
                 <item row="2" column="1">
                  <widget class="QSpinBox" name="seBedBeta">
+                  <property name="toolTip">
+                   <string>This is the Beta value for the thermistor. The Beta for your thermistor&lt;br/&gt;can be found on the manufacturers datasheet.</string>
+                  </property>
                   <property name="maximum">
                    <number>99999999</number>
                   </property>
@@ -166,6 +203,9 @@
                 </item>
                 <item row="3" column="0">
                  <widget class="QLabel" name="thermistorDefaultOhmsLabel">
+                  <property name="toolTip">
+                   <string>This is the default resistance of your thermistor when measured&lt;br/&gt;at the default temperature.</string>
+                  </property>
                   <property name="text">
                    <string>Thermistor Default Ohms</string>
                   </property>
@@ -173,6 +213,9 @@
                 </item>
                 <item row="3" column="1">
                  <widget class="QSpinBox" name="seBedProbeOhms">
+                  <property name="toolTip">
+                   <string>This is the default resistance of your thermistor when measured&lt;br/&gt;at the default temperature.</string>
+                  </property>
                   <property name="maximum">
                    <number>99999999</number>
                   </property>
@@ -183,6 +226,9 @@
                 </item>
                 <item row="4" column="0">
                  <widget class="QLabel" name="thermistorDefaultTempLabel">
+                  <property name="toolTip">
+                   <string>This is the default temperature of your thermistor measured in Kelvin.&lt;br/&gt;Temperature inputs are defined in Kelvin.</string>
+                  </property>
                   <property name="text">
                    <string>Thermistor Default Temp</string>
                   </property>
@@ -190,6 +236,9 @@
                 </item>
                 <item row="4" column="1">
                  <widget class="QDoubleSpinBox" name="seBedProbeTemp">
+                  <property name="toolTip">
+                   <string>This is the default temperature of your thermistor measured in Kelvin.&lt;br/&gt;Temperature inputs are defined in Kelvin.</string>
+                  </property>
                   <property name="maximum">
                    <double>999.990000000000009</double>
                   </property>
@@ -253,6 +302,9 @@
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="elementGPIOPinLabel_2">
+                  <property name="toolTip">
+                   <string>This is the GPIO pin that is tied to the heater element.&lt;br/&gt;It is responsible for switching the element on and off.</string>
+                  </property>
                   <property name="text">
                    <string>Element</string>
                   </property>
@@ -260,6 +312,9 @@
                 </item>
                 <item row="0" column="1">
                  <widget class="QLineEdit" name="txtExtElementPin">
+                  <property name="toolTip">
+                   <string>This is the GPIO pin that is tied to the heater element.&lt;br/&gt;It is responsible for switching the element on and off.</string>
+                  </property>
                   <property name="inputMask">
                    <string>00</string>
                   </property>
@@ -267,16 +322,26 @@
                 </item>
                 <item row="1" column="0">
                  <widget class="QLabel" name="aDCChannelLabel">
+                  <property name="toolTip">
+                   <string>This is the channel of the ADC chip that this probe is assigned to use.</string>
+                  </property>
                   <property name="text">
                    <string>ADC Channel</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QSpinBox" name="seExtADCCh"/>
+                 <widget class="QSpinBox" name="seExtADCCh">
+                  <property name="toolTip">
+                   <string>This is the channel of the ADC chip that this probe is assigned to use.</string>
+                  </property>
+                 </widget>
                 </item>
                 <item row="2" column="0">
                  <widget class="QLabel" name="readDelayMSLabel">
+                  <property name="toolTip">
+                   <string>This is the read delay (in milliseconds) for the probe.&lt;br/&gt;It is also the maximum speed at which the probes will be modulated.</string>
+                  </property>
                   <property name="text">
                    <string>Read Delay (MS)</string>
                   </property>
@@ -284,6 +349,9 @@
                 </item>
                 <item row="2" column="1">
                  <widget class="QSpinBox" name="seExtPWM">
+                  <property name="toolTip">
+                   <string>This is the read delay (in milliseconds) for the probe.&lt;br/&gt;It is also the maximum speed at which the probes will be modulated.</string>
+                  </property>
                   <property name="minimum">
                    <number>100</number>
                   </property>
@@ -326,6 +394,9 @@
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="referenceVoltageLabel_3">
+                  <property name="toolTip">
+                   <string>This is the reference voltage the ADC is using as a benchmark.</string>
+                  </property>
                   <property name="text">
                    <string>Reference Voltage</string>
                   </property>
@@ -333,6 +404,9 @@
                 </item>
                 <item row="0" column="1">
                  <widget class="QDoubleSpinBox" name="seExtRefV">
+                  <property name="toolTip">
+                   <string>This is the reference voltage the ADC is using as a benchmark.</string>
+                  </property>
                   <property name="value">
                    <double>3.300000000000000</double>
                   </property>
@@ -340,6 +414,9 @@
                 </item>
                 <item row="1" column="0">
                  <widget class="QLabel" name="r1ValueLabel_3">
+                  <property name="toolTip">
+                   <string>This is the Ohms value (typical 1K) of the R1 resistor&lt;br/&gt;at the top of the voltage divider circut with respect to ground.</string>
+                  </property>
                   <property name="text">
                    <string>R1 Ohms</string>
                   </property>
@@ -347,6 +424,9 @@
                 </item>
                 <item row="1" column="1">
                  <widget class="QSpinBox" name="seExtR1Ohms">
+                  <property name="toolTip">
+                   <string>This is the Ohms value (typical 1K) of the R1 resistor&lt;br/&gt;at the top of the voltage divider circut with respect to ground.</string>
+                  </property>
                   <property name="maximum">
                    <number>99999999</number>
                   </property>
@@ -357,6 +437,9 @@
                 </item>
                 <item row="2" column="0">
                  <widget class="QLabel" name="thermistorBetaLabel_3">
+                  <property name="toolTip">
+                   <string>This is the Beta value for the thermistor. The Beta for your thermistor&lt;br/&gt;can be found on the manufacturers datasheet.</string>
+                  </property>
                   <property name="text">
                    <string>Thermistor Beta</string>
                   </property>
@@ -364,6 +447,9 @@
                 </item>
                 <item row="2" column="1">
                  <widget class="QSpinBox" name="seExtBeta">
+                  <property name="toolTip">
+                   <string>This is the Beta value for the thermistor. The Beta for your thermistor&lt;br/&gt;can be found on the manufacturers datasheet.</string>
+                  </property>
                   <property name="maximum">
                    <number>99999999</number>
                   </property>
@@ -374,6 +460,9 @@
                 </item>
                 <item row="3" column="0">
                  <widget class="QLabel" name="thermistorDefaultOhmsLabel_3">
+                  <property name="toolTip">
+                   <string>This is the default resistance of your thermistor when measured&lt;br/&gt;at the default temperature.</string>
+                  </property>
                   <property name="text">
                    <string>Thermistor Default Ohms</string>
                   </property>
@@ -381,6 +470,9 @@
                 </item>
                 <item row="3" column="1">
                  <widget class="QSpinBox" name="seExtProbeOhms">
+                  <property name="toolTip">
+                   <string>This is the default resistance of your thermistor when measured&lt;br/&gt;at the default temperature.</string>
+                  </property>
                   <property name="maximum">
                    <number>99999999</number>
                   </property>
@@ -391,6 +483,9 @@
                 </item>
                 <item row="4" column="0">
                  <widget class="QLabel" name="thermistorDefaultTempLabel_3">
+                  <property name="toolTip">
+                   <string>This is the default temperature of your thermistor measured in Kelvin.&lt;br/&gt;Temperature inputs are defined in Kelvin.</string>
+                  </property>
                   <property name="text">
                    <string>Thermistor Default Temp</string>
                   </property>
@@ -398,6 +493,9 @@
                 </item>
                 <item row="4" column="1">
                  <widget class="QDoubleSpinBox" name="seExtProbeTemp">
+                  <property name="toolTip">
+                   <string>This is the default temperature of your thermistor measured in Kelvin.&lt;br/&gt;Temperature inputs are defined in Kelvin.</string>
+                  </property>
                   <property name="maximum">
                    <double>999.990000000000009</double>
                   </property>
@@ -461,6 +559,9 @@
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="clockLabel">
+                  <property name="toolTip">
+                   <string>This is the GPIO pin to use for the Clock or CLK.</string>
+                  </property>
                   <property name="text">
                    <string>Clock</string>
                   </property>
@@ -480,6 +581,9 @@
                     <height>16777215</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>This is the GPIO pin to use for the Clock or CLK.</string>
+                  </property>
                   <property name="inputMask">
                    <string>00</string>
                   </property>
@@ -487,6 +591,9 @@
                 </item>
                 <item row="1" column="0">
                  <widget class="QLabel" name="mISOLabel">
+                  <property name="toolTip">
+                   <string>This is the GPIO pin used for the Master In Slave Out. (MISO)</string>
+                  </property>
                   <property name="text">
                    <string>MISO</string>
                   </property>
@@ -500,6 +607,9 @@
                     <height>16777215</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>This is the GPIO pin used for the Master In Slave Out. (MISO)</string>
+                  </property>
                   <property name="inputMask">
                    <string>00</string>
                   </property>
@@ -507,6 +617,9 @@
                 </item>
                 <item row="2" column="0">
                  <widget class="QLabel" name="mOSILabel">
+                  <property name="toolTip">
+                   <string>This is the GPIO pin used for the Master Out Slave In. (MOSI)</string>
+                  </property>
                   <property name="text">
                    <string>MOSI</string>
                   </property>
@@ -520,6 +633,9 @@
                     <height>16777215</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>This is the GPIO pin used for the Master Out Slave In. (MOSI)</string>
+                  </property>
                   <property name="inputMask">
                    <string>00</string>
                   </property>
@@ -527,6 +643,9 @@
                 </item>
                 <item row="3" column="0">
                  <widget class="QLabel" name="cSLabel">
+                  <property name="toolTip">
+                   <string>This is the GPIO pin used for the Channel Select (CS or SS)</string>
+                  </property>
                   <property name="text">
                    <string>CS</string>
                   </property>
@@ -539,6 +658,9 @@
                     <width>50</width>
                     <height>16777215</height>
                    </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>This is the GPIO pin used for the Channel Select (CS or SS)</string>
                   </property>
                   <property name="inputMask">
                    <string>00</string>

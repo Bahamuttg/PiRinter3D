@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>368</width>
-    <height>274</height>
+    <height>158</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -32,6 +32,12 @@
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
        <widget class="QGroupBox" name="groupBox">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>60</height>
+         </size>
+        </property>
         <property name="title">
          <string>Motor Selection</string>
         </property>
@@ -40,6 +46,9 @@
           <widget class="QRadioButton" name="rbX">
            <property name="text">
             <string>X Axis</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -160,81 +169,6 @@
          </item>
         </layout>
        </widget>
-      </item>
-      <item row="2" column="0">
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Coil A1 GPIO Pin</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLCDNumber" name="lcdA1">
-          <property name="digitCount">
-           <number>2</number>
-          </property>
-          <property name="segmentStyle">
-           <enum>QLCDNumber::Filled</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Coil B1  GPIO Pin</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>Coil B2  GPIO Pin</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Coil A2  GPIO Pin</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLCDNumber" name="lcdB1">
-          <property name="digitCount">
-           <number>2</number>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLCDNumber" name="lcdA2">
-          <property name="digitCount">
-           <number>2</number>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLCDNumber" name="lcdB2">
-          <property name="digitCount">
-           <number>2</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
       </item>
      </layout>
     </item>

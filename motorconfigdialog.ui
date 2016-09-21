@@ -46,7 +46,7 @@
      <item row="1" column="0">
       <widget class="QTabWidget" name="tabMotors">
        <property name="currentIndex">
-        <number>0</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="tpXAxis">
         <attribute name="title">
@@ -68,6 +68,12 @@
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil A1</string>
                   </property>
@@ -97,6 +103,12 @@
                 </item>
                 <item row="1" column="0">
                  <widget class="QLabel" name="label_2">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil A2</string>
                   </property>
@@ -126,6 +138,12 @@
                 </item>
                 <item row="2" column="0">
                  <widget class="QLabel" name="label_3">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil B1</string>
                   </property>
@@ -155,6 +173,12 @@
                 </item>
                 <item row="3" column="0">
                  <widget class="QLabel" name="label_4">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil B2</string>
                   </property>
@@ -184,8 +208,14 @@
                 </item>
                 <item row="4" column="0">
                  <widget class="QLabel" name="lblEnableX">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
-                   <string>Enable</string>
+                   <string>End Stop</string>
                   </property>
                  </widget>
                 </item>
@@ -242,7 +272,7 @@
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option to enable/disable this motor  based upon hardware insted of software.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="text">
-                 <string>Has Enable Pin</string>
+                 <string>Has End Stop</string>
                 </property>
                </widget>
               </item>
@@ -280,9 +310,6 @@
               </item>
               <item>
                <widget class="QGroupBox" name="groupBox_13">
-                <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
                 <property name="title">
                  <string>Resolution Calibration</string>
                 </property>
@@ -297,6 +324,9 @@
                    </property>
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_17">
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
                      <property name="text">
                       <string>Resolution</string>
                      </property>
@@ -304,6 +334,9 @@
                    </item>
                    <item row="0" column="1">
                     <widget class="QDoubleSpinBox" name="dsbResX">
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
                      <property name="decimals">
                       <number>4</number>
                      </property>
@@ -317,6 +350,9 @@
                    </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="minPhaseDelayLabel">
+                     <property name="toolTip">
+                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                     </property>
                      <property name="text">
                       <string>Min Phase Delay</string>
                      </property>
@@ -391,6 +427,12 @@
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_26">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil A1</string>
                   </property>
@@ -420,6 +462,12 @@
                 </item>
                 <item row="1" column="0">
                  <widget class="QLabel" name="label_27">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil A2</string>
                   </property>
@@ -449,6 +497,12 @@
                 </item>
                 <item row="2" column="0">
                  <widget class="QLabel" name="label_28">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil B1</string>
                   </property>
@@ -478,6 +532,12 @@
                 </item>
                 <item row="3" column="0">
                  <widget class="QLabel" name="label_29">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil B2</string>
                   </property>
@@ -507,8 +567,14 @@
                 </item>
                 <item row="4" column="0">
                  <widget class="QLabel" name="lblEnableY">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
-                   <string>Enable</string>
+                   <string>End Stop</string>
                   </property>
                  </widget>
                 </item>
@@ -565,7 +631,7 @@
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option to enable/disable this motor  based upon hardware insted of software.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="text">
-                 <string>Has Enable Pin</string>
+                 <string>Has End Stop</string>
                 </property>
                </widget>
               </item>
@@ -603,9 +669,6 @@
               </item>
               <item>
                <widget class="QGroupBox" name="groupBox_24">
-                <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
                 <property name="title">
                  <string>Resolution Calibration</string>
                 </property>
@@ -620,6 +683,9 @@
                    </property>
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_30">
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
                      <property name="text">
                       <string>Resolution</string>
                      </property>
@@ -627,6 +693,9 @@
                    </item>
                    <item row="0" column="1">
                     <widget class="QDoubleSpinBox" name="dsbResY">
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
                      <property name="decimals">
                       <number>4</number>
                      </property>
@@ -640,6 +709,9 @@
                    </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="minPhaseDelayLabel_2">
+                     <property name="toolTip">
+                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                     </property>
                      <property name="text">
                       <string>Min Phase Delay</string>
                      </property>
@@ -647,6 +719,9 @@
                    </item>
                    <item row="1" column="1">
                     <widget class="QSpinBox" name="seMinDelayY">
+                     <property name="toolTip">
+                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                     </property>
                      <property name="value">
                       <number>3</number>
                      </property>
@@ -710,6 +785,12 @@
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_36">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil A1</string>
                   </property>
@@ -739,6 +820,12 @@
                 </item>
                 <item row="1" column="0">
                  <widget class="QLabel" name="label_37">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil A2</string>
                   </property>
@@ -768,6 +855,12 @@
                 </item>
                 <item row="2" column="0">
                  <widget class="QLabel" name="label_38">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil B1</string>
                   </property>
@@ -797,6 +890,12 @@
                 </item>
                 <item row="3" column="0">
                  <widget class="QLabel" name="label_39">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil B2</string>
                   </property>
@@ -826,8 +925,14 @@
                 </item>
                 <item row="4" column="0">
                  <widget class="QLabel" name="lblEnableZ">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
-                   <string>Enable</string>
+                   <string>End Stop</string>
                   </property>
                  </widget>
                 </item>
@@ -884,7 +989,7 @@
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option to enable/disable this motor  based upon hardware insted of software.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="text">
-                 <string>Has Enable Pin</string>
+                 <string>Has End Stop</string>
                 </property>
                </widget>
               </item>
@@ -922,9 +1027,6 @@
               </item>
               <item>
                <widget class="QGroupBox" name="groupBox_32">
-                <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
                 <property name="title">
                  <string>Resolution Calibration</string>
                 </property>
@@ -939,6 +1041,9 @@
                    </property>
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_40">
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
                      <property name="text">
                       <string>Resolution</string>
                      </property>
@@ -946,6 +1051,9 @@
                    </item>
                    <item row="0" column="1">
                     <widget class="QDoubleSpinBox" name="dsbResZ">
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
                      <property name="decimals">
                       <number>4</number>
                      </property>
@@ -959,6 +1067,9 @@
                    </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="minPhaseDelayLabel_3">
+                     <property name="toolTip">
+                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                     </property>
                      <property name="text">
                       <string>Min Phase Delay</string>
                      </property>
@@ -966,6 +1077,9 @@
                    </item>
                    <item row="1" column="1">
                     <widget class="QSpinBox" name="seMinDelayZ">
+                     <property name="toolTip">
+                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                     </property>
                      <property name="value">
                       <number>3</number>
                      </property>
@@ -1029,6 +1143,12 @@
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_31">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil A1</string>
                   </property>
@@ -1058,6 +1178,12 @@
                 </item>
                 <item row="1" column="0">
                  <widget class="QLabel" name="label_32">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil A2</string>
                   </property>
@@ -1087,6 +1213,12 @@
                 </item>
                 <item row="2" column="0">
                  <widget class="QLabel" name="label_33">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil B1</string>
                   </property>
@@ -1116,6 +1248,12 @@
                 </item>
                 <item row="3" column="0">
                  <widget class="QLabel" name="label_34">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Coil B2</string>
                   </property>
@@ -1145,8 +1283,14 @@
                 </item>
                 <item row="4" column="0">
                  <widget class="QLabel" name="lblEnableEX">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
-                   <string>Enable</string>
+                   <string>End Stop</string>
                   </property>
                  </widget>
                 </item>
@@ -1200,10 +1344,10 @@
               <item>
                <widget class="QCheckBox" name="chkEnableEX">
                 <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option to enable/disable this motor  based upon hardware insted of software.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option if this axis has an end stop which will disable&lt;/br&gt;the motor's movement when triggered..&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="text">
-                 <string>Has Enable Pin</string>
+                 <string>Has End Stop</string>
                 </property>
                </widget>
               </item>
@@ -1241,9 +1385,6 @@
               </item>
               <item>
                <widget class="QGroupBox" name="groupBox_28">
-                <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
                 <property name="title">
                  <string>Resolution Calibration</string>
                 </property>
@@ -1258,6 +1399,9 @@
                    </property>
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_35">
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
                      <property name="text">
                       <string>Resolution</string>
                      </property>
@@ -1265,6 +1409,9 @@
                    </item>
                    <item row="0" column="1">
                     <widget class="QDoubleSpinBox" name="dsbResEX">
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
                      <property name="decimals">
                       <number>4</number>
                      </property>
@@ -1278,6 +1425,9 @@
                    </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="minPhaseDelayLabel_4">
+                     <property name="toolTip">
+                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                     </property>
                      <property name="text">
                       <string>Min Phase Delay</string>
                      </property>
@@ -1285,6 +1435,9 @@
                    </item>
                    <item row="1" column="1">
                     <widget class="QSpinBox" name="seMinDelayExt">
+                     <property name="toolTip">
+                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                     </property>
                      <property name="value">
                       <number>3</number>
                      </property>
@@ -1358,8 +1511,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>268</x>
-     <y>430</y>
+     <x>278</x>
+     <y>462</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -1374,8 +1527,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>336</x>
-     <y>430</y>
+     <x>346</x>
+     <y>462</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -1486,12 +1639,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>90</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>134</x>
-     <y>138</y>
+     <x>159</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>
@@ -1502,12 +1655,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>255</x>
-     <y>95</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>66</x>
-     <y>141</y>
+     <x>89</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>
@@ -1518,12 +1671,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>298</x>
-     <y>93</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>139</x>
-     <y>219</y>
+     <x>159</x>
+     <y>227</y>
     </hint>
    </hints>
   </connection>
@@ -1534,12 +1687,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>369</x>
-     <y>101</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>77</x>
-     <y>217</y>
+     <x>89</x>
+     <y>227</y>
     </hint>
    </hints>
   </connection>
@@ -1550,12 +1703,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>272</x>
-     <y>121</y>
+     <x>336</x>
+     <y>137</y>
     </hint>
     <hint type="destinationlabel">
-     <x>132</x>
-     <y>253</y>
+     <x>159</x>
+     <y>266</y>
     </hint>
    </hints>
   </connection>
@@ -1566,12 +1719,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>358</x>
-     <y>128</y>
+     <x>336</x>
+     <y>137</y>
     </hint>
     <hint type="destinationlabel">
-     <x>81</x>
-     <y>254</y>
+     <x>103</x>
+     <y>266</y>
     </hint>
    </hints>
   </connection>
@@ -1582,12 +1735,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>289</x>
-     <y>88</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>138</x>
-     <y>136</y>
+     <x>159</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>
@@ -1598,12 +1751,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>351</x>
-     <y>81</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>61</x>
-     <y>142</y>
+     <x>89</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>
@@ -1614,12 +1767,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>321</x>
-     <y>96</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>135</x>
-     <y>211</y>
+     <x>159</x>
+     <y>227</y>
     </hint>
    </hints>
   </connection>
@@ -1630,12 +1783,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>388</x>
-     <y>88</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>63</x>
-     <y>217</y>
+     <x>89</x>
+     <y>227</y>
     </hint>
    </hints>
   </connection>
@@ -1646,12 +1799,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>127</y>
+     <x>336</x>
+     <y>137</y>
     </hint>
     <hint type="destinationlabel">
-     <x>135</x>
-     <y>252</y>
+     <x>159</x>
+     <y>266</y>
     </hint>
    </hints>
   </connection>
@@ -1662,12 +1815,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>342</x>
-     <y>129</y>
+     <x>336</x>
+     <y>137</y>
     </hint>
     <hint type="destinationlabel">
-     <x>81</x>
-     <y>253</y>
+     <x>103</x>
+     <y>266</y>
     </hint>
    </hints>
   </connection>
@@ -1678,12 +1831,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>271</x>
-     <y>92</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>129</x>
-     <y>135</y>
+     <x>159</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>
@@ -1694,12 +1847,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>317</x>
-     <y>92</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>73</x>
-     <y>137</y>
+     <x>89</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>
@@ -1710,12 +1863,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>358</x>
-     <y>91</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>137</x>
-     <y>217</y>
+     <x>159</x>
+     <y>227</y>
     </hint>
    </hints>
   </connection>
@@ -1726,12 +1879,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>338</x>
-     <y>94</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
      <x>89</x>
-     <y>215</y>
+     <y>227</y>
     </hint>
    </hints>
   </connection>
@@ -1742,12 +1895,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>303</x>
-     <y>122</y>
+     <x>336</x>
+     <y>137</y>
     </hint>
     <hint type="destinationlabel">
-     <x>142</x>
-     <y>255</y>
+     <x>159</x>
+     <y>266</y>
     </hint>
    </hints>
   </connection>
@@ -1758,12 +1911,140 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>410</x>
-     <y>127</y>
+     <x>336</x>
+     <y>137</y>
     </hint>
     <hint type="destinationlabel">
-     <x>81</x>
-     <y>246</y>
+     <x>103</x>
+     <y>266</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rbHalfX</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>375</x>
+     <y>89</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>405</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rbFullX</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>368</x>
+     <y>90</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>388</x>
+     <y>184</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rbHalfY</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>433</x>
+     <y>89</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>388</x>
+     <y>209</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rbFullY</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>418</x>
+     <y>87</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>361</x>
+     <y>180</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rbHalfZ</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>417</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>408</x>
+     <y>212</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rbFullZ</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>383</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>360</x>
+     <y>176</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rbHalfEX</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>392</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>394</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rbFullEX</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>432</x>
+     <y>84</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>365</x>
+     <y>178</y>
     </hint>
    </hints>
   </connection>

@@ -85,7 +85,7 @@ void MainWindow::on_action_Load_3D_Print_triggered()
         if(_Interpreter != 0)
             delete _Interpreter;
         _StatusLabel->setText("Processing GCODE...");
-        _Interpreter = new GCodeInterpreter(_PrintFilePath, 200, 200, this);
+        _Interpreter = new GCodeInterpreter(_PrintFilePath, this);
         ui->seBed->setValue(_Interpreter->BedProbeWorker->GetTargetTemp());
         ui->seExt->setValue(_Interpreter->ExtProbeWorker->GetTargetTemp());
         _StatusLabel->setText("Processed " + QString::number(_Interpreter->GetTotalLines()) + " Lines of GCODE...");
@@ -140,6 +140,10 @@ void MainWindow::on_actionS_tart_triggered()
            connect(ui->seBed, SIGNAL(valueChanged(int)), _Interpreter, SLOT(ChangeBedTemp(int)));
            connect(ui->seExt, SIGNAL(valueChanged(int)), _Interpreter, SLOT(ChangeExtTemp(int)));
 
+           //Record the GCODE temp and set it back once the override is turned off.
+           connect(ui->chkBedOverride, SIGNAL(toggled(bool)), this, SLOT(on_BedTempOverride(bool)));
+           connect(ui->chkExtOverride, SIGNAL(toggled(bool)), this, SLOT(on_ExtTempOverride(bool)));
+
            //Connect the interpreter feedback to the ui controls
            connect(_Interpreter, SIGNAL(ReportProgress(int)), this->_ProgressBar, SLOT(setValue(int)));
            connect(_Interpreter, SIGNAL(BeginLineProcessing(QString)), ui->txtGCode, SLOT(append(QString)));
@@ -176,6 +180,19 @@ void MainWindow::on_action_Stop_triggered()
         ui->lcdExtruderTemp->display("Off");
     }
 }
+
+void MainWindow::on_BedTempOverride(bool Arg)
+{
+    if(!Arg && _Interpreter != 0)
+        ui->seBed->setValue(_Interpreter->GetBedGcodeTemp());
+}
+
+void MainWindow::on_ExtTempOverride(bool Arg)
+{
+    if(!Arg && _Interpreter != 0)
+        ui->seExt->setValue(_Interpreter->GetExtGcodeTemp());
+}
+
 //==============End Main Menu Handlers=================================================
 //==============END SLOTS============================================================
 

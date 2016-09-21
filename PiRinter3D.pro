@@ -14,7 +14,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    coildialog.cpp \
     steppermotor.cpp \
     stepperdriver.cpp \
     motorconfigdialog.cpp \
@@ -30,7 +29,6 @@ SOURCES += main.cpp\
     adccontroller.cpp
 
 HEADERS  += mainwindow.h \
-    coildialog.h \
     motorworker.h \
     steppermotor.h \
     stepperdriver.h \
@@ -48,7 +46,6 @@ HEADERS  += mainwindow.h \
     adccontroller.h
 
 FORMS    += mainwindow.ui \
-    coildialog.ui \
     stepperdriver.ui \
     motorconfigdialog.ui \
     probeconfigdialog.ui \

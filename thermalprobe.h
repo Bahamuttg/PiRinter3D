@@ -30,7 +30,7 @@ class ThermalProbe
 private:
 	ADCController *_ADCReader; 
 	
-    unsigned int  _Channel,  _TriggerPin;
+    unsigned int  _Channel,  _TriggerPin, _FaultCount;
     float _R1, _DefaultThermistorOHM, _DefaultThermistorTempK, _RefVoltage;
     int _TargetTemp, _ThermistorBeta, _CurrentTemp;
 
@@ -111,6 +111,17 @@ public:
     int GetThermistorBeta()
     {
         return _ThermistorBeta;
+    }
+
+    void Reset()
+    {
+        this->_FaultCount = 0;
+        TriggerElement(ThermalProbe::OFF);
+    }
+
+    bool IsFaulted()
+    {
+        return _FaultCount >= 10;
     }
 };
 

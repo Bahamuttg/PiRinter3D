@@ -33,6 +33,7 @@ ThermalProbe::ThermalProbe(const double &RefV, const unsigned int &R1Ohm, const 
     _TriggerPin = TriggerPin;
     _TargetTemp = 0;
     _CurrentTemp = 0;
+    _FaultCount = 0;
 
     //Values that can be overridden by get/set.
     _RefVoltage = RefV;
@@ -54,33 +55,49 @@ ThermalProbe::~ThermalProbe()
 
 int ThermalProbe::MeasureTemp()
 {
-    int ADCValue = 0;
+    int ADCValue = 0, PreviousTemp;
     float VOut = 0, ThermOhms = 0;
 
     ADCValue = _ADCReader->GetChannelValue(_Channel); //this gives us the ADC value between 1024 (10bit)
     if(ADCValue <= 0 || _RefVoltage <= 0) //Don't want to divide by  0...
-		return _CurrentTemp; //couldn't read this time...
+        return _CurrentTemp; //couldn't read this time...
     VOut = _RefVoltage * ((float)ADCValue / 1024); //this calculates the voltage differential over the thermistor (with respect to ground)
-	if(VOut == _RefVoltage) //need to make sure we don't divide by zero again.
-		return _CurrentTemp;
-	ThermOhms = (VOut * _R1) / (_RefVoltage - VOut); //this finds the current resistance of the thermistor
+    if(VOut == _RefVoltage) //need to make sure we don't divide by zero again.
+        return _CurrentTemp;
+    PreviousTemp = _CurrentTemp;
+    ThermOhms = (VOut * _R1) / (_RefVoltage - VOut); //this finds the current resistance of the thermistor
     //now that we have the resistance we can figure out how hot the thing is... by using the smart guys formula
     _CurrentTemp =
             ((_DefaultThermistorTempK * _ThermistorBeta) / log(_DefaultThermistorOHM / ThermOhms) / (_ThermistorBeta / log(_DefaultThermistorOHM / ThermOhms) - _DefaultThermistorTempK) -273.15);
 
-    if(_CurrentTemp > _TargetTemp)
+    //Faulting algorithm...
+    if(_CurrentTemp > 0)//Should never really read below zero.
     {
-        if(ElementCurrentState == ThermalProbe::ON)
-            TriggerElement(ThermalProbe::OFF);
+        if(_CurrentTemp > PreviousTemp && ElementCurrentState == ThermalProbe::OFF)//We are climbing and we shouldn't be.
+        {
+
+        }
     }
-    else if(_CurrentTemp < _TargetTemp)
+    else
+        _FaultCount++;
+    //=================
+
+    if(_FaultCount < 10)
     {
+        if(_CurrentTemp > _TargetTemp)
+        {
+            if(ElementCurrentState == ThermalProbe::ON)
+                TriggerElement(ThermalProbe::OFF);
+        }
+        else if(_CurrentTemp < _TargetTemp)
+        {
             if(ElementCurrentState == ThermalProbe::OFF)
                 TriggerElement(ThermalProbe::ON);
+        }
     }
     else
         TriggerElement(ThermalProbe::OFF);
-	return _CurrentTemp;
+    return _CurrentTemp;
 }
 
 void ThermalProbe::TriggerElement(ElementState Value)

@@ -34,6 +34,8 @@ ThermalProbe::ThermalProbe(const double &RefV, const unsigned int &R1Ohm, const 
     _TargetTemp = 0;
     _CurrentTemp = 0;
     _FaultCount = 0;
+    _FaultTempBuffer = 5;
+    _FaultTolerance = 10;
 
     //Values that can be overridden by get/set.
     _RefVoltage = RefV;
@@ -68,21 +70,23 @@ int ThermalProbe::MeasureTemp()
     ThermOhms = (VOut * _R1) / (_RefVoltage - VOut); //this finds the current resistance of the thermistor
     //now that we have the resistance we can figure out how hot the thing is... by using the smart guys formula
     _CurrentTemp =
-            ((_DefaultThermistorTempK * _ThermistorBeta) / log(_DefaultThermistorOHM / ThermOhms) / (_ThermistorBeta / log(_DefaultThermistorOHM / ThermOhms) - _DefaultThermistorTempK) -273.15);
+            ((_DefaultThermistorTempK * _ThermistorBeta) / log(_DefaultThermistorOHM / ThermOhms)
+             / (_ThermistorBeta / log(_DefaultThermistorOHM / ThermOhms) - _DefaultThermistorTempK) -273.15);
 
     //Faulting algorithm...
     if(_CurrentTemp > 0)//Should never really read below zero.
     {
-        if(_CurrentTemp > PreviousTemp && ElementCurrentState == ThermalProbe::OFF)//We are climbing and we shouldn't be.
-        {
-
-        }
+        if((_CurrentTemp > (PreviousTemp + _FaultTempBuffer) && ElementCurrentState == ThermalProbe::OFF)//We are climbing and we shouldn't be.
+                ||  (_CurrentTemp < (PreviousTemp - _FaultTempBuffer) && ElementCurrentState == ThermalProbe::ON))//We are falling and we shouldn't be.
+            _FaultCount++;
     }
+    else if(_CurrentTemp > 315)
+        _FaultCount++;
     else
         _FaultCount++;
     //=================
 
-    if(_FaultCount < 10)
+    if(_FaultCount < _FaultTolerance)
     {
         if(_CurrentTemp > _TargetTemp)
         {
@@ -104,7 +108,7 @@ void ThermalProbe::TriggerElement(ElementState Value)
 {
     if(Value == ThermalProbe::OFF)
         gpioWrite(_TriggerPin, PI_LOW);
-    else
+    else if(!IsFaulted())
         gpioWrite(_TriggerPin, PI_HIGH);
     ElementCurrentState = Value;
 }

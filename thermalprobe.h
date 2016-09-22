@@ -30,9 +30,9 @@ class ThermalProbe
 private:
 	ADCController *_ADCReader; 
 	
-    unsigned int  _Channel,  _TriggerPin, _FaultCount;
+    unsigned int  _Channel,  _TriggerPin;
     float _R1, _DefaultThermistorOHM, _DefaultThermistorTempK, _RefVoltage;
-    int _TargetTemp, _ThermistorBeta, _CurrentTemp;
+    int _TargetTemp, _ThermistorBeta, _CurrentTemp, _FaultTempBuffer, _FaultTolerance, _FaultCount;
 
 public:
     ThermalProbe(const double &RefV, const unsigned int &R1Ohm, const int &Beta, const unsigned int &ProbeOhm,
@@ -111,6 +111,26 @@ public:
     int GetThermistorBeta()
     {
         return _ThermistorBeta;
+    }
+
+    void SetFaultTempBuffer(const int &Value)
+    {
+        _FaultTempBuffer = Value;
+    }
+
+    int GetFaultTempBuffer()
+    {
+        return _FaultTempBuffer;
+    }
+
+    void SetFaultTolerance(const int &Value)
+    {
+        _FaultTolerance = Value;
+    }
+
+    int GetFaultTolerance()
+    {
+        return _FaultTolerance;
     }
 
     void Reset()

@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     printareaconfigdialog.cpp \
     Lib/pigpio.c \
     Lib/command.c \
-    adccontroller.cpp
+    adccontroller.cpp \
+    fan.cpp
 
 HEADERS  += mainwindow.h \
     motorworker.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwindow.h \
     Lib/pigpio.h \
     Lib/command.h \
     Lib/custom.cext \
-    adccontroller.h
+    adccontroller.h \
+    fan.h
 
 FORMS    += mainwindow.ui \
     stepperdriver.ui \

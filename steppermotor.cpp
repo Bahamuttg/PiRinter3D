@@ -102,7 +102,7 @@ void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)
     this->_IsRotating = true;
     for (int i = 0; i < Steps; i++)
     {
-        if(_StopPin > 0 && gpioRead(_StopPin))
+        if(_StopPin > 0 && !gpioRead(_StopPin))
         {
             CoilsOff();
             this->_IsRotating = false;
@@ -125,7 +125,7 @@ void StepperMotor::Rotate(MotorDirection Direction, int MS_Delay)
     this->_IsRotating = true;
     while (_Enabled)
     {
-        if(_StopPin > 0 && gpioRead(_StopPin))
+        if(_StopPin > 0 && !gpioRead(_StopPin))
         {
             CoilsOff();
             this->_IsRotating = false;
@@ -148,7 +148,7 @@ void StepperMotor::StopRotation(const bool &Hold)
 bool StepperMotor::MoveFromEndstop(const unsigned int &NumSteps)
 {
     //If it's against the endstop take action, otherwise just return true.
-    if(_StopPin > 0 && gpioRead(_StopPin))
+    if(_StopPin > 0 && !gpioRead(_StopPin))
     {
         InvertDirection();
         for (int i = 0; i < NumSteps; i++)
@@ -158,7 +158,7 @@ bool StepperMotor::MoveFromEndstop(const unsigned int &NumSteps)
         }
         InvertDirection();
         //Check to see that we moved off the stop.
-        if(gpioRead(_StopPin))
+        if(!gpioRead(_StopPin))
         {
             this->_IsAgainstEndstop = true;
             return false;

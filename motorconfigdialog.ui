@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>573</width>
-    <height>473</height>
+    <width>572</width>
+    <height>529</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -46,7 +46,7 @@
      <item row="1" column="0">
       <widget class="QTabWidget" name="tabMotors">
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tpXAxis">
         <attribute name="title">
@@ -277,6 +277,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="chkXHold">
+                <property name="text">
+                 <string>Hold On Idle</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QGroupBox" name="groupBox_3">
                 <property name="title">
                  <string>Stepping Style</string>
@@ -388,6 +395,7 @@
              <zorder>chkNOTX</zorder>
              <zorder>groupBox_13</zorder>
              <zorder>chkEnableX</zorder>
+             <zorder>chkXHold</zorder>
             </widget>
            </item>
            <item row="0" column="3">
@@ -632,6 +640,13 @@
                 </property>
                 <property name="text">
                  <string>Has End Stop</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkYHold">
+                <property name="text">
+                 <string>Hold On Idle</string>
                 </property>
                </widget>
               </item>
@@ -994,6 +1009,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="chkZHold">
+                <property name="text">
+                 <string>Hold On Idle</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QGroupBox" name="groupBox_31">
                 <property name="title">
                  <string>Stepping Style</string>
@@ -1125,7 +1147,7 @@
        </widget>
        <widget class="QWidget" name="tpExtAxis">
         <attribute name="title">
-         <string>Extruder Axis</string>
+         <string>Extruder/Extra Axis</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_37">
          <item>
@@ -1348,6 +1370,13 @@
                 </property>
                 <property name="text">
                  <string>Has End Stop</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkExtHold">
+                <property name="text">
+                 <string>Hold On Idle</string>
                 </property>
                </widget>
               </item>

@@ -24,7 +24,6 @@
 #include "motorcontroller.h"
 #include "steppermotor.h"
 #include "thermalprobe.h"
-#include "endstop.h"
 #include "probeworker.h"
 #include "adccontroller.h"
 #include <QtCore>

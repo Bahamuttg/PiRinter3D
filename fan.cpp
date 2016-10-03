@@ -1,14 +1,20 @@
 #include "fan.h"
 
+void *SampleSpeed(void *Arg)
+{
+
+}
+
 Fan::Fan(const unsigned int &TriggerPin, const unsigned int &SensorPin)
 {
     this->_TriggerPin = TriggerPin;
     this->_SensorPin = SensorPin;
-    this->_DutyCycle = 1;
+    this->_DutyCycle = 100;
 
+    gpioSetPWMrange(_TriggerPin, 100);//Set the duty range between 0 -100, Zero being Off.
     if(_SensorPin > 0)
         gpioSetMode(_SensorPin, PI_INPUT);
-    gopioSetMode(_TriggerPin, PI_OUTPUT);
+    gpioSetMode(_TriggerPin, PI_OUTPUT);
     gpioWrite(_TriggerPin, PI_LOW);
 }
 
@@ -25,10 +31,13 @@ Fan::~Fan()
 void Fan::PowerOn()
 {
     _PowerState = Fan::ON;
-    if(_DutyCycle < 1)
+    if(_DutyCycle < 100)
         gpioPWM(_TriggerPin, _DutyCycle);
     else
         gpioWrite(_TriggerPin, PI_HIGH);
+
+    if(_SensorPin > 0)
+        RPMThread =  gpioStartThread(SampleSpeed, this);
 }
 
 void Fan::PowerOff()

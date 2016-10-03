@@ -6,8 +6,8 @@
 class Fan
 {
 private:
-    unsigned int _TriggerPin, _SensorPin, _TargetRPM, _PowerState, _RPMBuffer;
-    float _DutyCycle;
+    unsigned int _TriggerPin, _SensorPin, _TargetRPM, _PowerState, _RPMBuffer, _DutyCycle;
+    pthread_t *RPMThread;
 
 public:
 
@@ -26,7 +26,7 @@ public:
     int GetFanRPM();
     void SetRPM(const unsigned int &RPM);
 
-    float GetDutyCycle()
+    int GetDutyCycle()
     {
         return _DutyCycle;
     }
@@ -47,6 +47,8 @@ public:
     {
         return _RPMBuffer;
     }
+
+
 };
 
 #endif // FAN_H

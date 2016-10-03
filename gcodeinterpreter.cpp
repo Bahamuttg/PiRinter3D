@@ -80,10 +80,6 @@ void GCodeInterpreter::run()
 //======================================Private Methods============================================
 void GCodeInterpreter::LoadGCode(const QString &FilePath)
 {
-
-    //TODO: ZAxis tracking for Print recovery. Possibly a QList  of Z Move indexes so we can reset the loop counter.
-    //Home motors and/or offer up dialog for head positioning then restart layer when triggered.
-
     bool IsTooBig = false;
     QFile PrintFile(FilePath);
     if(PrintFile.open(QIODevice::ReadOnly | QIODevice::Text ))
@@ -107,6 +103,8 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
                             XVal = Coords[i].value;
                         if(Coords[i].Name == "YAxis")
                             YVal = Coords[i].value;
+                        if(Coords[i].Name == "ZAxis")
+                           _Layers.append(_GCODE.length() - 1);//GCODE Line indexes for layers.
                     }
                     if(XVal > _XArea || YVal > _YArea)
                         IsTooBig = true;
@@ -935,6 +933,10 @@ void GCodeInterpreter::ExecutePrintSequence()
             emit ProcessingMoves("Paused");
             msleep(50);
         }
+//        if(ProcessUserCommand)
+//        {
+            //Process any user commands here then follow through with the Parse line.
+//        }
         emit BeginLineProcessing(_GCODE[LineCounter]);
         ParseLine(_GCODE[LineCounter]);
         LineCounter ++;

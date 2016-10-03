@@ -20,14 +20,14 @@ SOURCES += main.cpp\
     gcodeinterpreter.cpp \
     motorcontroller.cpp \
     thermalprobe.cpp \
-    endstop.cpp \
     probeworker.cpp \
     probeconfigdialog.cpp \
     printareaconfigdialog.cpp \
     Lib/pigpio.c \
     Lib/command.c \
     adccontroller.cpp \
-    fan.cpp
+    fan.cpp \
+    tooltrigger.cpp
 
 HEADERS  += mainwindow.h \
     motorworker.h \
@@ -37,7 +37,6 @@ HEADERS  += mainwindow.h \
     gcodeinterpreter.h \
     motorcontroller.h \
     thermalprobe.h \
-    endstop.h \
     probeworker.h \
     probeconfigdialog.h \
     printareaconfigdialog.h \
@@ -45,7 +44,8 @@ HEADERS  += mainwindow.h \
     Lib/command.h \
     Lib/custom.cext \
     adccontroller.h \
-    fan.h
+    fan.h \
+    tooltrigger.h
 
 FORMS    += mainwindow.ui \
     stepperdriver.ui \

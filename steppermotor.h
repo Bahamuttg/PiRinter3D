@@ -47,6 +47,7 @@ private:
     bool _IsInverted;
     bool _IsRotating;
     bool _IsAgainstEndstop;
+	bool _IsExtCtrl;
 
     void CoilsOff();
     void InvertDirection();
@@ -62,6 +63,7 @@ public:
     MotorDirection Direction;
     long Position;
     volatile bool HoldPosition;
+    explicit StepperMotor(int StepPin, int DirectionPin, int EnablePin, int MinPhaseDelay, string Name = "Default", int StopPin = 0);
     explicit StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, string Name = "Default", int StopPin = 0);
     explicit StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, int MinPhaseDelay, bool IsHalfStep = false, string Name = "Default", int StopPin = 0);
     ~StepperMotor();

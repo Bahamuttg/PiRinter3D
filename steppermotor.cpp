@@ -22,7 +22,36 @@
 #include "steppermotor.h"
 #include <pigpio.h>
 #include <string>
+StepperMotor::StepperMotor(int StepPin, int DirectionPin, int EnablePin, int MinPhaseDelay, string Name, int StopPin)
+{
+	this->MotorName = Name;
+    this->_Coil_1 = StepPin;
+    this->_Coil_2 = DirectionPin;
+    this->_Coil_3 = EnablePin;
+    this->_Coil_4 = 0;
+    this->_IsNOTGated = false;
+	this->_IsExtCtrl = true;
+    this->_IsHalfStep = false;
+    this->_Enabled = true;
+    this->_IsInverted = false;
+    this->_IsRotating = false;
+    this->_MinPhaseDelay = MinPhaseDelay;
+    this->_StopPin = StopPin;
 
+    //Setup Pin->Coil Mappings
+    gpioSetMode(_Coil_1, PI_OUTPUT);
+    gpioSetMode(_Coil_2, PI_OUTPUT);
+    gpioSetMode(_Coil_3, PI_OUTPUT);
+    if(_StopPin > 0)
+        gpioSetMode(_StopPin, PI_INPUT);
+    //write pins to the Off state
+    gpioWrite(_Coil_1, PI_LOW);
+    gpioWrite(_Coil_3, PI_HIGH);
+    this->_Phase = 0;
+    this->Direction = CLOCKWISE;
+    this->Position = 0;
+    this->HoldPosition = true;
+}
 StepperMotor::StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, string Name, int StopPin)
 {
     this->MotorName = Name;
@@ -31,6 +60,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, string Name,
     this->_Coil_3 = Coil3;
     this->_Coil_4 = 0;
     this->_IsNOTGated = true;
+	this->_IsExtCtrl = false;
     this->_IsHalfStep = false;
     this->_Enabled = true;
     this->_IsInverted = false;
@@ -59,6 +89,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, int MinPh
     this->_Coil_3 = Coil3;
     this->_Coil_4 = Coil4;
     this->_IsNOTGated = false;
+	this->_IsExtCtrl = false;
     this->_IsHalfStep = IsHalfStep;
     this->_Enabled = true;
     this->_IsInverted = false;
@@ -187,51 +218,67 @@ void StepperMotor::PerformStep(MotorDirection Direction)
         InvertDirection();
     if (_Enabled)
     {
-        //Record our target phase
-        TargetPhase = (this->_Phase + this->Direction);
+		if(_IsExtCtrl)
+		{
+            gpioWrite(_Coil_3, PI_LOW); //Enable the motor if it was previously disabled.
+			if(this->Direction < 0)
+				gpioWrite(_Coil_2, PI_LOW);//Coil 2 is the direction pin when using external controller.
+			else
+				gpioWrite(_Coil_2, PI_HIGH);
+				
+            gpioWrite(_Coil_1, PI_LOW);
 
-        //Check if we need to reset the phase.
-        if (!_IsHalfStep)
-        {
-            if (this->Direction == CLOCKWISE && TargetPhase > 3)
-                TargetPhase = 0;
-            else if (this->Direction == CTRCLOCKWISE && TargetPhase < 0)
-                TargetPhase = 3;
-        }
-        else
-        {
-            if (this->Direction == CLOCKWISE && TargetPhase > 7)
-                TargetPhase = 0;
-            else if (this->Direction == CTRCLOCKWISE && TargetPhase < 0)
-                TargetPhase = 7;
+            gpioWrite(_Coil_1, PI_HIGH);
+			this->Position += this->Direction;
+		}
+		else
+		{
+			//Record our target phase
+			TargetPhase = (this->_Phase + this->Direction);
 
-        }
+			//Check if we need to reset the phase.
+			if (!_IsHalfStep)
+			{
+				if (this->Direction == CLOCKWISE && TargetPhase > 3)
+					TargetPhase = 0;
+				else if (this->Direction == CTRCLOCKWISE && TargetPhase < 0)
+					TargetPhase = 3;
+			}
+			else
+			{
+				if (this->Direction == CLOCKWISE && TargetPhase > 7)
+					TargetPhase = 0;
+				else if (this->Direction == CTRCLOCKWISE && TargetPhase < 0)
+					TargetPhase = 7;
 
-        //Set coils based upon phase shift, direction,and stepping style.
-        if (!_IsHalfStep)
-        {
-            gpioWrite(_Coil_1, FullStep[TargetPhase][0]);
-            gpioWrite(_Coil_3, FullStep[TargetPhase][2]);
-            if (!_IsNOTGated)
-            {
-                gpioWrite(_Coil_2, FullStep[TargetPhase][1]);
-                gpioWrite(_Coil_4, FullStep[TargetPhase][3]);
-            }
-        }
-        else
-        {
-            gpioWrite(_Coil_1, HalfStep[TargetPhase][0]);
-            gpioWrite(_Coil_3, HalfStep[TargetPhase][2]);
-            if (!_IsNOTGated)
-            {
-                gpioWrite(_Coil_2, HalfStep[TargetPhase][1]);
-                gpioWrite(_Coil_4, HalfStep[TargetPhase][3]);
-            }
-        }
+			}
 
-        //Update motor status.
-        this->_Phase = TargetPhase;
-        this->Position += this->Direction;
+			//Set coils based upon phase shift, direction,and stepping style.
+			if (!_IsHalfStep)
+			{
+				gpioWrite(_Coil_1, FullStep[TargetPhase][0]);
+				gpioWrite(_Coil_3, FullStep[TargetPhase][2]);
+				if (!_IsNOTGated)
+				{
+					gpioWrite(_Coil_2, FullStep[TargetPhase][1]);
+					gpioWrite(_Coil_4, FullStep[TargetPhase][3]);
+				}
+			}
+			else
+			{
+				gpioWrite(_Coil_1, HalfStep[TargetPhase][0]);
+				gpioWrite(_Coil_3, HalfStep[TargetPhase][2]);
+				if (!_IsNOTGated)
+				{
+					gpioWrite(_Coil_2, HalfStep[TargetPhase][1]);
+					gpioWrite(_Coil_4, HalfStep[TargetPhase][3]);
+				}
+			}
+			//Update motor status.
+			this->_Phase = TargetPhase;
+			this->Position += this->Direction;
+		}
+        
     }
     //If we're not holding the motor position let's release it.
     if (!HoldPosition)
@@ -263,12 +310,17 @@ void StepperMotor::SetEndstop(const unsigned int &EndStopPin)
 
 void StepperMotor::CoilsOff()
 {
-    gpioWrite(_Coil_1, PI_LOW);
-    gpioWrite(_Coil_3, PI_LOW);
-    if(!this->_IsNOTGated)
+	if(_IsExtCtrl)
+        gpioWrite(_Coil_3, PI_HIGH);
+    else
     {
-        gpioWrite(_Coil_2, PI_LOW);
-        gpioWrite(_Coil_4, PI_LOW);
+        gpioWrite(_Coil_1, PI_LOW);
+        gpioWrite(_Coil_3, PI_LOW);
+        if(!this->_IsNOTGated)
+        {
+            gpioWrite(_Coil_2, PI_LOW);
+            gpioWrite(_Coil_4, PI_LOW);
+        }
     }
 }
 
@@ -283,6 +335,8 @@ void StepperMotor::InvertDirection()
 
 void StepperMotor::SetNotGated(const bool &Arg)
 {
+	if(_IsExtCtrl)
+		return;
     this->_IsNOTGated = Arg;
     this->_IsHalfStep = false;
 }

@@ -46,6 +46,26 @@ StepperDriver::~StepperDriver()
     delete Motor;
 }
 
+/*
+ *  Param 0: Motor Name
+ *  Param 1: CoilA1 GPIO Pin
+ *  Param 2: CoilA2 GPIO Pin
+ *  Param 3: CoilB1 GPIO Pin
+ *  Param 4: CoilB2 GPIO Pin
+ *  Param 5: End Stop GPIO Pin
+ *  Param 6: Hex Inverter Flag
+ *  Param 7: End Stop Flag
+ *  Param 8: Full Stepping Flag
+ *  Param 9: Half Stepping Flag
+ *  Param 10: Resolution Value
+ *  Param 11: Min Phase Delay Value
+ *  Param 12: Has Enable Flag
+ *  Param 13: External Ctrl Step GPIO Pin
+ *  Param 14: External Ctrl Direction GPIO Pin
+ *  Param 15: Enable GPIO Pin
+ *  Param 16: Use External Ctrl Flag
+ */
+
 void StepperDriver::InitializeMotor(const QString &MotorName)
 {
     QFile MotorConfig("MotorCfg.ini");
@@ -62,6 +82,8 @@ void StepperDriver::InitializeMotor(const QString &MotorName)
                 {
                     if(Params[6].toInt()) //If it's using HEX inverters
                         this->Motor = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else if(Params[16].toInt())
+                        this->Motor = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     else
                         this->Motor = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>572</width>
-    <height>529</height>
+    <height>573</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -55,207 +55,19 @@
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBox">
-             <property name="title">
-              <string>Motor Gpio Pin Settings</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_3">
-              <item>
-               <layout class="QFormLayout" name="flXCoils">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label">
-                  <property name="minimumSize">
-                   <size>
-                    <width>80</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Coil A1</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="leA1_X">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>50</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="inputMask">
-                   <string>00</string>
-                  </property>
-                  <property name="maxLength">
-                   <number>2</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_2">
-                  <property name="minimumSize">
-                   <size>
-                    <width>80</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Coil A2</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="leA2_X">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>50</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="inputMask">
-                   <string>00</string>
-                  </property>
-                  <property name="maxLength">
-                   <number>2</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_3">
-                  <property name="minimumSize">
-                   <size>
-                    <width>80</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Coil B1</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="leB1_X">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>50</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="inputMask">
-                   <string>00</string>
-                  </property>
-                  <property name="maxLength">
-                   <number>2</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_4">
-                  <property name="minimumSize">
-                   <size>
-                    <width>80</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Coil B2</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="leB2_X">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>50</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="inputMask">
-                   <string>00</string>
-                  </property>
-                  <property name="maxLength">
-                   <number>2</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="lblEnableX">
-                  <property name="minimumSize">
-                   <size>
-                    <width>80</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>End Stop</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
-                 <widget class="QLineEdit" name="leEnableX">
-                  <property name="maximumSize">
-                   <size>
-                    <width>50</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="inputMask">
-                   <string>00</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <spacer name="verticalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </widget>
-           </item>
            <item row="0" column="2">
             <widget class="QGroupBox" name="groupBox_2">
              <property name="title">
               <string>Motor Configuration Options</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <widget class="QCheckBox" name="chkExtCtrlX">
+                <property name="text">
+                 <string>Use External Controller</string>
+                </property>
+               </widget>
+              </item>
               <item>
                <widget class="QCheckBox" name="chkNOTX">
                 <property name="toolTip">
@@ -267,7 +79,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="chkEnableX">
+               <widget class="QCheckBox" name="chkEndX">
                 <property name="toolTip">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option to enable/disable this motor  based upon hardware insted of software.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
@@ -277,7 +89,14 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="chkXHold">
+               <widget class="QCheckBox" name="chkEnableX">
+                <property name="text">
+                 <string>Has Enable Pin</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkHoldX">
                 <property name="text">
                  <string>Hold On Idle</string>
                 </property>
@@ -394,8 +213,10 @@
              <zorder>groupBox_3</zorder>
              <zorder>chkNOTX</zorder>
              <zorder>groupBox_13</zorder>
+             <zorder>chkEndX</zorder>
+             <zorder>chkHoldX</zorder>
              <zorder>chkEnableX</zorder>
-             <zorder>chkXHold</zorder>
+             <zorder>chkExtCtrlX</zorder>
             </widget>
            </item>
            <item row="0" column="3">
@@ -410,6 +231,287 @@
               </size>
              </property>
             </spacer>
+           </item>
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string>Motor Gpio Pin Settings</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <layout class="QFormLayout" name="flXCoils">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="lblA1X">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Coil A1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="leA1_X">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                  <property name="maxLength">
+                   <number>2</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="lblA2X">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Coil A2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="leA2_X">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                  <property name="maxLength">
+                   <number>2</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="lblB1X">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Coil B1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="leB1_X">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                  <property name="maxLength">
+                   <number>2</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="lblB2X">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Coil B2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="leB2_X">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                  <property name="maxLength">
+                   <number>2</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="lblEndX">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>End Stop</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QLineEdit" name="leEndX">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QFormLayout" name="flXExtCtrl">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="lblStepX">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Step </string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="leStepPinX">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="lblDirX">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Direction</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="leDirPinX">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QFormLayout" name="formLayout_2">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="lblEnableX">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Enable Pin</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="leEnablePinX">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="verticalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
            </item>
           </layout>
          </item>
@@ -574,7 +676,7 @@
                  </widget>
                 </item>
                 <item row="4" column="0">
-                 <widget class="QLabel" name="lblEnableY">
+                 <widget class="QLabel" name="lblEndY">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -587,7 +689,7 @@
                  </widget>
                 </item>
                 <item row="4" column="1">
-                 <widget class="QLineEdit" name="leEnableY">
+                 <widget class="QLineEdit" name="leEndY">
                   <property name="maximumSize">
                    <size>
                     <width>50</width>
@@ -596,6 +698,27 @@
                   </property>
                   <property name="inputMask">
                    <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QFormLayout" name="formLayout_4">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="stepPinLabel_2">
+                  <property name="text">
+                   <string>Step Pin</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="leStepPinY">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
                   </property>
                  </widget>
                 </item>
@@ -634,7 +757,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="chkEnableY">
+               <widget class="QCheckBox" name="chkEndY">
                 <property name="toolTip">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option to enable/disable this motor  based upon hardware insted of software.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
@@ -647,6 +770,13 @@
                <widget class="QCheckBox" name="chkYHold">
                 <property name="text">
                  <string>Hold On Idle</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkExtCtrlY">
+                <property name="text">
+                 <string>Use External Controller</string>
                 </property>
                </widget>
               </item>
@@ -939,7 +1069,7 @@
                  </widget>
                 </item>
                 <item row="4" column="0">
-                 <widget class="QLabel" name="lblEnableZ">
+                 <widget class="QLabel" name="lblEndZ">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -952,7 +1082,7 @@
                  </widget>
                 </item>
                 <item row="4" column="1">
-                 <widget class="QLineEdit" name="leEnableZ">
+                 <widget class="QLineEdit" name="leEndZ">
                   <property name="maximumSize">
                    <size>
                     <width>50</width>
@@ -999,7 +1129,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="chkEnableZ">
+               <widget class="QCheckBox" name="chkEndZ">
                 <property name="toolTip">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option to enable/disable this motor  based upon hardware insted of software.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
@@ -1012,6 +1142,13 @@
                <widget class="QCheckBox" name="chkZHold">
                 <property name="text">
                  <string>Hold On Idle</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkExtCtrlZ">
+                <property name="text">
+                 <string>Use External Controller</string>
                 </property>
                </widget>
               </item>
@@ -1304,7 +1441,7 @@
                  </widget>
                 </item>
                 <item row="4" column="0">
-                 <widget class="QLabel" name="lblEnableEX">
+                 <widget class="QLabel" name="lblEndEX">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -1317,7 +1454,7 @@
                  </widget>
                 </item>
                 <item row="4" column="1">
-                 <widget class="QLineEdit" name="leEnableEX">
+                 <widget class="QLineEdit" name="leEndEX">
                   <property name="maximumSize">
                    <size>
                     <width>50</width>
@@ -1364,7 +1501,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="chkEnableEX">
+               <widget class="QCheckBox" name="chkEndEX">
                 <property name="toolTip">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option if this axis has an end stop which will disable&lt;/br&gt;the motor's movement when triggered..&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
@@ -1377,6 +1514,13 @@
                <widget class="QCheckBox" name="chkExtHold">
                 <property name="text">
                  <string>Hold On Idle</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkExtCtrlExt">
+                <property name="text">
+                 <string>Use External Controller</string>
                 </property>
                </widget>
               </item>
@@ -1522,12 +1666,60 @@
   <tabstop>leA2_X</tabstop>
   <tabstop>leB1_X</tabstop>
   <tabstop>leB2_X</tabstop>
-  <tabstop>leEnableX</tabstop>
+  <tabstop>leEndX</tabstop>
+  <tabstop>leStepPinX</tabstop>
+  <tabstop>leDirPinX</tabstop>
+  <tabstop>leEnablePinX</tabstop>
+  <tabstop>chkExtCtrlX</tabstop>
   <tabstop>chkNOTX</tabstop>
+  <tabstop>chkEndX</tabstop>
+  <tabstop>chkEnableX</tabstop>
+  <tabstop>chkHoldX</tabstop>
   <tabstop>rbFullX</tabstop>
   <tabstop>rbHalfX</tabstop>
   <tabstop>dsbResX</tabstop>
+  <tabstop>seMinDelayX</tabstop>
   <tabstop>pushButton</tabstop>
+  <tabstop>leA1_Y</tabstop>
+  <tabstop>leA2_Y</tabstop>
+  <tabstop>leB1_Y</tabstop>
+  <tabstop>leB2_Y</tabstop>
+  <tabstop>leEndY</tabstop>
+  <tabstop>leStepPinY</tabstop>
+  <tabstop>chkNOTY</tabstop>
+  <tabstop>chkEndY</tabstop>
+  <tabstop>chkYHold</tabstop>
+  <tabstop>chkExtCtrlY</tabstop>
+  <tabstop>rbFullY</tabstop>
+  <tabstop>rbHalfY</tabstop>
+  <tabstop>dsbResY</tabstop>
+  <tabstop>seMinDelayY</tabstop>
+  <tabstop>leA1_Z</tabstop>
+  <tabstop>leA2_Z</tabstop>
+  <tabstop>leB1_Z</tabstop>
+  <tabstop>leB2_Z</tabstop>
+  <tabstop>leEndZ</tabstop>
+  <tabstop>chkNOTZ</tabstop>
+  <tabstop>chkEndZ</tabstop>
+  <tabstop>chkZHold</tabstop>
+  <tabstop>chkExtCtrlZ</tabstop>
+  <tabstop>rbFullZ</tabstop>
+  <tabstop>rbHalfZ</tabstop>
+  <tabstop>dsbResZ</tabstop>
+  <tabstop>seMinDelayZ</tabstop>
+  <tabstop>leA1_EX</tabstop>
+  <tabstop>leA2_EX</tabstop>
+  <tabstop>leB1_EX</tabstop>
+  <tabstop>leB2_EX</tabstop>
+  <tabstop>leEndEX</tabstop>
+  <tabstop>chkNOTEX</tabstop>
+  <tabstop>chkEndEX</tabstop>
+  <tabstop>chkExtHold</tabstop>
+  <tabstop>chkExtCtrlExt</tabstop>
+  <tabstop>rbFullEX</tabstop>
+  <tabstop>rbHalfEX</tabstop>
+  <tabstop>dsbResEX</tabstop>
+  <tabstop>seMinDelayExt</tabstop>
  </tabstops>
  <resources>
   <include location="PiRinter.qrc"/>
@@ -1540,8 +1732,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>278</x>
-     <y>462</y>
+     <x>298</x>
+     <y>562</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -1556,8 +1748,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>346</x>
-     <y>462</y>
+     <x>366</x>
+     <y>562</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -1568,16 +1760,16 @@
   <connection>
    <sender>chkNOTX</sender>
    <signal>toggled(bool)</signal>
-   <receiver>label_4</receiver>
+   <receiver>lblB2X</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>289</x>
-     <y>98</y>
+     <y>130</y>
     </hint>
     <hint type="destinationlabel">
-     <x>65</x>
-     <y>224</y>
+     <x>78</x>
+     <y>205</y>
     </hint>
    </hints>
   </connection>
@@ -1589,7 +1781,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>314</x>
-     <y>98</y>
+     <y>130</y>
     </hint>
     <hint type="destinationlabel">
      <x>143</x>
@@ -1600,12 +1792,12 @@
   <connection>
    <sender>chkNOTX</sender>
    <signal>toggled(bool)</signal>
-   <receiver>label_2</receiver>
+   <receiver>lblA2X</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>454</x>
-     <y>105</y>
+     <y>137</y>
     </hint>
     <hint type="destinationlabel">
      <x>89</x>
@@ -1621,7 +1813,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>433</x>
-     <y>98</y>
+     <y>130</y>
     </hint>
     <hint type="destinationlabel">
      <x>145</x>
@@ -1630,14 +1822,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>chkEnableX</sender>
+   <sender>chkEndX</sender>
    <signal>toggled(bool)</signal>
-   <receiver>leEnableX</receiver>
+   <receiver>leEndX</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>262</x>
-     <y>119</y>
+     <y>151</y>
     </hint>
     <hint type="destinationlabel">
      <x>129</x>
@@ -1646,14 +1838,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>chkEnableX</sender>
+   <sender>chkEndX</sender>
    <signal>toggled(bool)</signal>
-   <receiver>lblEnableX</receiver>
+   <receiver>lblEndX</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>240</x>
-     <y>123</y>
+     <y>155</y>
     </hint>
     <hint type="destinationlabel">
      <x>65</x>
@@ -1726,9 +1918,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>chkEnableY</sender>
+   <sender>chkEndY</sender>
    <signal>toggled(bool)</signal>
-   <receiver>leEnableY</receiver>
+   <receiver>leEndY</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1742,9 +1934,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>chkEnableY</sender>
+   <sender>chkEndY</sender>
    <signal>toggled(bool)</signal>
-   <receiver>lblEnableY</receiver>
+   <receiver>lblEndY</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1768,7 +1960,7 @@
      <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>159</x>
+     <x>175</x>
      <y>149</y>
     </hint>
    </hints>
@@ -1784,7 +1976,7 @@
      <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>89</x>
+     <x>119</x>
      <y>149</y>
     </hint>
    </hints>
@@ -1800,7 +1992,7 @@
      <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>159</x>
+     <x>175</x>
      <y>227</y>
     </hint>
    </hints>
@@ -1816,15 +2008,15 @@
      <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>89</x>
+     <x>119</x>
      <y>227</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>chkEnableZ</sender>
+   <sender>chkEndZ</sender>
    <signal>toggled(bool)</signal>
-   <receiver>leEnableZ</receiver>
+   <receiver>leEndZ</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1832,15 +2024,15 @@
      <y>137</y>
     </hint>
     <hint type="destinationlabel">
-     <x>159</x>
+     <x>175</x>
      <y>266</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>chkEnableZ</sender>
+   <sender>chkEndZ</sender>
    <signal>toggled(bool)</signal>
-   <receiver>lblEnableZ</receiver>
+   <receiver>lblEndZ</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1848,7 +2040,7 @@
      <y>137</y>
     </hint>
     <hint type="destinationlabel">
-     <x>103</x>
+     <x>119</x>
      <y>266</y>
     </hint>
    </hints>
@@ -1864,7 +2056,7 @@
      <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>159</x>
+     <x>175</x>
      <y>149</y>
     </hint>
    </hints>
@@ -1880,7 +2072,7 @@
      <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>89</x>
+     <x>119</x>
      <y>149</y>
     </hint>
    </hints>
@@ -1896,7 +2088,7 @@
      <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>159</x>
+     <x>175</x>
      <y>227</y>
     </hint>
    </hints>
@@ -1912,15 +2104,15 @@
      <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>89</x>
+     <x>119</x>
      <y>227</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>chkEnableEX</sender>
+   <sender>chkEndEX</sender>
    <signal>toggled(bool)</signal>
-   <receiver>leEnableEX</receiver>
+   <receiver>leEndEX</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1928,15 +2120,15 @@
      <y>137</y>
     </hint>
     <hint type="destinationlabel">
-     <x>159</x>
+     <x>175</x>
      <y>266</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>chkEnableEX</sender>
+   <sender>chkEndEX</sender>
    <signal>toggled(bool)</signal>
-   <receiver>lblEnableEX</receiver>
+   <receiver>lblEndEX</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1944,7 +2136,7 @@
      <y>137</y>
     </hint>
     <hint type="destinationlabel">
-     <x>103</x>
+     <x>119</x>
      <y>266</y>
     </hint>
    </hints>
@@ -1957,11 +2149,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>375</x>
-     <y>89</y>
+     <y>121</y>
     </hint>
     <hint type="destinationlabel">
-     <x>405</x>
-     <y>206</y>
+     <x>488</x>
+     <y>322</y>
     </hint>
    </hints>
   </connection>
@@ -1973,11 +2165,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>368</x>
-     <y>90</y>
+     <y>122</y>
     </hint>
     <hint type="destinationlabel">
-     <x>388</x>
-     <y>184</y>
+     <x>488</x>
+     <y>290</y>
     </hint>
    </hints>
   </connection>
@@ -1992,8 +2184,8 @@
      <y>89</y>
     </hint>
     <hint type="destinationlabel">
-     <x>388</x>
-     <y>209</y>
+     <x>488</x>
+     <y>290</y>
     </hint>
    </hints>
   </connection>
@@ -2008,8 +2200,8 @@
      <y>87</y>
     </hint>
     <hint type="destinationlabel">
-     <x>361</x>
-     <y>180</y>
+     <x>488</x>
+     <y>258</y>
     </hint>
    </hints>
   </connection>
@@ -2020,12 +2212,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>417</x>
-     <y>96</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>408</x>
-     <y>212</y>
+     <x>353</x>
+     <y>290</y>
     </hint>
    </hints>
   </connection>
@@ -2036,12 +2228,12 @@
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>383</x>
-     <y>98</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>360</x>
-     <y>176</y>
+     <x>353</x>
+     <y>258</y>
     </hint>
    </hints>
   </connection>
@@ -2052,12 +2244,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>392</x>
-     <y>98</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>394</x>
-     <y>208</y>
+     <x>353</x>
+     <y>290</y>
     </hint>
    </hints>
   </connection>
@@ -2068,12 +2260,44 @@
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>432</x>
-     <y>84</y>
+     <x>336</x>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>365</x>
-     <y>178</y>
+     <x>353</x>
+     <y>258</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leEnablePinX</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>240</x>
+     <y>191</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>160</x>
+     <y>379</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblEnableX</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>374</x>
+     <y>194</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>71</x>
+     <y>382</y>
     </hint>
    </hints>
   </connection>

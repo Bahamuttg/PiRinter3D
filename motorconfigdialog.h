@@ -30,6 +30,8 @@ private slots:
 
     void on_buttonBox_accepted();
 
+    void on_chkExtCtrlX_toggled(bool checked);
+
 signals:
     void OnConfigChanged();
 };

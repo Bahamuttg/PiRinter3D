@@ -222,7 +222,8 @@ void StepperMotor::PerformStep(MotorDirection Direction)
 
         if(_IsExtCtrl)
         {
-            gpioWrite(_Coil_3, PI_LOW); //Enable the motor if it was previously disabled.
+            if(_Coil_3 > 0)
+                gpioWrite(_Coil_3, PI_LOW); //Enable the motor if it was previously disabled.
             if(this->Direction == CTRCLOCKWISE)
                 gpioWrite(_Coil_2, PI_LOW);//Coil 2 is the direction pin when using external controller.
             else

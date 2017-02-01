@@ -32,6 +32,12 @@ private slots:
 
     void on_chkExtCtrlX_toggled(bool checked);
 
+    void on_chkExtCtrlY_toggled(bool checked);
+
+    void on_chkExtCtrlZ_toggled(bool checked);
+
+    void on_chkExtCtrlEX_toggled(bool checked);
+
 signals:
     void OnConfigChanged();
 };

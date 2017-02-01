@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>572</width>
-    <height>573</height>
+    <width>537</width>
+    <height>592</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -25,14 +25,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="0">
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>Launch Resolution Calculator</string>
-       </property>
-      </widget>
-     </item>
+    <layout class="QGridLayout" name="glMain">
      <item row="3" column="0">
       <widget class="QDialogButtonBox" name="buttonBox">
        <property name="orientation">
@@ -43,10 +36,17 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Launch Resolution Calculator</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="0">
       <widget class="QTabWidget" name="tabMotors">
        <property name="currentIndex">
-        <number>0</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="tpXAxis">
         <attribute name="title">
@@ -54,15 +54,18 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <layout class="QGridLayout" name="gridLayout_2">
+          <layout class="QGridLayout" name="gcMainX">
            <item row="0" column="2">
-            <widget class="QGroupBox" name="groupBox_2">
+            <widget class="QGroupBox" name="gbCfgOptX">
              <property name="title">
               <string>Motor Configuration Options</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_4">
               <item>
                <widget class="QCheckBox" name="chkExtCtrlX">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option if you are driving your stepper motors using an external stepper controller that doesn't allow you to directly polarize the motor coils.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                 <property name="text">
                  <string>Use External Controller</string>
                 </property>
@@ -90,6 +93,9 @@
               </item>
               <item>
                <widget class="QCheckBox" name="chkEnableX">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option if your controller has an enable pin which will enable/disable operation of the motor.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                 <property name="text">
                  <string>Has Enable Pin</string>
                 </property>
@@ -97,13 +103,19 @@
               </item>
               <item>
                <widget class="QCheckBox" name="chkHoldX">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;De-Selecting this option will cause the motors to &amp;quot;float&amp;quot; instead of holding after each step. This is useful if your motors generate a lot of extra heat when they aren't moving. This also affects the precision of the motor state when it's stopped. If there is enough &amp;quot;load pressure&amp;quot; the motor may move from it's last position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                 <property name="text">
                  <string>Hold On Idle</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_3">
+               <widget class="QGroupBox" name="gbSteppingX">
                 <property name="title">
                  <string>Stepping Style</string>
                 </property>
@@ -135,13 +147,13 @@
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_13">
+               <widget class="QGroupBox" name="gbResX">
                 <property name="title">
                  <string>Resolution Calibration</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_19">
                  <item>
-                  <layout class="QFormLayout" name="formLayout">
+                  <layout class="QFormLayout" name="flResCfgX">
                    <property name="sizeConstraint">
                     <enum>QLayout::SetMaximumSize</enum>
                    </property>
@@ -155,6 +167,9 @@
                      </property>
                      <property name="text">
                       <string>Resolution</string>
+                     </property>
+                     <property name="buddy">
+                      <cstring>dsbResX</cstring>
                      </property>
                     </widget>
                    </item>
@@ -181,6 +196,9 @@
                      </property>
                      <property name="text">
                       <string>Min Phase Delay</string>
+                     </property>
+                     <property name="buddy">
+                      <cstring>seMinDelayX</cstring>
                      </property>
                     </widget>
                    </item>
@@ -210,30 +228,17 @@
                </widget>
               </item>
              </layout>
-             <zorder>groupBox_3</zorder>
+             <zorder>gbSteppingX</zorder>
              <zorder>chkNOTX</zorder>
-             <zorder>groupBox_13</zorder>
+             <zorder>gbResX</zorder>
              <zorder>chkEndX</zorder>
              <zorder>chkHoldX</zorder>
              <zorder>chkEnableX</zorder>
              <zorder>chkExtCtrlX</zorder>
             </widget>
            </item>
-           <item row="0" column="3">
-            <spacer name="horizontalSpacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
            <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBox">
+            <widget class="QGroupBox" name="gbGPIOX">
              <property name="title">
               <string>Motor Gpio Pin Settings</string>
              </property>
@@ -253,6 +258,9 @@
                   </property>
                   <property name="text">
                    <string>Coil A1</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leA1_X</cstring>
                   </property>
                  </widget>
                 </item>
@@ -289,6 +297,9 @@
                   <property name="text">
                    <string>Coil A2</string>
                   </property>
+                  <property name="buddy">
+                   <cstring>leA2_X</cstring>
+                  </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
@@ -323,6 +334,9 @@
                   </property>
                   <property name="text">
                    <string>Coil B1</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leB1_X</cstring>
                   </property>
                  </widget>
                 </item>
@@ -359,6 +373,9 @@
                   <property name="text">
                    <string>Coil B2</string>
                   </property>
+                  <property name="buddy">
+                   <cstring>leB2_X</cstring>
+                  </property>
                  </widget>
                 </item>
                 <item row="3" column="1">
@@ -394,6 +411,9 @@
                   <property name="text">
                    <string>End Stop</string>
                   </property>
+                  <property name="buddy">
+                   <cstring>leEndX</cstring>
+                  </property>
                  </widget>
                 </item>
                 <item row="4" column="1">
@@ -424,6 +444,9 @@
                   <property name="text">
                    <string>Step </string>
                   </property>
+                  <property name="buddy">
+                   <cstring>leStepPinX</cstring>
+                  </property>
                  </widget>
                 </item>
                 <item row="0" column="1">
@@ -450,6 +473,9 @@
                   <property name="text">
                    <string>Direction</string>
                   </property>
+                  <property name="buddy">
+                   <cstring>leDirPinX</cstring>
+                  </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
@@ -468,7 +494,7 @@
                </layout>
               </item>
               <item>
-               <layout class="QFormLayout" name="formLayout_2">
+               <layout class="QFormLayout" name="flXEnable">
                 <item row="0" column="0">
                  <widget class="QLabel" name="lblEnableX">
                   <property name="minimumSize">
@@ -479,6 +505,9 @@
                   </property>
                   <property name="text">
                    <string>Enable Pin</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leEnablePinX</cstring>
                   </property>
                  </widget>
                 </item>
@@ -523,20 +552,20 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_35">
          <item>
-          <layout class="QGridLayout" name="gridLayout_7">
+          <layout class="QGridLayout" name="gcMainY">
            <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBox_21">
+            <widget class="QGroupBox" name="gbGPIOY">
              <property name="title">
               <string>Motor Gpio Pin Settings</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_16">
+             <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
-               <layout class="QFormLayout" name="flXCoils_6">
+               <layout class="QFormLayout" name="flYCoils">
                 <property name="fieldGrowthPolicy">
                  <enum>QFormLayout::FieldsStayAtSizeHint</enum>
                 </property>
                 <item row="0" column="0">
-                 <widget class="QLabel" name="label_26">
+                 <widget class="QLabel" name="lblA1Y">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -545,6 +574,9 @@
                   </property>
                   <property name="text">
                    <string>Coil A1</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leA1_Y</cstring>
                   </property>
                  </widget>
                 </item>
@@ -571,7 +603,7 @@
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="label_27">
+                 <widget class="QLabel" name="lblA2Y">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -580,6 +612,9 @@
                   </property>
                   <property name="text">
                    <string>Coil A2</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leA2_Y</cstring>
                   </property>
                  </widget>
                 </item>
@@ -606,7 +641,7 @@
                  </widget>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLabel" name="label_28">
+                 <widget class="QLabel" name="lblB1Y">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -615,6 +650,9 @@
                   </property>
                   <property name="text">
                    <string>Coil B1</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leB1_Y</cstring>
                   </property>
                  </widget>
                 </item>
@@ -641,7 +679,7 @@
                  </widget>
                 </item>
                 <item row="3" column="0">
-                 <widget class="QLabel" name="label_29">
+                 <widget class="QLabel" name="lblB2Y">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -650,6 +688,9 @@
                   </property>
                   <property name="text">
                    <string>Coil B2</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leB2_Y</cstring>
                   </property>
                  </widget>
                 </item>
@@ -686,6 +727,9 @@
                   <property name="text">
                    <string>End Stop</string>
                   </property>
+                  <property name="buddy">
+                   <cstring>leEndY</cstring>
+                  </property>
                  </widget>
                 </item>
                 <item row="4" column="1">
@@ -704,14 +748,10 @@
                </layout>
               </item>
               <item>
-               <layout class="QFormLayout" name="formLayout_4">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="stepPinLabel_2">
-                  <property name="text">
-                   <string>Step Pin</string>
-                  </property>
-                 </widget>
-                </item>
+               <layout class="QFormLayout" name="flYExtCtrl">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
                 <item row="0" column="1">
                  <widget class="QLineEdit" name="leStepPinY">
                   <property name="maximumSize">
@@ -719,6 +759,87 @@
                     <width>50</width>
                     <height>16777215</height>
                    </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="lblDirY">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Direction</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leDirPinX</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="leDirPinY">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="lblStepY">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Step </string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leStepPinX</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QFormLayout" name="flYEnable">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="lblEnableY">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Enable Pin</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leEnablePinX</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="leEnablePinY">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
                   </property>
                  </widget>
                 </item>
@@ -741,11 +862,21 @@
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QGroupBox" name="groupBox_22">
+            <widget class="QGroupBox" name="gbCfgOptY">
              <property name="title">
               <string>Motor Configuration Options</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_26">
+             <layout class="QVBoxLayout" name="verticalLayout_7">
+              <item>
+               <widget class="QCheckBox" name="chkExtCtrlY">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option if you are driving your stepper motors using an external stepper controller that doesn't allow you to directly polarize the motor coils.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string>Use External Controller</string>
+                </property>
+               </widget>
+              </item>
               <item>
                <widget class="QCheckBox" name="chkNOTY">
                 <property name="toolTip">
@@ -767,21 +898,30 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="chkYHold">
+               <widget class="QCheckBox" name="chkEnableY">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option if your controller has an enable pin which will enable/disable operation of the motor.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string>Has Enable Pin</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkHoldY">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;De-Selecting this option will cause the motors to &amp;quot;float&amp;quot; instead of holding after each step. This is useful if your motors generate a lot of extra heat when they aren't moving. This also affects the precision of the motor state when it's stopped. If there is enough &amp;quot;load pressure&amp;quot; the motor may move from it's last position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                 <property name="text">
                  <string>Hold On Idle</string>
                 </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chkExtCtrlY">
-                <property name="text">
-                 <string>Use External Controller</string>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_23">
+               <widget class="QGroupBox" name="gbSteppingY">
                 <property name="title">
                  <string>Stepping Style</string>
                 </property>
@@ -813,13 +953,13 @@
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_24">
+               <widget class="QGroupBox" name="gbResY">
                 <property name="title">
                  <string>Resolution Calibration</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_28">
                  <item>
-                  <layout class="QFormLayout" name="formLayout_6">
+                  <layout class="QFormLayout" name="flResCfgY">
                    <property name="sizeConstraint">
                     <enum>QLayout::SetMaximumSize</enum>
                    </property>
@@ -833,6 +973,9 @@
                      </property>
                      <property name="text">
                       <string>Resolution</string>
+                     </property>
+                     <property name="buddy">
+                      <cstring>dsbResY</cstring>
                      </property>
                     </widget>
                    </item>
@@ -859,6 +1002,9 @@
                      </property>
                      <property name="text">
                       <string>Min Phase Delay</string>
+                     </property>
+                     <property name="buddy">
+                      <cstring>seMinDelayY</cstring>
                      </property>
                     </widget>
                    </item>
@@ -893,19 +1039,6 @@
              </layout>
             </widget>
            </item>
-           <item row="0" column="3">
-            <spacer name="horizontalSpacer_6">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
          </item>
         </layout>
@@ -916,20 +1049,20 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_36">
          <item>
-          <layout class="QGridLayout" name="gridLayout_9">
+          <layout class="QGridLayout" name="gcMainZ">
            <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBox_29">
+            <widget class="QGroupBox" name="gbGPIOZ">
              <property name="title">
               <string>Motor Gpio Pin Settings</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_31">
+             <layout class="QVBoxLayout" name="verticalLayout_9">
               <item>
-               <layout class="QFormLayout" name="flXCoils_8">
+               <layout class="QFormLayout" name="flZCoils">
                 <property name="fieldGrowthPolicy">
                  <enum>QFormLayout::FieldsStayAtSizeHint</enum>
                 </property>
                 <item row="0" column="0">
-                 <widget class="QLabel" name="label_36">
+                 <widget class="QLabel" name="lblA1Z">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -938,6 +1071,9 @@
                   </property>
                   <property name="text">
                    <string>Coil A1</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leA1_Z</cstring>
                   </property>
                  </widget>
                 </item>
@@ -964,7 +1100,7 @@
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="label_37">
+                 <widget class="QLabel" name="lblA2Z">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -973,6 +1109,9 @@
                   </property>
                   <property name="text">
                    <string>Coil A2</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leA2_Z</cstring>
                   </property>
                  </widget>
                 </item>
@@ -999,7 +1138,7 @@
                  </widget>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLabel" name="label_38">
+                 <widget class="QLabel" name="lblB1Z">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -1008,6 +1147,9 @@
                   </property>
                   <property name="text">
                    <string>Coil B1</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leB1_Z</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1034,7 +1176,7 @@
                  </widget>
                 </item>
                 <item row="3" column="0">
-                 <widget class="QLabel" name="label_39">
+                 <widget class="QLabel" name="lblB2Z">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -1043,6 +1185,9 @@
                   </property>
                   <property name="text">
                    <string>Coil B2</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leB2_Z</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1079,10 +1224,111 @@
                   <property name="text">
                    <string>End Stop</string>
                   </property>
+                  <property name="buddy">
+                   <cstring>leEndZ</cstring>
+                  </property>
                  </widget>
                 </item>
                 <item row="4" column="1">
                  <widget class="QLineEdit" name="leEndZ">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QFormLayout" name="flZExtCtrl">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="leStepPinZ">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="lblDirZ">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Direction</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leDirPinX</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="leDirPinZ">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="lblStepZ">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Step </string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leStepPinX</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QFormLayout" name="flZEnable">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="lblEnableZ">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Enable Pin</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leEnablePinX</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="leEnablePinZ">
                   <property name="maximumSize">
                    <size>
                     <width>50</width>
@@ -1113,11 +1359,21 @@
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QGroupBox" name="groupBox_30">
+            <widget class="QGroupBox" name="gbCfgOptZ">
              <property name="title">
               <string>Motor Configuration Options</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_32">
+             <layout class="QVBoxLayout" name="verticalLayout_10">
+              <item>
+               <widget class="QCheckBox" name="chkExtCtrlZ">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option if you are driving your stepper motors using an external stepper controller that doesn't allow you to directly polarize the motor coils.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string>Use External Controller</string>
+                </property>
+               </widget>
+              </item>
               <item>
                <widget class="QCheckBox" name="chkNOTZ">
                 <property name="toolTip">
@@ -1139,21 +1395,30 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="chkZHold">
+               <widget class="QCheckBox" name="chkEnableZ">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option if your controller has an enable pin which will enable/disable operation of the motor.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string>Has Enable Pin</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkHoldZ">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;De-Selecting this option will cause the motors to &amp;quot;float&amp;quot; instead of holding after each step. This is useful if your motors generate a lot of extra heat when they aren't moving. This also affects the precision of the motor state when it's stopped. If there is enough &amp;quot;load pressure&amp;quot; the motor may move from it's last position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                 <property name="text">
                  <string>Hold On Idle</string>
                 </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chkExtCtrlZ">
-                <property name="text">
-                 <string>Use External Controller</string>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_31">
+               <widget class="QGroupBox" name="gbSteppingZ">
                 <property name="title">
                  <string>Stepping Style</string>
                 </property>
@@ -1185,13 +1450,13 @@
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_32">
+               <widget class="QGroupBox" name="gbResZ">
                 <property name="title">
                  <string>Resolution Calibration</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_34">
                  <item>
-                  <layout class="QFormLayout" name="formLayout_8">
+                  <layout class="QFormLayout" name="flResCfgZ">
                    <property name="sizeConstraint">
                     <enum>QLayout::SetMaximumSize</enum>
                    </property>
@@ -1199,12 +1464,15 @@
                     <enum>QFormLayout::FieldsStayAtSizeHint</enum>
                    </property>
                    <item row="0" column="0">
-                    <widget class="QLabel" name="label_40">
+                    <widget class="QLabel" name="lblResZ">
                      <property name="toolTip">
                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The resolution is the ratio of steps to distance for this axis of the printer.&lt;/p&gt;&lt;p&gt;The resolution allows the software to calibrate its moves based on the G-Code values.&lt;br/&gt;Launch the resolution calculator to determine the correct value for this axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                      <property name="text">
                       <string>Resolution</string>
+                     </property>
+                     <property name="buddy">
+                      <cstring>dsbResZ</cstring>
                      </property>
                     </widget>
                    </item>
@@ -1231,6 +1499,9 @@
                      </property>
                      <property name="text">
                       <string>Min Phase Delay</string>
+                     </property>
+                     <property name="buddy">
+                      <cstring>seMinDelayZ</cstring>
                      </property>
                     </widget>
                    </item>
@@ -1265,19 +1536,6 @@
              </layout>
             </widget>
            </item>
-           <item row="0" column="3">
-            <spacer name="horizontalSpacer_8">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
          </item>
         </layout>
@@ -1288,20 +1546,20 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_37">
          <item>
-          <layout class="QGridLayout" name="gridLayout_8">
+          <layout class="QGridLayout" name="gcMainEX">
            <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBox_25">
+            <widget class="QGroupBox" name="gbGPIOEX">
              <property name="title">
               <string>Motor Gpio Pin Settings</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_17">
+             <layout class="QVBoxLayout" name="verticalLayout_8">
               <item>
-               <layout class="QFormLayout" name="flXCoils_7">
+               <layout class="QFormLayout" name="flEXCoils">
                 <property name="fieldGrowthPolicy">
                  <enum>QFormLayout::FieldsStayAtSizeHint</enum>
                 </property>
                 <item row="0" column="0">
-                 <widget class="QLabel" name="label_31">
+                 <widget class="QLabel" name="lblA1EX">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -1310,6 +1568,9 @@
                   </property>
                   <property name="text">
                    <string>Coil A1</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leA1_EX</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1336,7 +1597,7 @@
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="label_32">
+                 <widget class="QLabel" name="lblA2EX">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -1345,6 +1606,9 @@
                   </property>
                   <property name="text">
                    <string>Coil A2</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leA2_EX</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1371,7 +1635,7 @@
                  </widget>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLabel" name="label_33">
+                 <widget class="QLabel" name="lblB1EX">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -1380,6 +1644,9 @@
                   </property>
                   <property name="text">
                    <string>Coil B1</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leB1_EX</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1406,7 +1673,7 @@
                  </widget>
                 </item>
                 <item row="3" column="0">
-                 <widget class="QLabel" name="label_34">
+                 <widget class="QLabel" name="lblB2EX">
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
@@ -1415,6 +1682,9 @@
                   </property>
                   <property name="text">
                    <string>Coil B2</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leB2_EX</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1451,10 +1721,111 @@
                   <property name="text">
                    <string>End Stop</string>
                   </property>
+                  <property name="buddy">
+                   <cstring>leEndEX</cstring>
+                  </property>
                  </widget>
                 </item>
                 <item row="4" column="1">
                  <widget class="QLineEdit" name="leEndEX">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QFormLayout" name="flEXExtCtrl">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="leStepPinEX">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="lblDirEX">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Direction</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leDirPinX</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="leDirPinEX">
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMask">
+                   <string>00</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="lblStepEX">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Step </string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leStepPinX</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QFormLayout" name="flEXEnable">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="lblEnableEX">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Enable Pin</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>leEnablePinX</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="leEnablePinEX">
                   <property name="maximumSize">
                    <size>
                     <width>50</width>
@@ -1485,11 +1856,21 @@
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QGroupBox" name="groupBox_26">
+            <widget class="QGroupBox" name="gbCfgOptEX">
              <property name="title">
               <string>Motor Configuration Options</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_18">
+             <layout class="QVBoxLayout" name="verticalLayout_11">
+              <item>
+               <widget class="QCheckBox" name="chkExtCtrlEX">
+                <property name="toolTip">
+                 <string>Select this option if you are driving your stepper motors using an external stepper controller that doesn't allow you to directly polarize the motor coils.</string>
+                </property>
+                <property name="text">
+                 <string>Use External Controller</string>
+                </property>
+               </widget>
+              </item>
               <item>
                <widget class="QCheckBox" name="chkNOTEX">
                 <property name="toolTip">
@@ -1511,21 +1892,30 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="chkExtHold">
+               <widget class="QCheckBox" name="chkEnableEX">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option if your controller has an enable pin which will enable/disable operation of the motor.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string>Has Enable Pin</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chkHoldEX">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;De-Selecting this option will cause the motors to &amp;quot;float&amp;quot; instead of holding after each step. This is useful if your motors generate a lot of extra heat when they aren't moving. This also affects the precision of the motor state when it's stopped. If there is enough &amp;quot;load pressure&amp;quot; the motor may move from it's last position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                 <property name="text">
                  <string>Hold On Idle</string>
                 </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chkExtCtrlExt">
-                <property name="text">
-                 <string>Use External Controller</string>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_27">
+               <widget class="QGroupBox" name="gbSteppingEX">
                 <property name="title">
                  <string>Stepping Style</string>
                 </property>
@@ -1557,13 +1947,13 @@
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_28">
+               <widget class="QGroupBox" name="gbResEX">
                 <property name="title">
                  <string>Resolution Calibration</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_30">
                  <item>
-                  <layout class="QFormLayout" name="formLayout_7">
+                  <layout class="QFormLayout" name="flResCfgEX">
                    <property name="sizeConstraint">
                     <enum>QLayout::SetMaximumSize</enum>
                    </property>
@@ -1577,6 +1967,9 @@
                      </property>
                      <property name="text">
                       <string>Resolution</string>
+                     </property>
+                     <property name="buddy">
+                      <cstring>dsbResEX</cstring>
                      </property>
                     </widget>
                    </item>
@@ -1604,10 +1997,13 @@
                      <property name="text">
                       <string>Min Phase Delay</string>
                      </property>
+                     <property name="buddy">
+                      <cstring>seMinDelayEX</cstring>
+                     </property>
                     </widget>
                    </item>
                    <item row="1" column="1">
-                    <widget class="QSpinBox" name="seMinDelayExt">
+                    <widget class="QSpinBox" name="seMinDelayEX">
                      <property name="toolTip">
                       <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
                      </property>
@@ -1637,31 +2033,30 @@
              </layout>
             </widget>
            </item>
-           <item row="0" column="3">
-            <spacer name="horizontalSpacer_7">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
          </item>
         </layout>
        </widget>
       </widget>
      </item>
+     <item row="1" column="1">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
    </item>
   </layout>
  </widget>
  <tabstops>
-  <tabstop>tabMotors</tabstop>
   <tabstop>leA1_X</tabstop>
   <tabstop>leA2_X</tabstop>
   <tabstop>leB1_X</tabstop>
@@ -1685,11 +2080,9 @@
   <tabstop>leB1_Y</tabstop>
   <tabstop>leB2_Y</tabstop>
   <tabstop>leEndY</tabstop>
-  <tabstop>leStepPinY</tabstop>
   <tabstop>chkNOTY</tabstop>
   <tabstop>chkEndY</tabstop>
-  <tabstop>chkYHold</tabstop>
-  <tabstop>chkExtCtrlY</tabstop>
+  <tabstop>chkHoldY</tabstop>
   <tabstop>rbFullY</tabstop>
   <tabstop>rbHalfY</tabstop>
   <tabstop>dsbResY</tabstop>
@@ -1701,7 +2094,7 @@
   <tabstop>leEndZ</tabstop>
   <tabstop>chkNOTZ</tabstop>
   <tabstop>chkEndZ</tabstop>
-  <tabstop>chkZHold</tabstop>
+  <tabstop>chkHoldZ</tabstop>
   <tabstop>chkExtCtrlZ</tabstop>
   <tabstop>rbFullZ</tabstop>
   <tabstop>rbHalfZ</tabstop>
@@ -1714,12 +2107,12 @@
   <tabstop>leEndEX</tabstop>
   <tabstop>chkNOTEX</tabstop>
   <tabstop>chkEndEX</tabstop>
-  <tabstop>chkExtHold</tabstop>
-  <tabstop>chkExtCtrlExt</tabstop>
+  <tabstop>chkHoldEX</tabstop>
+  <tabstop>chkExtCtrlEX</tabstop>
   <tabstop>rbFullEX</tabstop>
   <tabstop>rbHalfEX</tabstop>
   <tabstop>dsbResEX</tabstop>
-  <tabstop>seMinDelayExt</tabstop>
+  <tabstop>seMinDelayEX</tabstop>
  </tabstops>
  <resources>
   <include location="PiRinter.qrc"/>
@@ -1732,8 +2125,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>298</x>
-     <y>562</y>
+     <x>308</x>
+     <y>552</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -1748,8 +2141,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>366</x>
-     <y>562</y>
+     <x>376</x>
+     <y>552</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -1758,98 +2151,258 @@
    </hints>
   </connection>
   <connection>
-   <sender>chkNOTX</sender>
+   <sender>chkNOTZ</sender>
    <signal>toggled(bool)</signal>
-   <receiver>lblB2X</receiver>
+   <receiver>leA2_Z</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>289</x>
-     <y>130</y>
+     <x>336</x>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
-     <x>78</x>
-     <y>205</y>
+     <x>175</x>
+     <y>175</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>chkNOTX</sender>
+   <sender>chkNOTZ</sender>
    <signal>toggled(bool)</signal>
-   <receiver>leB2_X</receiver>
+   <receiver>lblA2Z</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>314</x>
-     <y>130</y>
+     <x>336</x>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
-     <x>143</x>
-     <y>214</y>
+     <x>119</x>
+     <y>175</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>chkNOTX</sender>
+   <sender>chkNOTZ</sender>
    <signal>toggled(bool)</signal>
-   <receiver>lblA2X</receiver>
+   <receiver>leB2_Z</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>454</x>
-     <y>137</y>
+     <x>336</x>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
-     <x>89</x>
-     <y>129</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkNOTX</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>leA2_X</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>433</x>
-     <y>130</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>145</x>
-     <y>138</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkEndX</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>leEndX</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>262</x>
-     <y>151</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>129</x>
+     <x>175</x>
      <y>253</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>chkEndX</sender>
+   <sender>chkNOTZ</sender>
    <signal>toggled(bool)</signal>
-   <receiver>lblEndX</receiver>
+   <receiver>lblB2Z</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>119</x>
+     <y>253</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEndZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leEndZ</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>240</x>
-     <y>155</y>
+     <x>336</x>
+     <y>195</y>
     </hint>
     <hint type="destinationlabel">
-     <x>65</x>
-     <y>266</y>
+     <x>175</x>
+     <y>292</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEndZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblEndZ</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>195</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>119</x>
+     <y>292</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leA2_EX</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>175</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblA2EX</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>119</x>
+     <y>175</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leB2_EX</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>253</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblB2EX</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>119</x>
+     <y>253</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEndEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leEndEX</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>195</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>292</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEndEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblEndEX</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>195</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>119</x>
+     <y>292</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rbHalfZ</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rbFullZ</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>316</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rbHalfEX</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkNOTEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rbFullEX</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>316</y>
     </hint>
    </hints>
   </connection>
@@ -1861,26 +2414,42 @@
    <hints>
     <hint type="sourcelabel">
      <x>336</x>
-     <y>105</y>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
-     <x>159</x>
+     <x>175</x>
      <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEndY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leEndY</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>195</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>266</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>chkNOTY</sender>
    <signal>toggled(bool)</signal>
-   <receiver>label_27</receiver>
+   <receiver>lblA2Y</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>336</x>
-     <y>105</y>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
-     <x>89</x>
+     <x>119</x>
      <y>149</y>
     </hint>
    </hints>
@@ -1893,10 +2462,10 @@
    <hints>
     <hint type="sourcelabel">
      <x>336</x>
-     <y>105</y>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
-     <x>159</x>
+     <x>175</x>
      <y>227</y>
     </hint>
    </hints>
@@ -1904,32 +2473,16 @@
   <connection>
    <sender>chkNOTY</sender>
    <signal>toggled(bool)</signal>
-   <receiver>label_29</receiver>
+   <receiver>lblB2Y</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>336</x>
-     <y>105</y>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
-     <x>89</x>
+     <x>119</x>
      <y>227</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkEndY</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>leEndY</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>336</x>
-     <y>137</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>159</x>
-     <y>266</y>
     </hint>
    </hints>
   </connection>
@@ -1941,103 +2494,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>336</x>
-     <y>137</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>103</x>
-     <y>266</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkNOTZ</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>leA2_Z</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>336</x>
-     <y>105</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>175</x>
-     <y>149</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkNOTZ</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label_37</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>336</x>
-     <y>105</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>119</x>
-     <y>149</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkNOTZ</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>leB2_Z</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>336</x>
-     <y>105</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>175</x>
-     <y>227</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkNOTZ</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label_39</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>336</x>
-     <y>105</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>119</x>
-     <y>227</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkEndZ</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>leEndZ</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>336</x>
-     <y>137</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>175</x>
-     <y>266</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkEndZ</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>lblEndZ</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>336</x>
-     <y>137</y>
+     <y>195</y>
     </hint>
     <hint type="destinationlabel">
      <x>119</x>
@@ -2046,97 +2503,129 @@
    </hints>
   </connection>
   <connection>
-   <sender>chkNOTEX</sender>
+   <sender>chkNOTY</sender>
    <signal>toggled(bool)</signal>
-   <receiver>leA2_EX</receiver>
-   <slot>setHidden(bool)</slot>
+   <receiver>rbFullY</receiver>
+   <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>336</x>
-     <y>105</y>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
-     <x>175</x>
-     <y>149</y>
+     <x>353</x>
+     <y>316</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>chkNOTEX</sender>
+   <sender>chkNOTY</sender>
    <signal>toggled(bool)</signal>
-   <receiver>label_32</receiver>
+   <receiver>rbHalfY</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>336</x>
-     <y>105</y>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
-     <x>119</x>
-     <y>149</y>
+     <x>353</x>
+     <y>348</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>chkNOTEX</sender>
+   <sender>chkNOTX</sender>
    <signal>toggled(bool)</signal>
-   <receiver>leB2_EX</receiver>
+   <receiver>lblB2X</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>336</x>
-     <y>105</y>
+     <x>289</x>
+     <y>156</y>
     </hint>
     <hint type="destinationlabel">
-     <x>175</x>
-     <y>227</y>
+     <x>78</x>
+     <y>231</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>chkNOTEX</sender>
+   <sender>chkNOTX</sender>
    <signal>toggled(bool)</signal>
-   <receiver>label_34</receiver>
+   <receiver>leB2_X</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>336</x>
-     <y>105</y>
+     <x>314</x>
+     <y>156</y>
     </hint>
     <hint type="destinationlabel">
-     <x>119</x>
-     <y>227</y>
+     <x>143</x>
+     <y>240</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>chkEndEX</sender>
+   <sender>chkNOTX</sender>
    <signal>toggled(bool)</signal>
-   <receiver>leEndEX</receiver>
+   <receiver>lblA2X</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>454</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>89</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEndX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leEndX</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>336</x>
-     <y>137</y>
+     <x>305</x>
+     <y>177</y>
     </hint>
     <hint type="destinationlabel">
-     <x>175</x>
-     <y>266</y>
+     <x>129</x>
+     <y>279</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>chkEndEX</sender>
+   <sender>chkNOTX</sender>
    <signal>toggled(bool)</signal>
-   <receiver>lblEndEX</receiver>
+   <receiver>leA2_X</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>433</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>145</x>
+     <y>164</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEndX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblEndX</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>336</x>
-     <y>137</y>
+     <x>283</x>
+     <y>181</y>
     </hint>
     <hint type="destinationlabel">
-     <x>119</x>
+     <x>65</x>
      <y>266</y>
     </hint>
    </hints>
@@ -2149,11 +2638,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>375</x>
-     <y>121</y>
+     <y>147</y>
     </hint>
     <hint type="destinationlabel">
-     <x>488</x>
-     <y>322</y>
+     <x>483</x>
+     <y>348</y>
     </hint>
    </hints>
   </connection>
@@ -2165,107 +2654,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>368</x>
-     <y>122</y>
+     <y>148</y>
     </hint>
     <hint type="destinationlabel">
-     <x>488</x>
-     <y>290</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkNOTY</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>rbHalfY</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>433</x>
-     <y>89</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>488</x>
-     <y>290</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkNOTY</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>rbFullY</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>418</x>
-     <y>87</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>488</x>
-     <y>258</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkNOTZ</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>rbHalfZ</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>336</x>
-     <y>105</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>353</x>
-     <y>290</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkNOTZ</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>rbFullZ</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>336</x>
-     <y>105</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>353</x>
-     <y>258</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkNOTEX</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>rbHalfEX</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>336</x>
-     <y>105</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>353</x>
-     <y>290</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkNOTEX</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>rbFullEX</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>336</x>
-     <y>105</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>353</x>
-     <y>258</y>
+     <x>483</x>
+     <y>316</y>
     </hint>
    </hints>
   </connection>
@@ -2276,12 +2669,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>240</x>
-     <y>191</y>
+     <x>283</x>
+     <y>217</y>
     </hint>
     <hint type="destinationlabel">
      <x>160</x>
-     <y>379</y>
+     <y>405</y>
     </hint>
    </hints>
   </connection>
@@ -2293,11 +2686,107 @@
    <hints>
     <hint type="sourcelabel">
      <x>374</x>
-     <y>194</y>
+     <y>220</y>
     </hint>
     <hint type="destinationlabel">
      <x>71</x>
-     <y>382</y>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblEnableY</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>258</x>
+     <y>215</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>97</x>
+     <y>404</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leEnablePinY</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>307</x>
+     <y>212</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>165</x>
+     <y>400</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblEnableZ</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>274</x>
+     <y>212</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>83</x>
+     <y>402</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableZ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leEnablePinZ</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>292</x>
+     <y>218</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>156</x>
+     <y>403</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lblEnableEX</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>263</x>
+     <y>215</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>110</x>
+     <y>402</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkEnableEX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>leEnablePinEX</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>379</x>
+     <y>208</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>154</x>
+     <y>400</y>
     </hint>
    </hints>
   </connection>

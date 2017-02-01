@@ -68,7 +68,7 @@ int ADCController::GetChannelValue(const unsigned int &Channel)
         return -1;
 
    /*
-   MCP3004/8 10-bit ADC 4/8 ch_Clockannels
+   MCP3004/8 10-bit ADC 4/8 channels
 
    1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17
    SB SD D2 D1 D0 NA NA B9 B8 B7 B6, B5 B4 B3 B2 B1 B0

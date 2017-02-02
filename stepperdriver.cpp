@@ -64,6 +64,7 @@ StepperDriver::~StepperDriver()
  *  Param 14: External Ctrl Direction GPIO Pin
  *  Param 15: Enable GPIO Pin
  *  Param 16: Use External Ctrl Flag
+ *  Param 17: Hold On Idle Flag
  */
 
 void StepperDriver::InitializeMotor(const QString &MotorName)
@@ -87,6 +88,7 @@ void StepperDriver::InitializeMotor(const QString &MotorName)
                     else
                         this->Motor = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    this->Motor->SetHoldOnIdle(Params[17].toInt());
                 }
             }
         }

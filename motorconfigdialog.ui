@@ -777,7 +777,7 @@
                    <string>Direction</string>
                   </property>
                   <property name="buddy">
-                   <cstring>leDirPinX</cstring>
+                   <cstring>leDirPinY</cstring>
                   </property>
                  </widget>
                 </item>
@@ -806,7 +806,7 @@
                    <string>Step </string>
                   </property>
                   <property name="buddy">
-                   <cstring>leStepPinX</cstring>
+                   <cstring>leStepPinY</cstring>
                   </property>
                  </widget>
                 </item>
@@ -826,7 +826,7 @@
                    <string>Enable Pin</string>
                   </property>
                   <property name="buddy">
-                   <cstring>leEnablePinX</cstring>
+                   <cstring>leEnablePinY</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1274,7 +1274,7 @@
                    <string>Direction</string>
                   </property>
                   <property name="buddy">
-                   <cstring>leDirPinX</cstring>
+                   <cstring>leDirPinZ</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1303,7 +1303,7 @@
                    <string>Step </string>
                   </property>
                   <property name="buddy">
-                   <cstring>leStepPinX</cstring>
+                   <cstring>leStepPinZ</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1323,7 +1323,7 @@
                    <string>Enable Pin</string>
                   </property>
                   <property name="buddy">
-                   <cstring>leEnablePinX</cstring>
+                   <cstring>leEnablePinZ</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1771,7 +1771,7 @@
                    <string>Direction</string>
                   </property>
                   <property name="buddy">
-                   <cstring>leDirPinX</cstring>
+                   <cstring>leDirPinEX</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1800,7 +1800,7 @@
                    <string>Step </string>
                   </property>
                   <property name="buddy">
-                   <cstring>leStepPinX</cstring>
+                   <cstring>leStepPinEX</cstring>
                   </property>
                  </widget>
                 </item>
@@ -1820,7 +1820,7 @@
                    <string>Enable Pin</string>
                   </property>
                   <property name="buddy">
-                   <cstring>leEnablePinX</cstring>
+                   <cstring>leEnablePinEX</cstring>
                   </property>
                  </widget>
                 </item>

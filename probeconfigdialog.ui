@@ -731,6 +731,29 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tabThermalProbes</tabstop>
+  <tabstop>seBedRefV</tabstop>
+  <tabstop>seBedR1Ohms</tabstop>
+  <tabstop>seBedBeta</tabstop>
+  <tabstop>seBedProbeOhms</tabstop>
+  <tabstop>seBedProbeTemp</tabstop>
+  <tabstop>txtBedElementPin</tabstop>
+  <tabstop>seBedADCCh</tabstop>
+  <tabstop>seBedPWM</tabstop>
+  <tabstop>seExtRefV</tabstop>
+  <tabstop>seExtR1Ohms</tabstop>
+  <tabstop>seExtBeta</tabstop>
+  <tabstop>seExtProbeOhms</tabstop>
+  <tabstop>seExtProbeTemp</tabstop>
+  <tabstop>txtExtElementPin</tabstop>
+  <tabstop>seExtADCCh</tabstop>
+  <tabstop>seExtPWM</tabstop>
+  <tabstop>txtClock</tabstop>
+  <tabstop>txtMISO</tabstop>
+  <tabstop>txtMOSI</tabstop>
+  <tabstop>txtCS</tabstop>
+ </tabstops>
  <resources>
   <include location="PiRinter.qrc"/>
  </resources>

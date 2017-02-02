@@ -30,9 +30,7 @@ void PrintAreaConfigDialog::WriteCfgFile()
         QTextStream OutStream(&AreaCfg);
         OutStream << "PrintAreaCfg::XArea;" << ui->seWidth->value() <<"\n";
         OutStream << "PrintAreaCfg::YArea;" << ui->seLength->value() <<"\n";
-//        OutStream << "EndStopCfg::XStop;" << ui->txtXStop->text() <<"\n";
-//        OutStream << "EndStopCfg::YStop;" << ui->txtYStop->text() <<"\n";
-//        OutStream << "EndStopCfg::ZStop;" << ui->txtZStop->text() <<"\n";
+        OutStream << "PrintAreaCfg::ZArea;" << ui->seLength->value() <<"\n";
 
         OutStream.flush();
         AreaCfg.close();
@@ -61,23 +59,11 @@ void PrintAreaConfigDialog::ReadCfgFile()
                 {
                     ui->seLength->setValue(Params[1].toInt());
                 }
+                if(Params[0].contains("ZArea"))
+                {
+                    ui->seMaxHeight->setValue(Params[1].toInt());
+                }
             }
-//            else if(Line.contains("EndStopCfg"))
-//            {
-//                QStringList Params = Line.split(";");
-//                if(Params[0].contains("XStop"))
-//                {
-//                    ui->txtXStop->setText(Params[1]);
-//                }
-//                if(Params[0].contains("YStop"))
-//                {
-//                    ui->txtXStop->setText(Params[1]);
-//                }
-//                if(Params[0].contains("ZStop"))
-//                {
-//                    ui->txtXStop->setText(Params[1]);
-//                }
-//            }
         }
         AreaCfg.close();
     }

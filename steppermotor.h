@@ -76,6 +76,7 @@ public:
     void Disable();
     void SetInverted(const bool &Arg = true);
     void SetNotGated(const bool &Arg = false);
+    void SetHoldOnIdle(const bool &Arg = true);
 	void SetEndstop(const unsigned int &EndStopPin);
 
     bool  HasEndstop()

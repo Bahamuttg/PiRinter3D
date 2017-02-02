@@ -50,7 +50,7 @@ GCodeInterpreter::GCodeInterpreter(const QString &FilePath, QObject *parent)
     _TerminateThread = false;
 
     InitializeMotors();
-    InitializeEndStops();
+    InitializePrintArea();
     InitializeThermalProbes();
     LoadGCode(FilePath);
 }
@@ -104,7 +104,7 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
                         if(Coords[i].Name == "YAxis")
                             YVal = Coords[i].value;
                         if(Coords[i].Name == "ZAxis")
-                           _Layers.append(_GCODE.length() - 1);//GCODE Line indexes for layers.
+                            _Layers.append(_GCODE.length() - 1);//GCODE Line indexes for layers.
                     }
                     if(XVal > _XArea || YVal > _YArea)
                         IsTooBig = true;
@@ -113,7 +113,7 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
         }
         PrintFile.close();
         if(IsTooBig)
-            emit OnError("This print has a print area that is larger than the print area defined in the settings! /n If you continue you could bust your shit up!!!");
+            emit OnError("This print has a print area that is larger than the print area defined in the settings!");
     }
 }
 
@@ -125,15 +125,15 @@ void GCodeInterpreter::InitializeADCConverter()
         QTextStream CfgStream(&ProbeConfig); //load config file
         while (!CfgStream.atEnd())
         {
-             QString Line = CfgStream.readLine(); //read one line at a time
-             if(Line.contains("ADCConfig"))
-             {
-                 QStringList Params = Line.split(";");
-                 if(Params[0].contains("ADC1"))
-                 {
-                     _ADCController = new ADCController(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), this);
-                 }
-             }
+            QString Line = CfgStream.readLine(); //read one line at a time
+            if(Line.contains("ADCConfig"))
+            {
+                QStringList Params = Line.split(";");
+                if(Params[0].contains("ADC1"))
+                {
+                    _ADCController = new ADCController(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), this);
+                }
+            }
         }
         ProbeConfig.close();
     }
@@ -141,7 +141,7 @@ void GCodeInterpreter::InitializeADCConverter()
         _ADCController = 0;
 }
 
-void GCodeInterpreter::InitializeEndStops()
+void GCodeInterpreter::InitializePrintArea()
 {
     QFile AreaCfg("AreaCfg.ini");
     if(AreaCfg.open(QIODevice::ReadOnly | QIODevice::Text ))
@@ -157,16 +157,6 @@ void GCodeInterpreter::InitializeEndStops()
                     _XArea = Params[1].toInt();
                 if(Params[0].contains("YArea"))
                     _YArea = Params[1].toInt();
-            }
-            if(Line.contains("EndStopCfg"))
-            {
-                QStringList Params = Line.split(";");
-                if(Params[0].contains("XStop"))
-                    _XAxis->SetEndstop(Params[1].toInt());
-                if(Params[0].contains("YStop"))
-                    _YAxis->SetEndstop(Params[1].toInt());
-                if(Params[0].contains("ZStop"))
-                    _ZAxis->SetEndstop(Params[1].toInt());
             }
         }
         AreaCfg.close();
@@ -230,37 +220,49 @@ void GCodeInterpreter::InitializeMotors()
                 {
                     if(Params[6].toInt()) //If it's using HEX inverters
                         this->_XAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else if(Params[16].toInt())
+                        this->_XAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     else
                         this->_XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     this->_XRes = Params[10].toFloat();
+                    this->_XAxis->SetHoldOnIdle(Params[17].toInt());
                 }
                 if(Params[0].contains("YAxis"))
                 {
                     if(Params[6].toInt())
                         this->_YAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else if(Params[16].toInt())
+                        this->_YAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     else
                         this->_YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     this->_YRes = Params[10].toFloat();
+                    this->_YAxis->SetHoldOnIdle(Params[17].toInt());
                 }
                 if(Params[0].contains("ZAxis"))
                 {
                     if(Params[6].toInt())
                         this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else if(Params[16].toInt())
+                        this->_ZAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     else
                         this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     this->_ZRes = Params[10].toFloat();
+                    this->_ZAxis->SetHoldOnIdle(Params[17].toInt());
                 }
                 if(Params[0].contains("ExtAxis"))
                 {
                     if(Params[6].toInt())
                         this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else if(Params[16].toInt())
+                        this->_ExtAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     else
                         this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
                             Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
                     this->_ExtRes = Params[10].toFloat();
+                    this->_ExtAxis->SetHoldOnIdle(Params[17].toInt());
                 }
             }
         }
@@ -285,19 +287,19 @@ void GCodeInterpreter::HomeAllAxis()
         if(_YAxis->HasEndstop() && !_YAxis->IsAgainstStop())
         {
             _YAxis->Rotate(StepperMotor::CTRCLOCKWISE, _YAxis->MaxSpeed());
-             Done = false;
+            Done = false;
         }
 
         if(_ZAxis->HasEndstop() && !_ZAxis->IsAgainstStop())
         {
             _ZAxis->Rotate(StepperMotor::CTRCLOCKWISE, _ZAxis->MaxSpeed());
-             Done = false;
+            Done = false;
         }
 
         if(_ExtAxis->HasEndstop() && !_ExtAxis->IsAgainstStop())
         {
             _ExtAxis->Rotate(StepperMotor::CTRCLOCKWISE, _ExtAxis->MaxSpeed());
-             Done = false;
+            Done = false;
         }
     } while(!Done);
     //Get them off of the stops.
@@ -305,22 +307,12 @@ void GCodeInterpreter::HomeAllAxis()
     while(!_YAxis->MoveFromEndstop());
     while(!_ZAxis->MoveFromEndstop());
     while(!_ExtAxis->MoveFromEndstop());
-//    //Reset the positions of the motors to the origins.
-//    _XAxis->Position = 0;
-//    _YAxis->Position = 0;
-//    _ZAxis->Position = 0;
-//    _ExtAxis->Position = 0;
+    //    //Reset the positions of the motors to the origins.
+    //    _XAxis->Position = 0;
+    //    _YAxis->Position = 0;
+    //    _ZAxis->Position = 0;
+    //    _ExtAxis->Position = 0;
     emit MoveComplete("Homing Complete");
-}
-
-void GCodeInterpreter::ChangeBedTemp(const int &Celsius)
-{
-    this->BedProbeWorker->SetTargetTemp(Celsius);
-}
-
-void GCodeInterpreter::ChangeExtTemp(const int &Celsius)
-{
-    this->ExtProbeWorker->SetTargetTemp(Celsius);
 }
 
 void GCodeInterpreter::MoveToolHead(const float &XPosition, const float &YPosition, const float &ZPosition, const float &ExtPosition)
@@ -562,11 +554,11 @@ void GCodeInterpreter::ParseLine(QString &GString)
         }
 
         else if(GVals[0].mid(1) == "90") //Set to absolute positioning
-		{	
+        {
             emit ProcessingMoves("Using Absolute Positioning");
             emit PrintStarted();
-		}
-	
+        }
+
         else if(GVals[0].mid(1) == "91") //Set to relative positioning
         {
             emit ProcessingMoves("Using Relative Positioning");
@@ -826,7 +818,7 @@ Be aware that by disabling idle hold during printing, you will get quality issue
             if(!BedProbeWorker->isRunning())
                 BedProbeWorker->start();
             _BedTemp = GVals[1].mid(1).toInt();
-           //this->BedProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
+            //this->BedProbeWorker->SetTargetTemp(GVals[1].mid(1).toInt());
             SetBedTemp(GVals[1].mid(1).toInt());
             emit BedTemperatureChanged( this->BedProbeWorker->GetTargetTemp());
             //We need to wait until the temp is reached before proceeding...
@@ -933,10 +925,10 @@ void GCodeInterpreter::ExecutePrintSequence()
             emit ProcessingMoves("Paused");
             msleep(50);
         }
-//        if(ProcessUserCommand)
-//        {
-            //Process any user commands here then follow through with the Parse line.
-//        }
+        //        if(ProcessUserCommand)
+        //        {
+        //Process any user commands here then follow through with the Parse line.
+        //        }
         emit BeginLineProcessing(_GCODE[LineCounter]);
         ParseLine(_GCODE[LineCounter]);
         LineCounter ++;
@@ -947,7 +939,7 @@ void GCodeInterpreter::ExecutePrintSequence()
     if(!_TerminateThread)
     {
         _SpeedFactor = .15;
-         //Extend the bed so we can remove the part.
+        //Extend the bed so we can remove the part.
         MoveToolHead(1, _YArea - 50, 0, _ExtAxis->Position - 5);
         emit ReportProgress(100);
     }
@@ -985,4 +977,15 @@ void GCodeInterpreter::TerminatePrint()
     BedProbeWorker->wait();
     ExtProbeWorker->wait();
 }
+
+void GCodeInterpreter::ChangeBedTemp(const int &Celsius)
+{
+    this->BedProbeWorker->SetTargetTemp(Celsius);
+}
+
+void GCodeInterpreter::ChangeExtTemp(const int &Celsius)
+{
+    this->ExtProbeWorker->SetTargetTemp(Celsius);
+}
+
 //=======================================END SLOTS=================================================

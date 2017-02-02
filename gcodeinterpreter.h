@@ -82,7 +82,7 @@ private:
 
     void InitializeMotors();
     void InitializeThermalProbes();
-    void InitializeEndStops();
+    void InitializePrintArea();
     void InitializeADCConverter();
 
     void WriteToLogFile(const QString &);

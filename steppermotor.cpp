@@ -345,3 +345,7 @@ void StepperMotor::SetNotGated(const bool &Arg)
     this->_IsHalfStep = false;
 }
 
+void StepperMotor::SetHoldOnIdle(const bool &Arg)
+{
+    this->HoldPosition = Arg;
+}

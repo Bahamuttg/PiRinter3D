@@ -78,6 +78,7 @@ void MotorConfigDialog::WriteCfgFile()
      *  Param 14: External Ctrl Direction GPIO Pin
      *  Param 15: Enable GPIO Pin
      *  Param 16: Use External Ctrl Flag
+     *  Param 17: Hold On Idle Flag
      */
 
     QFile MotorCfg("MotorCfg.ini");
@@ -87,19 +88,23 @@ void MotorConfigDialog::WriteCfgFile()
 
         OutStream << "MotorConfig::XAxis;" << ui->leA1_X->text() << ";" << ui->leA2_X->text() << ";" << ui->leB1_X->text() << ";" << ui->leB2_X->text() << ";" << ui->leEndX->text() << ";";
         OutStream << ui->chkNOTX->isChecked() << ";" << ui->chkEndX->isChecked() << ";" << ui->rbFullX->isChecked() << ";" << ui->rbHalfX->isChecked() << ";" << ui->dsbResX->value()  << ";";
-        OutStream << ui->seMinDelayX->value() << ";"  << ui->chkEnableX->isChecked() << ";" << ui->leStepPinX->text() << ";" << ui->leDirPinX->text() << ";" << ui->leEnablePinX->text() << ";" << ui->chkExtCtrlX->isChecked()<< "\n";
+        OutStream << ui->seMinDelayX->value() << ";"  << ui->chkEnableX->isChecked() << ";" << ui->leStepPinX->text() << ";" << ui->leDirPinX->text() << ";" << ui->leEnablePinX->text() << ";";
+        OutStream << ui->chkExtCtrlX->isChecked() << ";" << ui->chkHoldX->isChecked() << "\n";
 
         OutStream << "MotorConfig::YAxis;" << ui->leA1_Y->text() << ";" << ui->leA2_Y->text() << ";" << ui->leB1_Y->text() << ";" << ui->leB2_Y->text() << ";" << ui->leEndY->text() << ";";
-        OutStream << ui->chkNOTY->isChecked() << ";" << ui->chkEndY->isChecked() << ";" << ui->rbFullY->isChecked() << ";" << ui->rbHalfY->isChecked() << ";" << ui->dsbResY->value() <<"\n";
-        OutStream << ui->seMinDelayY->value() << ";"  << ui->chkEnableY->isChecked() << ";" << ui->leStepPinY->text() << ";" << ui->leDirPinY->text() << ";" << ui->leEnablePinY->text() << ";" << ui->chkExtCtrlY->isChecked()<< "\n";
+        OutStream << ui->chkNOTY->isChecked() << ";" << ui->chkEndY->isChecked() << ";" << ui->rbFullY->isChecked() << ";" << ui->rbHalfY->isChecked() << ";" << ui->dsbResY->value() << ";";
+        OutStream << ui->seMinDelayY->value() << ";"  << ui->chkEnableY->isChecked() << ";" << ui->leStepPinY->text() << ";" << ui->leDirPinY->text() << ";" << ui->leEnablePinY->text() << ";";
+        OutStream << ui->chkExtCtrlY->isChecked() << ";" << ui->chkHoldY->isChecked() << "\n";
 
         OutStream << "MotorConfig::ZAxis;" << ui->leA1_Z->text() << ";" << ui->leA2_Z->text() << ";" << ui->leB1_Z->text() << ";" << ui->leB2_Z->text() << ";" << ui->leEndZ->text() << ";";
-        OutStream << ui->chkNOTZ->isChecked() << ";" << ui->chkEndZ->isChecked() << ";" << ui->rbFullZ->isChecked() << ";" << ui->rbHalfZ->isChecked() << ";" << ui->dsbResZ->value() <<"\n";
-        OutStream << ui->seMinDelayZ->value() << ";"  << ui->chkEnableZ->isChecked() << ";" << ui->leStepPinZ->text() << ";" << ui->leDirPinZ->text() << ";" << ui->leEnablePinZ->text() << ";" << ui->chkExtCtrlZ->isChecked()<< "\n";
+        OutStream << ui->chkNOTZ->isChecked() << ";" << ui->chkEndZ->isChecked() << ";" << ui->rbFullZ->isChecked() << ";" << ui->rbHalfZ->isChecked() << ";" << ui->dsbResZ->value() << ";";
+        OutStream << ui->seMinDelayZ->value() << ";"  << ui->chkEnableZ->isChecked() << ";" << ui->leStepPinZ->text() << ";" << ui->leDirPinZ->text() << ";" << ui->leEnablePinZ->text() << ";";
+        OutStream << ui->chkExtCtrlZ->isChecked() << ";" << ui->chkHoldZ->isChecked () << "\n";
 
         OutStream << "MotorConfig::ExtAxis;" << ui->leA1_EX->text() << ";" << ui->leA2_EX->text() << ";" << ui->leB1_EX->text() << ";" << ui->leB2_EX->text() << ";" << ui->leEndEX->text() << ";";
-        OutStream << ui->chkNOTEX->isChecked() << ";" << ui->chkEndEX->isChecked() << ";" << ui->rbFullEX->isChecked() << ";" << ui->rbHalfEX->isChecked() << ";" << ui->dsbResEX->value()  <<"\n";
-        OutStream << ui->seMinDelayEX->value() << ";"  << ui->chkEnableEX->isChecked() << ";" << ui->leStepPinEX->text() << ";" << ui->leDirPinEX->text() << ";" << ui->leEnablePinEX->text() << ";" << ui->chkExtCtrlEX->isChecked()<< "\n";
+        OutStream << ui->chkNOTEX->isChecked() << ";" << ui->chkEndEX->isChecked() << ";" << ui->rbFullEX->isChecked() << ";" << ui->rbHalfEX->isChecked() << ";" << ui->dsbResEX->value()  << ";";
+        OutStream << ui->seMinDelayEX->value() << ";"  << ui->chkEnableEX->isChecked() << ";" << ui->leStepPinEX->text() << ";" << ui->leDirPinEX->text() << ";" << ui->leEnablePinEX->text() << ";";
+        OutStream << ui->chkExtCtrlEX->isChecked() << ";" << ui->chkHoldEX->isChecked()<< "\n";
         OutStream.flush();
         MotorCfg.close();
     }
@@ -127,6 +132,7 @@ void MotorConfigDialog::ReadCfgFile()
      *  Param 14: External Ctrl Direction GPIO Pin
      *  Param 15: Enable GPIO Pin
      *  Param 16: Use External Ctrl Flag
+     *  Param 17: Hold On Idle Flag
      */
 
     QFile MotorCfg("MotorCfg.ini");
@@ -139,90 +145,103 @@ void MotorConfigDialog::ReadCfgFile()
             if(Line.contains("MotorConfig"))
             {
                 QStringList Params = Line.split(";");
-                if( Params[0].contains("XAxis") && Params.count() == 17)
+                if(Params.count() == 18)
                 {
-                    ui->leA1_X->setText(Params[1]);
-                    ui->leA2_X->setText(Params[2]);
-                    ui->leB1_X->setText(Params[3]);
-                    ui->leB2_X->setText(Params[4]);
-                    ui->leEndX->setText(Params[5]);
+                    if( Params[0].contains("XAxis"))
+                    {
+                        ui->leA1_X->setText(Params[1]);
+                        ui->leA2_X->setText(Params[2]);
+                        ui->leB1_X->setText(Params[3]);
+                        ui->leB2_X->setText(Params[4]);
+                        ui->leEndX->setText(Params[5]);
 
-                    ui->chkNOTX->setChecked(Params[6].toInt());
-                    ui->chkEndX->setChecked(Params[7].toInt());
-                    ui->rbFullX->setChecked(Params[8].toInt());
-                    ui->rbHalfX->setChecked(Params[9].toInt());
-                    ui->dsbResX->setValue(Params[10].toDouble());
-                    ui->seMinDelayX->setValue(Params[11].toInt());
+                        ui->chkNOTX->setChecked(Params[6].toInt());
+                        ui->chkEndX->setChecked(Params[7].toInt());
+                        ui->rbFullX->setChecked(Params[8].toInt());
+                        ui->rbHalfX->setChecked(Params[9].toInt());
+                        ui->dsbResX->setValue(Params[10].toDouble());
 
-                    ui->chkEnableX->setChecked(Params[12].toInt());
-                    ui->leStepPinX->setText(Params[13]);
-                    ui->leDirPinX->setText(Params[14]);
-                    ui->leEnablePinX->setText(Params[15]);
-                    ui->chkExtCtrlX->setChecked(Params[16].toInt());
+                        ui->seMinDelayX->setValue(Params[11].toInt());
+                        ui->chkEnableX->setChecked(Params[12].toInt());
+                        ui->leStepPinX->setText(Params[13]);
+                        ui->leDirPinX->setText(Params[14]);
+                        ui->leEnablePinX->setText(Params[15]);
+
+                        ui->chkExtCtrlX->setChecked(Params[16].toInt());
+                        ui->chkHoldX->setChecked(Params[17].toInt());
+                    }
+                    if(Params[0].contains("YAxis"))
+                    {
+                        ui->leA1_Y->setText(Params[1]);
+                        ui->leA2_Y->setText(Params[2]);
+                        ui->leB1_Y->setText(Params[3]);
+                        ui->leB2_Y->setText(Params[4]);
+                        ui->leEndY->setText(Params[5]);
+
+                        ui->chkNOTY->setChecked(Params[6].toInt());
+                        ui->chkEndY->setChecked(Params[7].toInt());
+                        ui->rbFullY->setChecked(Params[8].toInt());
+                        ui->rbHalfY->setChecked(Params[9].toInt());
+                        ui->dsbResY->setValue(Params[10].toDouble());
+
+                        ui->seMinDelayY->setValue(Params[11].toInt());
+                        ui->chkEnableY->setChecked(Params[12].toInt());
+                        ui->leStepPinY->setText(Params[13]);
+                        ui->leDirPinY->setText(Params[14]);
+                        ui->leEnablePinY->setText(Params[15]);
+
+                        ui->chkExtCtrlY->setChecked(Params[16].toInt());
+                        ui->chkHoldY->setChecked(Params[17].toInt());
+                    }
+                    if(Params[0].contains("ZAxis"))
+                    {
+                        ui->leA1_Z->setText(Params[1]);
+                        ui->leA2_Z->setText(Params[2]);
+                        ui->leB1_Z->setText(Params[3]);
+                        ui->leB2_Z->setText(Params[4]);
+                        ui->leEndZ->setText(Params[5]);
+
+                        ui->chkNOTZ->setChecked(Params[6].toInt());
+                        ui->chkEndZ->setChecked(Params[7].toInt());
+                        ui->rbFullZ->setChecked(Params[8].toInt());
+                        ui->rbHalfZ->setChecked(Params[9].toInt());
+                        ui->dsbResZ->setValue(Params[10].toDouble());
+
+                        ui->seMinDelayZ->setValue(Params[11].toInt());
+                        ui->chkEnableZ->setChecked(Params[12].toInt());
+                        ui->leStepPinZ->setText(Params[13]);
+                        ui->leDirPinZ->setText(Params[14]);
+                        ui->leEnablePinZ->setText(Params[15]);
+
+                        ui->chkExtCtrlZ->setChecked(Params[16].toInt());
+                        ui->chkHoldZ->setChecked(Params[17].toInt());
+                    }
+                    if(Params[0].contains("ExtAxis"))
+                    {
+                        ui->leA1_EX->setText(Params[1]);
+                        ui->leA2_EX->setText(Params[2]);
+                        ui->leB1_EX->setText(Params[3]);
+                        ui->leB2_EX->setText(Params[4]);
+                        ui->leEndEX->setText(Params[5]);
+
+                        ui->chkNOTEX->setChecked(Params[6].toInt());
+                        ui->chkEndEX->setChecked(Params[7].toInt());
+                        ui->rbFullEX->setChecked(Params[8].toInt());
+                        ui->rbHalfEX->setChecked(Params[9].toInt());
+                        ui->dsbResEX->setValue(Params[10].toDouble());
+
+                        ui->seMinDelayEX->setValue(Params[11].toInt());
+                        ui->chkEnableEX->setChecked(Params[12].toInt());
+                        ui->leStepPinEX->setText(Params[13]);
+                        ui->leDirPinEX->setText(Params[14]);
+                        ui->leEnablePinEX->setText(Params[15]);
+
+                        ui->chkExtCtrlEX->setChecked(Params[16].toInt());
+                        ui->chkHoldEX->setChecked(Params[17].toInt());
+                    }
                 }
-                if(Params[0].contains("YAxis") && Params.count() == 17)
-                {
-                    ui->leA1_Y->setText(Params[1]);
-                    ui->leA2_Y->setText(Params[2]);
-                    ui->leB1_Y->setText(Params[3]);
-                    ui->leB2_Y->setText(Params[4]);
-                    ui->leEndY->setText(Params[5]);
-
-                    ui->chkNOTY->setChecked(Params[6].toInt());
-                    ui->chkEndY->setChecked(Params[7].toInt());
-                    ui->rbFullY->setChecked(Params[8].toInt());
-                    ui->rbHalfY->setChecked(Params[9].toInt());
-                    ui->dsbResY->setValue(Params[10].toDouble());
-                    ui->seMinDelayY->setValue(Params[11].toInt());
-
-                    ui->chkEnableY->setChecked(Params[12].toInt());
-                    ui->leStepPinY->setText(Params[13]);
-                    ui->leDirPinY->setText(Params[14]);
-                    ui->leEnablePinY->setText(Params[15]);
-                    ui->chkExtCtrlY->setChecked(Params[16].toInt());
-                }
-                if(Params[0].contains("ZAxis") && Params.count() == 17)
-                {
-                    ui->leA1_Z->setText(Params[1]);
-                    ui->leA2_Z->setText(Params[2]);
-                    ui->leB1_Z->setText(Params[3]);
-                    ui->leB2_Z->setText(Params[4]);
-                    ui->leEndZ->setText(Params[5]);
-
-                    ui->chkNOTZ->setChecked(Params[6].toInt());
-                    ui->chkEndZ->setChecked(Params[7].toInt());
-                    ui->rbFullZ->setChecked(Params[8].toInt());
-                    ui->rbHalfZ->setChecked(Params[9].toInt());
-                    ui->dsbResZ->setValue(Params[10].toDouble());
-                    ui->seMinDelayZ->setValue(Params[11].toInt());
-
-                    ui->chkEnableZ->setChecked(Params[12].toInt());
-                    ui->leStepPinZ->setText(Params[13]);
-                    ui->leDirPinZ->setText(Params[14]);
-                    ui->leEnablePinZ->setText(Params[15]);
-                    ui->chkExtCtrlZ->setChecked(Params[16].toInt());
-                }
-                if(Params[0].contains("ExtAxis") && Params.count() == 17)
-                {
-                    ui->leA1_EX->setText(Params[1]);
-                    ui->leA2_EX->setText(Params[2]);
-                    ui->leB1_EX->setText(Params[3]);
-                    ui->leB2_EX->setText(Params[4]);
-                    ui->leEndEX->setText(Params[5]);
-
-                    ui->chkNOTEX->setChecked(Params[6].toInt());
-                    ui->chkEndEX->setChecked(Params[7].toInt());
-                    ui->rbFullEX->setChecked(Params[8].toInt());
-                    ui->rbHalfEX->setChecked(Params[9].toInt());
-                    ui->dsbResEX->setValue(Params[10].toDouble());
-                    ui->seMinDelayEX->setValue(Params[11].toInt());
-
-                    ui->chkEnableEX->setChecked(Params[12].toInt());
-                    ui->leStepPinEX->setText(Params[13]);
-                    ui->leDirPinEX->setText(Params[14]);
-                    ui->leEnablePinEX->setText(Params[15]);
-                    ui->chkExtCtrlEX->setChecked(Params[16].toInt());
-                }
+                else
+                    QMessageBox::critical(this, "Error Parsing Config Settings!", "Parameter count mismatch in " + Params[0] , QMessageBox::Ok);
             }
             MotorCfg.close();
         }

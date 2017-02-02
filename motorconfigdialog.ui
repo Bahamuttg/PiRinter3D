@@ -46,7 +46,7 @@
      <item row="1" column="0">
       <widget class="QTabWidget" name="tabMotors">
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tpXAxis">
         <attribute name="title">
@@ -2074,14 +2074,18 @@
   <tabstop>rbHalfX</tabstop>
   <tabstop>dsbResX</tabstop>
   <tabstop>seMinDelayX</tabstop>
-  <tabstop>pushButton</tabstop>
   <tabstop>leA1_Y</tabstop>
   <tabstop>leA2_Y</tabstop>
   <tabstop>leB1_Y</tabstop>
   <tabstop>leB2_Y</tabstop>
   <tabstop>leEndY</tabstop>
+  <tabstop>leStepPinY</tabstop>
+  <tabstop>leDirPinY</tabstop>
+  <tabstop>leEnablePinY</tabstop>
+  <tabstop>chkExtCtrlY</tabstop>
   <tabstop>chkNOTY</tabstop>
   <tabstop>chkEndY</tabstop>
+  <tabstop>chkEnableY</tabstop>
   <tabstop>chkHoldY</tabstop>
   <tabstop>rbFullY</tabstop>
   <tabstop>rbHalfY</tabstop>
@@ -2092,10 +2096,14 @@
   <tabstop>leB1_Z</tabstop>
   <tabstop>leB2_Z</tabstop>
   <tabstop>leEndZ</tabstop>
+  <tabstop>leStepPinZ</tabstop>
+  <tabstop>leDirPinZ</tabstop>
+  <tabstop>leEnablePinZ</tabstop>
+  <tabstop>chkExtCtrlZ</tabstop>
   <tabstop>chkNOTZ</tabstop>
   <tabstop>chkEndZ</tabstop>
+  <tabstop>chkEnableZ</tabstop>
   <tabstop>chkHoldZ</tabstop>
-  <tabstop>chkExtCtrlZ</tabstop>
   <tabstop>rbFullZ</tabstop>
   <tabstop>rbHalfZ</tabstop>
   <tabstop>dsbResZ</tabstop>
@@ -2105,14 +2113,20 @@
   <tabstop>leB1_EX</tabstop>
   <tabstop>leB2_EX</tabstop>
   <tabstop>leEndEX</tabstop>
+  <tabstop>leStepPinEX</tabstop>
+  <tabstop>leDirPinEX</tabstop>
+  <tabstop>leEnablePinEX</tabstop>
+  <tabstop>chkExtCtrlEX</tabstop>
   <tabstop>chkNOTEX</tabstop>
   <tabstop>chkEndEX</tabstop>
+  <tabstop>chkEnableEX</tabstop>
   <tabstop>chkHoldEX</tabstop>
-  <tabstop>chkExtCtrlEX</tabstop>
   <tabstop>rbFullEX</tabstop>
   <tabstop>rbHalfEX</tabstop>
   <tabstop>dsbResEX</tabstop>
   <tabstop>seMinDelayEX</tabstop>
+  <tabstop>tabMotors</tabstop>
+  <tabstop>pushButton</tabstop>
  </tabstops>
  <resources>
   <include location="PiRinter.qrc"/>

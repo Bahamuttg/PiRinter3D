@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HeaterDriver</class>
+ <widget class="QWidget" name="HeaterDriver">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>353</width>
+    <height>366</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>353</width>
+    <height>366</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Pre-Heat Utility</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="PiRinter.qrc">
+    <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_power.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_power.png</iconset>
+  </property>
+  <widget class="QFrame" name="DisplayFrame">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>77</y>
+     <width>341</width>
+     <height>281</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QCheckBox" name="cbEnable">
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enabling the heater turns the element on if it's below the target temperature.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>Enable Heater</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="gbElementTemp">
+      <property name="title">
+       <string>Element Temperature</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QFrame" name="TempFrame">
+         <property name="frameShape">
+          <enum>QFrame::WinPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="3" column="1">
+           <widget class="QCheckBox" name="chkOn">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Indicates the state of the heater element. Checked means it's currently active, un-checked means it is inactive.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="whatsThis">
+             <string>Indicates the state of the Probe element. Checked is on.</string>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::RightToLeft</enum>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="PiRinter.qrc">
+              <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_104.png</iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="lblTgtTemp">
+            <property name="text">
+             <string>Target Temp</string>
+            </property>
+            <property name="buddy">
+             <cstring>seTemp</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="seTemp">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="maximum">
+             <number>999</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdTemp">
+         <property name="frameShape">
+          <enum>QFrame::WinPanel</enum>
+         </property>
+         <property name="midLineWidth">
+          <number>0</number>
+         </property>
+         <property name="digitCount">
+          <number>3</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QGroupBox" name="gbElemenSelect">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>268</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Select Element</string>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QRadioButton" name="rbBedElement">
+      <property name="text">
+       <string>Bed</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="rbExtruderElement">
+      <property name="text">
+       <string>Extruder</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="PiRinter.qrc"/>
+ </resources>
+ <connections/>
+</ui>

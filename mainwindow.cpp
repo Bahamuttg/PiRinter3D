@@ -5,6 +5,7 @@
 #include "gcodeinterpreter.h"
 #include "probeconfigdialog.h"
 #include "printareaconfigdialog.h"
+#include "heaterdriver.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -56,6 +57,11 @@ void MainWindow::on_action_Stepper_Utility_triggered()
     //otherwise we will need to init them from the settings file.
     StepperDriver *SD = new StepperDriver(this);
     SD->show();
+}
+void MainWindow::on_actionPre_Heat_Elements_triggered()
+{
+        HeaterDriver *HD = new HeaterDriver(this);
+        HD->show();
 }
 void MainWindow::on_action_Exit_triggered()
 {
@@ -195,9 +201,4 @@ void MainWindow::on_ExtTempOverride(bool Arg)
 
 //==============End Main Menu Handlers=================================================
 //==============END SLOTS============================================================
-
-
-
-
-
 

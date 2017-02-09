@@ -56,6 +56,7 @@ private slots:
     void on_action_Configure_Motors_triggered();
     void on_actionSetup_Print_Area_triggered();
     void on_actionConfigure_Probes_triggered();
+    void on_actionPre_Heat_Elements_triggered();
 };
 
 #endif // MAINWINDOW_H

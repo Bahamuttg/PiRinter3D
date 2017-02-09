@@ -87,6 +87,9 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
         QTextStream Stream(&PrintFile);
         while (!Stream.atEnd())
         {
+            float LastX = 0, lastY = 0;
+            long TotalMS = 0;
+
             QString Line = Stream.readLine();
             if(!Line.startsWith(";") && !Line.isEmpty())//Weed out the comment lines and empties.
             {
@@ -96,7 +99,7 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
                 if (Line.split(" ")[0].toUpper().startsWith("G") && !IsTooBig)
                 {
                     QList<Coordinate> Coords = GetCoordValues(Line);
-                    float XVal =0, YVal =0;
+                    float XVal = 0, YVal = 0;
                     for(int i =0; i < Coords.length(); i++)
                     {
                         if(Coords[i].Name == "XAxis")
@@ -280,33 +283,33 @@ void GCodeInterpreter::HomeAllAxis()
         Done = true;
         if(_XAxis->HasEndstop() && !_XAxis->IsAgainstStop())
         {
-            _XAxis->Rotate(StepperMotor::CTRCLOCKWISE, _XAxis->MaxSpeed());
+            _XAxis->Rotate(StepperMotor::CTRCLOCKWISE, 1, _XAxis->MaxSpeed());
             Done = false;
         }
 
         if(_YAxis->HasEndstop() && !_YAxis->IsAgainstStop())
         {
-            _YAxis->Rotate(StepperMotor::CTRCLOCKWISE, _YAxis->MaxSpeed());
+            _YAxis->Rotate(StepperMotor::CTRCLOCKWISE, 1, _YAxis->MaxSpeed());
             Done = false;
         }
 
         if(_ZAxis->HasEndstop() && !_ZAxis->IsAgainstStop())
         {
-            _ZAxis->Rotate(StepperMotor::CTRCLOCKWISE, _ZAxis->MaxSpeed());
+            _ZAxis->Rotate(StepperMotor::CTRCLOCKWISE, 1, _ZAxis->MaxSpeed());
             Done = false;
         }
 
         if(_ExtAxis->HasEndstop() && !_ExtAxis->IsAgainstStop())
         {
-            _ExtAxis->Rotate(StepperMotor::CTRCLOCKWISE, _ExtAxis->MaxSpeed());
+            _ExtAxis->Rotate(StepperMotor::CTRCLOCKWISE, 1, _ExtAxis->MaxSpeed());
             Done = false;
         }
-    } while(!Done);
+    } while(!Done && !_TerminateThread);
     //Get them off of the stops.
-    while(!_XAxis->MoveFromEndstop());
-    while(!_YAxis->MoveFromEndstop());
-    while(!_ZAxis->MoveFromEndstop());
-    while(!_ExtAxis->MoveFromEndstop());
+    while(!_XAxis->MoveFromEndstop() && !_TerminateThread);
+    while(!_YAxis->MoveFromEndstop() && !_TerminateThread);
+    while(!_ZAxis->MoveFromEndstop() && !_TerminateThread);
+    while(!_ExtAxis->MoveFromEndstop() && !_TerminateThread);
     //    //Reset the positions of the motors to the origins.
     //    _XAxis->Position = 0;
     //    _YAxis->Position = 0;
@@ -331,7 +334,6 @@ void GCodeInterpreter::MoveToolHead(const float &XPosition, const float &YPositi
     float total_3dsteps = 0;
 
     if(total_steps != 0 && total_3dsteps != 0 && stepext != 0)
-        //Future Overload the Step motors to contain a delay for each individual motor based upon their individual Resolution.
         _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ZAxis, stepz, *_ExtAxis, stepext,
                                (1 / (_SpeedFactor / qMin(_XRes, qMin(_ZRes, _YRes)))));
     else if(total_steps != 0 && stepext != 0)

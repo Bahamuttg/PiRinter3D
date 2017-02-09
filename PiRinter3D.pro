@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     Lib/command.c \
     adccontroller.cpp \
     fan.cpp \
-    tooltrigger.cpp
+    tooltrigger.cpp \
+    heaterdriver.cpp
 
 HEADERS  += mainwindow.h \
     motorworker.h \
@@ -45,13 +46,15 @@ HEADERS  += mainwindow.h \
     Lib/custom.cext \
     adccontroller.h \
     fan.h \
-    tooltrigger.h
+    tooltrigger.h \
+    heaterdriver.h
 
 FORMS    += mainwindow.ui \
     stepperdriver.ui \
     motorconfigdialog.ui \
     probeconfigdialog.ui \
-    printareaconfigdialog.ui
+    printareaconfigdialog.ui \
+    heaterdriver.ui
 
 INCLUDEPATH += /usr/include
 

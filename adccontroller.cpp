@@ -58,6 +58,7 @@ int ADCController::GetChannelAverage(const unsigned int &Channel, const int &Rea
     int average =0;
     for(int i = 0; i < Reads; i++)
         average += GetChannelValue(Channel);
+    //TODO: Throw out values too far away from the mean values.
     return average / Reads;
 }
 

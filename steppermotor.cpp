@@ -144,6 +144,9 @@ void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)
             PerformStep(Direction);
             gpioSleep(PI_TIME_RELATIVE, 0, MS_Delay * 1000);
         }
+        //If we're not holding the motor position let's release it.
+        if (!HoldPosition)
+            CoilsOff();
     }
     this->_IsRotating = false;
 }
@@ -168,6 +171,9 @@ void StepperMotor::Rotate(MotorDirection Direction, int MS_Delay)
         PerformStep(Direction);
         gpioSleep(PI_TIME_RELATIVE, 0, MS_Delay * 1000);
     }
+    //If we're not holding the motor position let's release it.
+    if (!HoldPosition)
+        CoilsOff();
     this->_IsRotating = false;
 }
 
@@ -187,7 +193,7 @@ bool StepperMotor::MoveFromEndstop(const unsigned int &NumSteps)
         for (int i = 0; i < NumSteps; i++)
         {
             PerformStep(this->Direction);
-            gpioSleep(PI_TIME_RELATIVE, 0, this->_MinPhaseDelay * 1000);
+            gpioSleep(PI_TIME_RELATIVE, 0, this->_MinPhaseDelay * 100000);
         }
         InvertDirection();
         //Check to see that we moved off the stop.
@@ -283,11 +289,10 @@ void StepperMotor::PerformStep(MotorDirection Direction)
             //Update motor status.
             this->_Phase = TargetPhase;
             this->Position += this->Direction;
+            //Account for inversion
+            this->Direction = Direction;
         }
     }
-    //If we're not holding the motor position let's release it.
-    if (!HoldPosition)
-        CoilsOff();
 }
 
 void StepperMotor::Enable()

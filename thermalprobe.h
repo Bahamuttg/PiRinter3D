@@ -141,7 +141,7 @@ public:
 
     bool IsFaulted()
     {
-        return _FaultCount >= 10;
+        return _FaultCount >= _FaultTolerance;
     }
 };
 

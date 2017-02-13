@@ -58,8 +58,6 @@ private:
     //Define Stepper Motors.
     StepperMotor *_XAxis, *_YAxis, *_ZAxis, *_ExtAxis;
 
-    //EndStop *_XStop, *_YStop, *_ZStop; //May do something fancy with end stops someday.
-
     ThermalProbe *_BedProbe, *_ExtProbe;
     //Need a pointer so we can share this resource with the probes.
     ADCController *_ADCController;
@@ -111,6 +109,8 @@ public:
 
     int GetExtruderTemp()
     {
+        //TODO: Wrap this in a loop so we can delay a short time if we couldn't read.
+
         return this->ExtProbeWorker->TriggerProbeRead();
     }
     void SetExtruderTemp(const int &CelsiusValue)

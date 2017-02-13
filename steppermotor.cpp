@@ -115,11 +115,12 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, int MinPh
 StepperMotor::~StepperMotor()
 {
     CoilsOff();
-    if(_StopPin > 0)
-    {
-        gpioSetMode(_StopPin, PI_OUTPUT);
-        gpioWrite(_StopPin, PI_LOW);
-    }
+    //This logic causes any other motor objects with end stops to quit functioning on exit.
+//    if(_StopPin > 0)
+//    {
+//        gpioSetMode(_StopPin, PI_OUTPUT);
+//        gpioWrite(_StopPin, PI_LOW);
+//    }
 }
 
 void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)

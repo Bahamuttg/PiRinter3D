@@ -190,14 +190,14 @@ void GCodeInterpreter::InitializeThermalProbes()
                     _ExtProbe = new ThermalProbe(Params[1].toDouble(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
                             Params[5].toDouble(), Params[6].toInt(),  Params[7].toInt(), _ADCController);
                     ExtProbeWorker = new ProbeWorker(_ExtProbe, Params[8].toInt(), this);
-                    connect(this, SIGNAL(terminated()), ExtProbeWorker, SLOT(terminate()));
+                    //connect(this, SIGNAL(terminated()), ExtProbeWorker, SLOT(terminate()));
                 }
                 if(Params[0].contains("Bed"))
                 {
                     _BedProbe = new ThermalProbe(Params[1].toDouble(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
                             Params[5].toDouble(), Params[6].toInt(),  Params[7].toInt(), _ADCController);
                     BedProbeWorker = new ProbeWorker(_BedProbe, Params[8].toInt(), this);
-                    connect(this, SIGNAL(terminated()), BedProbeWorker, SLOT(terminate()));
+                    //connect(this, SIGNAL(terminated()), BedProbeWorker, SLOT(terminate()));
                 }
             }
         }
@@ -310,11 +310,11 @@ void GCodeInterpreter::HomeAllAxis()
     while(!_YAxis->MoveFromEndstop() && !_TerminateThread);
     while(!_ZAxis->MoveFromEndstop() && !_TerminateThread);
     while(!_ExtAxis->MoveFromEndstop() && !_TerminateThread);
-    //    //Reset the positions of the motors to the origins.
-    //    _XAxis->Position = 0;
-    //    _YAxis->Position = 0;
-    //    _ZAxis->Position = 0;
-    //    _ExtAxis->Position = 0;
+    //Reset the positions of the motors to the origins.
+    _XAxis->Position = 0;
+    _YAxis->Position = 0;
+    _ZAxis->Position = 0;
+    _ExtAxis->Position = 0;
     emit MoveComplete("Homing Complete");
 }
 

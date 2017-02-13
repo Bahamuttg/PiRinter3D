@@ -35,7 +35,7 @@ ThermalProbe::ThermalProbe(const double &RefV, const unsigned int &R1Ohm, const 
     _CurrentTemp = 0;
     _FaultCount = 0;
     _FaultTempBuffer = 5;
-    _FaultTolerance = 10;
+    _FaultTolerance = 20;
 
     //Values that can be overridden by get/set.
     _RefVoltage = RefV;
@@ -62,7 +62,7 @@ int ThermalProbe::MeasureTemp()
 
     ADCValue = _ADCReader->GetChannelValue(_Channel); //this gives us the ADC value between 1024 (10bit)
     if(ADCValue <= 0 || _RefVoltage <= 0) //Don't want to divide by  0...
-        return _CurrentTemp; //couldn't read this time...
+        return _CurrentTemp; //couldn't read this time... TODO set a boolean field so we can figure out if we need to try again right away.
     VOut = _RefVoltage * ((float)ADCValue / 1024); //this calculates the voltage differential over the thermistor (with respect to ground)
     if(VOut == _RefVoltage) //need to make sure we don't divide by zero again.
         return _CurrentTemp;
@@ -76,14 +76,14 @@ int ThermalProbe::MeasureTemp()
     //Faulting algorithm...
     if(_CurrentTemp > 0)//Should never really read below zero.
     {
-        if((_CurrentTemp > (PreviousTemp + _FaultTempBuffer) && ElementCurrentState == ThermalProbe::OFF)//We are climbing and we shouldn't be.
+        if(_CurrentTemp > 315)
+                _FaultCount ++;
+        else if((_CurrentTemp > (PreviousTemp + _FaultTempBuffer) && ElementCurrentState == ThermalProbe::OFF)//We are climbing and we shouldn't be.
                 ||  (_CurrentTemp < (PreviousTemp - _FaultTempBuffer) && ElementCurrentState == ThermalProbe::ON))//We are falling and we shouldn't be.
-            _FaultCount++;
+            _FaultCount ++;
+        else
+            _FaultCount = 0;
     }
-    else if(_CurrentTemp > 315)
-        _FaultCount++;
-    else
-        _FaultCount++;
     //=================
 
     if(_FaultCount < _FaultTolerance)

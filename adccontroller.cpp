@@ -104,7 +104,7 @@ int ADCController::GetChannelValue(const unsigned int &Channel)
         TX <<= 1;
         //bounce the clock and start again...
         gpioWrite(_Clock, PI_HIGH);
-        gpioDelay(5000);
+        gpioDelay(200);
         gpioWrite(_Clock, PI_LOW);
     }
 
@@ -112,7 +112,7 @@ int ADCController::GetChannelValue(const unsigned int &Channel)
     for(int i = 0; i < 12; i++)
     {
         gpioWrite(_Clock, PI_HIGH);
-        gpioDelay(5000);
+        gpioDelay(200);
         gpioWrite(_Clock, PI_LOW);
         RX <<= 1; //Shift our bit over so when we read the MISO we can OR the value with RX.
         if(gpioRead(_MISO))

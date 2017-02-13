@@ -27,7 +27,48 @@ int main(int argc, char *argv[])
 {
 	if (gpioInitialise() < 0) 
 		return 1;
-    
+	//TODO: Pull low these GPIO pins on startup!
+
+    // SDA0 GPIO 0
+    gpioSetMode(17, PI_OUTPUT);
+    gpioWrite(17, PI_LOW);
+    // SCL0 GPIO 1
+    gpioSetMode(18, PI_OUTPUT);
+    gpioWrite(18, PI_LOW);
+    // SDA1 GPIO 2
+    gpioSetMode(27, PI_OUTPUT);
+    gpioWrite(27, PI_LOW);
+    // SCL1 GPIO 3
+    gpioSetMode(22, PI_OUTPUT);
+    gpioWrite(22, PI_LOW);
+    // GPIO 4
+    gpioSetMode(23, PI_OUTPUT);
+    gpioWrite(23, PI_LOW);
+    // GPIO 5
+    gpioSetMode(24, PI_OUTPUT);
+    gpioWrite(24, PI_LOW);
+    //  GPIO 6
+    gpioSetMode(25, PI_OUTPUT);
+    gpioWrite(25, PI_LOW);
+    //  GPIO 7
+    gpioSetMode(4, PI_OUTPUT);
+    gpioWrite(4, PI_LOW);
+    //  GPIO 8
+    gpioSetMode(2, PI_OUTPUT);
+    gpioWrite(2, PI_LOW);
+    //  GPIO 9
+    gpioSetMode(3, PI_OUTPUT);
+    gpioWrite(3, PI_LOW);
+    //    //  GPIO 34
+    //    gpioSetMode(4, PI_OUTPUT);
+    //    gpioWrite(4, PI_LOW);
+    //    //  GPIO 35
+    //    gpioSetMode(4, PI_OUTPUT);
+    //    gpioWrite(4, PI_LOW);
+    //    //  GPIO 36
+    //    gpioSetMode(4, PI_OUTPUT);
+    //    gpioWrite(4, PI_LOW);
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

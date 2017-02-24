@@ -190,14 +190,14 @@ void GCodeInterpreter::InitializeThermalProbes()
                     _ExtProbe = new ThermalProbe(Params[1].toDouble(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
                             Params[5].toDouble(), Params[6].toInt(),  Params[7].toInt(), _ADCController);
                     ExtProbeWorker = new ProbeWorker(_ExtProbe, Params[8].toInt(), this);
-                    //connect(this, SIGNAL(terminated()), ExtProbeWorker, SLOT(terminate()));
+                    connect(this, SIGNAL(terminated()), ExtProbeWorker, SLOT(terminate()));
                 }
                 if(Params[0].contains("Bed"))
                 {
                     _BedProbe = new ThermalProbe(Params[1].toDouble(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
                             Params[5].toDouble(), Params[6].toInt(),  Params[7].toInt(), _ADCController);
                     BedProbeWorker = new ProbeWorker(_BedProbe, Params[8].toInt(), this);
-                    //connect(this, SIGNAL(terminated()), BedProbeWorker, SLOT(terminate()));
+                    connect(this, SIGNAL(terminated()), BedProbeWorker, SLOT(terminate()));
                 }
             }
         }
@@ -310,6 +310,9 @@ void GCodeInterpreter::HomeAllAxis()
     while(!_YAxis->MoveFromEndstop() && !_TerminateThread);
     while(!_ZAxis->MoveFromEndstop() && !_TerminateThread);
     while(!_ExtAxis->MoveFromEndstop() && !_TerminateThread);
+    //Buffer X and Y phases
+    _XAxis->Rotate(StepperMotor::CLOCKWISE, 2, _XAxis->MaxSpeed());
+    _YAxis->Rotate(StepperMotor::CLOCKWISE, 2, _XAxis->MaxSpeed());
     //Reset the positions of the motors to the origins.
     _XAxis->Position = 0;
     _YAxis->Position = 0;
@@ -942,7 +945,7 @@ void GCodeInterpreter::ExecutePrintSequence()
     {
         _SpeedFactor = .15;
         //Extend the bed so we can remove the part.
-        MoveToolHead(1, _YArea - 50, 0, _ExtAxis->Position - 5);
+        //MoveToolHead(1, _YArea - 50, 0, _ExtAxis->Position - 5);
         emit ReportProgress(100);
     }
 }

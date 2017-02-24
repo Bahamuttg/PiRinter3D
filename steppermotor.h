@@ -69,7 +69,8 @@ public:
     ~StepperMotor();
 
     void Rotate(MotorDirection Direction, long Steps, int MS_Delay);
-    void Rotate(MotorDirection Direction, int MS_Delay);
+    void Rotate(MotorDirection Direction,  long Steps);
+    void Rotate(MotorDirection Direction);
     void StopRotation(const bool &Hold = true);
     bool MoveFromEndstop(const unsigned int &NumSteps = 1);
     void Enable();

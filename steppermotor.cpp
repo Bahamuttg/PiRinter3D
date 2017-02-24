@@ -123,6 +123,31 @@ StepperMotor::~StepperMotor()
 //    }
 }
 
+void StepperMotor::Rotate(MotorDirection Direction,  long Steps)
+{
+    if (_Enabled)
+    {
+        if(Steps < 0)
+            Steps *= -1;
+        this->_IsRotating = true;
+        for (int i = 0; i < Steps; i++)
+        {
+            if(_StopPin > 0 && !gpioRead(_StopPin))
+            {
+                CoilsOff();
+                this->_IsRotating = false;
+                this->_IsAgainstEndstop = true;
+                return;
+            }
+            PerformStep(Direction);
+        }
+        //If we're not holding the motor position let's release it.
+        if (!HoldPosition)
+            CoilsOff();
+    }
+    this->_IsRotating = false;
+}
+
 void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)
 {
     if (_Enabled)
@@ -152,11 +177,8 @@ void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)
     this->_IsRotating = false;
 }
 
-void StepperMotor::Rotate(MotorDirection Direction, int MS_Delay)
+void StepperMotor::Rotate(MotorDirection Direction)
 {
-    //this is the minimum speed at which we can switch the coils.
-    if(MS_Delay < this->_MinPhaseDelay)
-        MS_Delay = this->_MinPhaseDelay;
     //This method will block indefinitely.
     //It's up to the programmer to thread it properly.
     this->_IsRotating = true;
@@ -170,7 +192,7 @@ void StepperMotor::Rotate(MotorDirection Direction, int MS_Delay)
             return;
         }
         PerformStep(Direction);
-        gpioSleep(PI_TIME_RELATIVE, 0, MS_Delay * 1000);
+        gpioSleep(PI_TIME_RELATIVE, 0, _MinPhaseDelay * 1000);
     }
     //If we're not holding the motor position let's release it.
     if (!HoldPosition)
@@ -194,7 +216,7 @@ bool StepperMotor::MoveFromEndstop(const unsigned int &NumSteps)
         for (int i = 0; i < NumSteps; i++)
         {
             PerformStep(this->Direction);
-            gpioSleep(PI_TIME_RELATIVE, 0, this->_MinPhaseDelay * 100000);
+            gpioSleep(PI_TIME_RELATIVE, 0, this->_MinPhaseDelay * 10000);
         }
         InvertDirection();
         //Check to see that we moved off the stop.

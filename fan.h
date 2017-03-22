@@ -6,7 +6,8 @@
 class Fan
 {
 private:
-    unsigned int _TriggerPin, _SensorPin, _TargetRPM, _PowerState, _RPMBuffer, _DutyCycle;
+    unsigned int _TriggerPin, _SensorPin, _TargetRPM, _PowerState, _RPMBuffer;
+    float _DutyCycle;
     pthread_t *RPMThread;
 
 public:

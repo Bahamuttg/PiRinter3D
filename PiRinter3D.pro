@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     adccontroller.cpp \
     fan.cpp \
     tooltrigger.cpp \
-    heaterdriver.cpp
+    heaterdriver.cpp \
+    spindlemotor.cpp
 
 HEADERS  += mainwindow.h \
     motorworker.h \
@@ -47,7 +48,8 @@ HEADERS  += mainwindow.h \
     adccontroller.h \
     fan.h \
     tooltrigger.h \
-    heaterdriver.h
+    heaterdriver.h \
+    spindlemotor.h
 
 FORMS    += mainwindow.ui \
     stepperdriver.ui \

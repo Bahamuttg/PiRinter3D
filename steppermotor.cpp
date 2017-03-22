@@ -22,7 +22,7 @@
 #include "steppermotor.h"
 #include <pigpio.h>
 #include <string>
-StepperMotor::StepperMotor(int StepPin, int DirectionPin, int EnablePin, int MinPhaseDelay, string Name, int StopPin)
+StepperMotor::StepperMotor(unsigned int StepPin, unsigned int DirectionPin, unsigned int EnablePin, unsigned int MinPhaseDelay, string Name, unsigned int StopPin)
 {
     this->MotorName = Name;
     this->_Coil_1 = StepPin;
@@ -43,7 +43,12 @@ StepperMotor::StepperMotor(int StepPin, int DirectionPin, int EnablePin, int Min
     gpioSetMode(_Coil_2, PI_OUTPUT);
     gpioSetMode(_Coil_3, PI_OUTPUT);
     if(_StopPin > 0)
+    {
         gpioSetMode(_StopPin, PI_INPUT);
+        this->_IsAgainstEndstop = !gpioRead(_StopPin);
+    }
+    else
+        this->_IsAgainstEndstop = false;
     //write pins to the Off state
     gpioWrite(_Coil_1, PI_LOW);
     gpioWrite(_Coil_3, PI_HIGH);
@@ -52,7 +57,7 @@ StepperMotor::StepperMotor(int StepPin, int DirectionPin, int EnablePin, int Min
     this->Position = 0;
     this->HoldPosition = true;
 }
-StepperMotor::StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, string Name, int StopPin)
+StepperMotor::StepperMotor(unsigned int Coil1, unsigned int Coil3, unsigned int MinPhaseDelay, string Name, unsigned int StopPin)
 {
     this->MotorName = Name;
     this->_Coil_1 = Coil1;
@@ -72,7 +77,12 @@ StepperMotor::StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, string Name,
     gpioSetMode(_Coil_1, PI_OUTPUT);
     gpioSetMode(_Coil_3, PI_OUTPUT);
     if(_StopPin > 0)
+    {
         gpioSetMode(_StopPin, PI_INPUT);
+        this->_IsAgainstEndstop = !gpioRead(_StopPin);
+    }
+    else
+        this->_IsAgainstEndstop = false;
     //Write pins low to start
     CoilsOff();
     this->_Phase = 0;
@@ -81,7 +91,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, string Name,
     this->HoldPosition = true;
 }
 
-StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, int MinPhaseDelay, bool IsHalfStep, string Name, int StopPin)
+StepperMotor::StepperMotor(unsigned int Coil1, unsigned int Coil2, unsigned int Coil3, unsigned int Coil4, unsigned int MinPhaseDelay, bool IsHalfStep, string Name, unsigned int StopPin)
 {
     this->MotorName = Name;
     this->_Coil_1 = Coil1;
@@ -103,7 +113,12 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, int MinPh
     gpioSetMode(_Coil_3, PI_OUTPUT);
     gpioSetMode(_Coil_4, PI_OUTPUT);
     if(_StopPin > 0)
+    {
         gpioSetMode(_StopPin, PI_INPUT);
+        this->_IsAgainstEndstop = !gpioRead(_StopPin);
+    }
+    else
+        this->_IsAgainstEndstop = false;
     //Write pins low to start
     CoilsOff();
     this->_Phase = 0;
@@ -115,12 +130,6 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, int MinPh
 StepperMotor::~StepperMotor()
 {
     CoilsOff();
-    //This logic causes any other motor objects with end stops to quit functioning on exit.
-//    if(_StopPin > 0)
-//    {
-//        gpioSetMode(_StopPin, PI_OUTPUT);
-//        gpioWrite(_StopPin, PI_LOW);
-//    }
 }
 
 void StepperMotor::Rotate(MotorDirection Direction,  long Steps)
@@ -148,7 +157,7 @@ void StepperMotor::Rotate(MotorDirection Direction,  long Steps)
     this->_IsRotating = false;
 }
 
-void StepperMotor::Rotate(MotorDirection Direction,  long Steps, int MS_Delay)
+void StepperMotor::Rotate(MotorDirection Direction,  long Steps, unsigned int MS_Delay)
 {
     if (_Enabled)
     {
@@ -213,7 +222,7 @@ bool StepperMotor::MoveFromEndstop(const unsigned int &NumSteps)
     if(_StopPin > 0 && !gpioRead(_StopPin))
     {
         InvertDirection();
-        for (int i = 0; i < NumSteps; i++)
+        for (unsigned int i = 0; i < NumSteps; i++)
         {
             PerformStep(this->Direction);
             gpioSleep(PI_TIME_RELATIVE, 0, this->_MinPhaseDelay * 10000);

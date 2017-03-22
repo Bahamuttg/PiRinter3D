@@ -63,12 +63,12 @@ public:
     MotorDirection Direction;
     long Position;
     volatile bool HoldPosition;
-    explicit StepperMotor(int StepPin, int DirectionPin, int EnablePin, int MinPhaseDelay, string Name = "Default", int StopPin = 0);
-    explicit StepperMotor(int Coil1, int Coil3, int MinPhaseDelay, string Name = "Default", int StopPin = 0);
-    explicit StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, int MinPhaseDelay, bool IsHalfStep = false, string Name = "Default", int StopPin = 0);
+    explicit StepperMotor(unsigned int StepPin, unsigned int DirectionPin, unsigned int EnablePin, unsigned int MinPhaseDelay, string Name = "Default", unsigned int StopPin = 0);
+    explicit StepperMotor(unsigned int Coil1, unsigned int Coil3, unsigned int MinPhaseDelay, string Name = "Default", unsigned int StopPin = 0);
+    explicit StepperMotor(unsigned int Coil1, unsigned int Coil2, unsigned int Coil3, unsigned int Coil4, unsigned int MinPhaseDelay, bool IsHalfStep = false, string Name = "Default", unsigned int StopPin = 0);
     ~StepperMotor();
 
-    void Rotate(MotorDirection Direction, long Steps, int MS_Delay);
+    void Rotate(MotorDirection Direction, long Steps, unsigned int MS_Delay);
     void Rotate(MotorDirection Direction,  long Steps);
     void Rotate(MotorDirection Direction);
     void StopRotation(const bool &Hold = true);

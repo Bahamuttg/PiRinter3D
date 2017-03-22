@@ -87,8 +87,8 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
         QTextStream Stream(&PrintFile);
         while (!Stream.atEnd())
         {
-            float LastX = 0, lastY = 0;
-            long TotalMS = 0;
+            //float LastX = 0, lastY = 0;
+            //long TotalMS = 0;
 
             QString Line = Stream.readLine();
             if(!Line.startsWith(";") && !Line.isEmpty())//Weed out the comment lines and empties.
@@ -278,8 +278,21 @@ void GCodeInterpreter::InitializeMotors()
 void GCodeInterpreter::HomeAllAxis()
 {
     bool Done;
+    if(_XAxis->IsAgainstStop() || _YAxis->IsAgainstStop() || _ZAxis->IsAgainstStop() || _ExtAxis->IsAgainstStop())
+    {
+        QMessageBox::critical(0, "Ambigious End Stop Detected!", "An end stop on one of the axis is triggered and PiRinter3D cannot determine which one it is. Please check the machine configuration and manually move the carriages from the end stops to continue!", QMessageBox::Ok);
+        _TerminateThread = true;
+    }
     do
     {
+	/*	TODO: we need to configure this method to be able to handle moving the motor from the near and far end stop 
+	 *	if it is already on them when we enter this method. Case: when the motor is instantiated it is set to a default 
+	 *	rotation of CLOCKWISE. If it is already against the CTRCLOCKWISE stop it will bash the carriage against the cradle
+     * until the user intervenes (NOT GOOD)! On the other end of the spectrum... If it is already against the CLOCKWISE stop,
+	 *	we will just end up moving the motor off the stop on that side. This will render the carriage it is on useless because
+	 *	it will be just off of the far stop and quickly hit it again when we try to process GCODE.
+	 *	
+	 */
         Done = true;
         if(_XAxis->HasEndstop() && !_XAxis->IsAgainstStop())
         {
@@ -334,10 +347,13 @@ void GCodeInterpreter::MoveToolHead(const float &XPosition, const float &YPositi
         stepext = qFloor((ExtPosition/_ExtRes) + 0.5) - _ExtAxis->Position;
 
     float total_steps = qSqrt((qPow(stepx, 2) + qPow(stepy, 2)));
-    float total_3dsteps = 0;
+    float total_3dsteps = total_steps * stepz;
 
     if(total_steps != 0 && total_3dsteps != 0 && stepext != 0)
         _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ZAxis, stepz, *_ExtAxis, stepext,
+                               (1 / (_SpeedFactor / qMin(_XRes, qMin(_ZRes, _YRes)))));
+	else if(total_steps != 0 && total_3dsteps != 0)
+		_Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ZAxis, stepz,
                                (1 / (_SpeedFactor / qMin(_XRes, qMin(_ZRes, _YRes)))));
     else if(total_steps != 0 && stepext != 0)
         _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ExtAxis, stepext,
@@ -919,6 +935,13 @@ void GCodeInterpreter::ExecutePrintSequence()
 {
     long long int LineCounter = 0;
     int Progress = 0;
+
+    if(_XAxis->IsAgainstStop() || _YAxis->IsAgainstStop() || _ZAxis->IsAgainstStop() || _ExtAxis->IsAgainstStop())
+    {
+        QMessageBox::critical(0, "Ambigious End Stop Detected!", "An end stop on one of the axis is triggered and PiRinter3D cannot determine which one it is. Please check the machine configuration and manually move the carriages from the end stops to continue!", QMessageBox::Ok);
+        _TerminateThread = true;
+    }
+
     while(LineCounter < _GCODE.length() && !_TerminateThread)
     {
         if(_TerminateThread)

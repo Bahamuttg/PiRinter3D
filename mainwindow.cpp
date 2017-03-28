@@ -23,6 +23,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->insertPermanentWidget(0, _ProgressBar, 100);
     ui->statusBar->insertPermanentWidget(1, _StatusLabel, 250);
 
+    ButtonTimer = new QTimer(this);
+    ButtonTimer->setInterval(300);
+
+    _XWorker = 0;
+    _YWorker = 0;
+    _ZWorker = 0;
+    _ExtWorker = 0;
+
+    _XMotorThread = 0;
+    _YMotorThread = 0;
+    _ZMotorThread = 0;
+    _ExtMotorThread = 0;
 
     _Interpreter = 0;
 }
@@ -34,6 +46,11 @@ MainWindow::~MainWindow()
         _Interpreter->TerminatePrint();
         _Interpreter->wait();
     }
+    delete _XWorker;
+    delete _YWorker;
+    delete _ZWorker;
+    delete _ExtWorker;
+
     delete ui;
 }
 //==========================Private Methods===========================================
@@ -53,8 +70,6 @@ void MainWindow::SaveConfigurations()
 //==========================Main Menu Handlers========================================
 void MainWindow::on_action_Stepper_Utility_triggered()
 {
-    //TODO: if interpreter is already running get the motors from the interpreter
-    //otherwise we will need to init them from the settings file.
     StepperDriver *SD = new StepperDriver(this);
     SD->show();
 }
@@ -103,7 +118,8 @@ void MainWindow::on_action_Load_3D_Print_triggered()
 void MainWindow::on_action_Configure_Motors_triggered()
 {
     MotorConfigDialog Dialog(this);
-    Dialog.exec();
+    if(Dialog.exec() == QDialog::Accepted)
+        UpdateMotorSettings();
 }
 void MainWindow::on_actionConfigure_Probes_triggered()
 {
@@ -157,7 +173,7 @@ void MainWindow::on_actionS_tart_triggered()
            //connect(_Interpreter, SIGNAL(MoveComplete(QString)), this->_StatusLabel, SLOT(setText(QString)));
            connect(_Interpreter, SIGNAL(ProcessingMoves(QString)), this->_StatusLabel, SLOT(setText(QString)));
            connect(_Interpreter, SIGNAL(PrintComplete()), this, SLOT(on_action_Stop_triggered()));
-
+           connect(_Interpreter, SIGNAL(OnError(QString,QString)), this, SLOT(DisplayError(QString,QString)));
            _Interpreter->start();//Kick the tires and light the fires...
 
            ui->menuPrint_Actions->actions()[0]->setText("Pause");
@@ -200,5 +216,76 @@ void MainWindow::on_ExtTempOverride(bool Arg)
 }
 
 //==============End Main Menu Handlers=================================================
+
+void MainWindow::UpdateMotorSettings()
+{
+    InitializeMotors();
+}
+void MainWindow::UpdatePositionLabel(QString Value)
+{
+}
 //==============END SLOTS============================================================
 
+void MainWindow::InitializeMotors()
+{
+    QFile MotorConfig("MotorCfg.ini");
+    if(MotorConfig.open(QIODevice::ReadOnly | QIODevice::Text ))
+    {
+        QTextStream CfgStream(&MotorConfig); //load config file
+        while (!CfgStream.atEnd())
+        {
+            QString Line = CfgStream.readLine(); //read one line at a time
+            if(Line.contains("MotorConfig"))
+            {
+                QStringList Params = Line.split(";");
+                if(Params[0].contains("XAxis"))
+                {
+                    if(Params[6].toInt()) //If it's using HEX inverters
+                        this->_XAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else if(Params[16].toInt())
+                        this->_XAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else
+                        this->_XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
+                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    this->_XAxis->SetHoldOnIdle(Params[17].toInt());
+                }
+                if(Params[0].contains("YAxis"))
+                {
+                    if(Params[6].toInt())
+                        this->_YAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else if(Params[16].toInt())
+                        this->_YAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else
+                        this->_YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
+                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    this->_YAxis->SetHoldOnIdle(Params[17].toInt());
+                }
+                if(Params[0].contains("ZAxis"))
+                {
+                    if(Params[6].toInt())
+                        this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else if(Params[16].toInt())
+                        this->_ZAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else
+                        this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
+                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    this->_ZAxis->SetHoldOnIdle(Params[17].toInt());
+                }
+                if(Params[0].contains("ExtAxis"))
+                {
+                    if(Params[6].toInt())
+                        this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else if(Params[16].toInt())
+                        this->_ExtAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    else
+                        this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
+                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                    this->_ExtAxis->SetHoldOnIdle(Params[17].toInt());
+                }
+            }
+        }
+        MotorConfig.close();
+    }
+    else
+        QMessageBox::critical(0, "Error Opening Motor Config File!", MotorConfig.errorString(), QMessageBox::Ok);
+}

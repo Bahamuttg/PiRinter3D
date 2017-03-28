@@ -45,6 +45,12 @@ class GCodeInterpreter : public QThread
 private:
     Q_OBJECT
 
+    enum ArcDirection
+    {
+        CLOCKWISE = 2,
+        CTRCLOCKWISE = 3
+    };
+
     MotorController _Controller;
 
     //GCODE entries
@@ -90,6 +96,7 @@ private:
     QList<Coordinate>  GetCoordValues(QString &GString);
 
     void MoveToolHead(const float &XPosition, const float &YPosition, const float &ZPosition, const float &ExtPosition);
+    void ExecuteArcMove(const float &XPosition, const float &YPosition, const float &ZPosition, const float &ExtPosition, const float &IValue, const float &JValue, ArcDirection Direction);
 
 protected:
     void run();
@@ -109,8 +116,6 @@ public:
 
     int GetExtruderTemp()
     {
-        //TODO: Wrap this in a loop so we can delay a short time if we couldn't read.
-
         return this->ExtProbeWorker->TriggerProbeRead();
     }
     void SetExtruderTemp(const int &CelsiusValue)
@@ -188,7 +193,7 @@ signals:
 	
     void TemperatureLow(int);
 
-    void OnError(QString);
+    void OnError(QString Val1, QString Val2 = "");
 
     void OnSuccess();
 	

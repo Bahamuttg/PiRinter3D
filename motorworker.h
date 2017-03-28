@@ -31,13 +31,11 @@ class MotorWorker : public QObject
 public:
     bool StopThread;
     bool IsBusy;
-	int StepDelay;
 
-    MotorWorker(StepperMotor *Motor, int MS_Delay = 2)
+    MotorWorker(StepperMotor *Motor)
     {
         this->_Motor = Motor;
         this->StopThread = false;
-		this->StepDelay = MS_Delay;
     }
 
 public slots:
@@ -47,9 +45,9 @@ public slots:
         {
             _Motor->Rotate(_Motor->Direction, 1, _Motor->MaxSpeed());
             emit ProgressChanged(QString::number(_Motor->Position));
+            emit ReportPosition(_Motor->Position);
         }
         this->StopThread = false;
-		emit WorkComplete("Done");
     }
 
     void Stop()
@@ -58,9 +56,8 @@ public slots:
     }
 
 signals:
+    void ReportPosition(const long &Position);
     void ProgressChanged(QString info);
-    void WorkComplete(QString result);
-    void Error(QString err);
 };
 
 #endif // MOTORWORKER_H

@@ -69,15 +69,10 @@ void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor
 	float M1Ratio = ((float)Steps1 / (float)Iterator);
 	float M2Ratio = ((float)Steps2 / (float)Iterator);
 
-    //Old code, Converted to calc over the rate of travel NOT time it takes for the move.
-    //float Time = (Steps1 + Steps2) / Speed
-    //Time delay per step
-    //float deltaTime = Time / ((float)Steps1 + (float)Steps2);
-
     //Total Rate of Travel speed is in Milliseconds
     float Hyp = qSqrt(qPow(Steps1, 2) + qPow(Steps2, 2));
-    float DelayDelta = Hyp /  (((float)Steps1 + (float)Steps2));
-    float Delay = MSDelay * DelayDelta;
+    float DelayDelta = Hyp / (((float)Steps1 + (float)Steps2));
+    float Delay = MSDelay / DelayDelta;
 
     //qDebug()<< "X Steps -- " << QString::number(Steps1) <<  " Y Steps -- " << QString::number(Steps2) << " Speed --  " << QString::number(Delay);
 
@@ -146,8 +141,8 @@ void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor
 
     //Total Rate of Travel
     float Hyp = qSqrt(qPow(Steps1, 2) + qPow(Steps2, 2));
-    float DelayDelta = Hyp /  (((float)Steps1 + (float)Steps2));
-    float Delay = MSDelay * DelayDelta;
+    float DelayDelta = Hyp / (((float)Steps1 + (float)Steps2));
+    float Delay = MSDelay / DelayDelta;
 
     //qDebug()<< "X Steps -- " << QString::number(Steps1) <<  " Y Steps -- " << QString::number(Steps2) << " Ext Steps -- " << QString::number(Steps3) << " Speed --  " << QString::number(Delay);
 
@@ -231,8 +226,8 @@ void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor
 
     //Total Rate of Travel
     float Hyp = qSqrt(qPow(Steps1, 2) + qPow(Steps2, 2));
-    float DelayDelta = Hyp /  (((float)Steps1 + (float)Steps2));
-    float Delay = MSDelay * DelayDelta;
+    float DelayDelta = Hyp / (((float)Steps1 + (float)Steps2));
+    float Delay = MSDelay / DelayDelta;
 
     //Rotate Motors...
     for (int i = 0; i < Iterator; i++)

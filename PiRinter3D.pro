@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,7 +29,19 @@ SOURCES += main.cpp\
     fan.cpp \
     tooltrigger.cpp \
     heaterdriver.cpp \
-    spindlemotor.cpp
+    spindlemotor.cpp \
+    Lib/SMTP/emailaddress.cpp \
+    Lib/SMTP/mimeattachment.cpp \
+    Lib/SMTP/mimecontentformatter.cpp \
+    Lib/SMTP/mimefile.cpp \
+    Lib/SMTP/mimehtml.cpp \
+    Lib/SMTP/mimeinlinefile.cpp \
+    Lib/SMTP/mimemessage.cpp \
+    Lib/SMTP/mimemultipart.cpp \
+    Lib/SMTP/mimepart.cpp \
+    Lib/SMTP/mimetext.cpp \
+    Lib/SMTP/quotedprintable.cpp \
+    Lib/SMTP/smtpclient.cpp
 
 HEADERS  += mainwindow.h \
     motorworker.h \
@@ -49,7 +61,20 @@ HEADERS  += mainwindow.h \
     fan.h \
     tooltrigger.h \
     heaterdriver.h \
-    spindlemotor.h
+    spindlemotor.h \
+    Lib/SMTP/emailaddress.h \
+    Lib/SMTP/mimeattachment.h \
+    Lib/SMTP/mimecontentformatter.h \
+    Lib/SMTP/mimefile.h \
+    Lib/SMTP/mimehtml.h \
+    Lib/SMTP/mimeinlinefile.h \
+    Lib/SMTP/mimemessage.h \
+    Lib/SMTP/mimemultipart.h \
+    Lib/SMTP/mimepart.h \
+    Lib/SMTP/mimetext.h \
+    Lib/SMTP/quotedprintable.h \
+    Lib/SMTP/smtpclient.h \
+    Lib/SMTP/smtpexports.h
 
 FORMS    += mainwindow.ui \
     stepperdriver.ui \
@@ -58,7 +83,7 @@ FORMS    += mainwindow.ui \
     printareaconfigdialog.ui \
     heaterdriver.ui
 
-INCLUDEPATH += /usr/include
+INCLUDEPATH += /usr/include \
 
 
 RESOURCES += \

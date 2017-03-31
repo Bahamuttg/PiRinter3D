@@ -51,7 +51,7 @@ private:
         CTRCLOCKWISE = 3
     };
 
-    MotorController _Controller;
+    MotorController *_Controller;
 
     //GCODE entries
     QStringList _GCODE;
@@ -168,6 +168,8 @@ public slots:
 
     void ChangeExtTemp(const int &Celsius);
 
+    void UpdatePositionLabel(QString Name, const long Pos);
+
 signals:
     void PrintStarted();
 
@@ -198,6 +200,8 @@ signals:
     void OnSuccess();
 	
     void ReportProgress(int);
+
+    void ReportMotorPosition(QString Name, const long Pos);
 };
 
 #endif // GCODEINTERPRETER_H

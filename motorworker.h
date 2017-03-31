@@ -44,8 +44,9 @@ public slots:
         while (!this->StopThread)
         {
             _Motor->Rotate(_Motor->Direction, 1, _Motor->MaxSpeed());
-            emit ProgressChanged(QString::number(_Motor->Position));
+            emit ProgressChanged(QString::fromStdString(_Motor->MotorName), _Motor->Position);
             emit ReportPosition(_Motor->Position);
+            qDebug()<<"Stepping...";
         }
         this->StopThread = false;
     }
@@ -57,7 +58,7 @@ public slots:
 
 signals:
     void ReportPosition(const long &Position);
-    void ProgressChanged(QString info);
+    void ProgressChanged(QString Name, const long Position);
 };
 
 #endif // MOTORWORKER_H

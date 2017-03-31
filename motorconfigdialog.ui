@@ -185,7 +185,7 @@
                    <item row="1" column="0">
                     <widget class="QLabel" name="minPhaseDelayLabel">
                      <property name="toolTip">
-                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the minimum amount of time (in Microseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                      <property name="text">
                       <string>Min Phase Delay</string>
@@ -197,8 +197,14 @@
                    </item>
                    <item row="1" column="1">
                     <widget class="QSpinBox" name="seMinDelayX">
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the minimum amount of time (in Microseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="maximum">
+                      <number>99999</number>
+                     </property>
                      <property name="value">
-                      <number>3</number>
+                      <number>3000</number>
                      </property>
                     </widget>
                    </item>
@@ -1004,7 +1010,7 @@
                    <item row="1" column="0">
                     <widget class="QLabel" name="minPhaseDelayLabel_2">
                      <property name="toolTip">
-                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the minimum amount of time (in Microseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                      <property name="text">
                       <string>Min Phase Delay</string>
@@ -1017,10 +1023,13 @@
                    <item row="1" column="1">
                     <widget class="QSpinBox" name="seMinDelayY">
                      <property name="toolTip">
-                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the minimum amount of time (in Microseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="maximum">
+                      <number>99999</number>
                      </property>
                      <property name="value">
-                      <number>3</number>
+                      <number>3000</number>
                      </property>
                     </widget>
                    </item>
@@ -1514,7 +1523,7 @@
                    <item row="1" column="0">
                     <widget class="QLabel" name="minPhaseDelayLabel_3">
                      <property name="toolTip">
-                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the minimum amount of time (in Microseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                      <property name="text">
                       <string>Min Phase Delay</string>
@@ -1527,10 +1536,13 @@
                    <item row="1" column="1">
                     <widget class="QSpinBox" name="seMinDelayZ">
                      <property name="toolTip">
-                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the minimum amount of time (in Microseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="maximum">
+                      <number>99999</number>
                      </property>
                      <property name="value">
-                      <number>3</number>
+                      <number>3000</number>
                      </property>
                     </widget>
                    </item>
@@ -2024,7 +2036,7 @@
                    <item row="1" column="0">
                     <widget class="QLabel" name="minPhaseDelayLabel_4">
                      <property name="toolTip">
-                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the minimum amount of time (in Microseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                      <property name="text">
                       <string>Min Phase Delay</string>
@@ -2037,10 +2049,13 @@
                    <item row="1" column="1">
                     <widget class="QSpinBox" name="seMinDelayEX">
                      <property name="toolTip">
-                      <string>This is the minimum amount of time (in Milliseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the minimum amount of time (in Microseconds)&lt;br/&gt;between motor steps. If your Stepper motors aren't responding well to&lt;br/&gt;move commands, try increasing this delay.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="maximum">
+                      <number>99999</number>
                      </property>
                      <property name="value">
-                      <number>3</number>
+                      <number>3000</number>
                      </property>
                     </widget>
                    </item>

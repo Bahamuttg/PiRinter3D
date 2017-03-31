@@ -31,6 +31,7 @@ GCodeInterpreter::GCodeInterpreter(const QString &FilePath, QObject *parent)
     _YAxis = 0;
     _ZAxis = 0;
     _ExtAxis = 0;
+    _Controller = new MotorController();
 
     _ExtProbe = 0;
     _BedProbe = 0;
@@ -63,6 +64,7 @@ GCodeInterpreter::~GCodeInterpreter()
     delete _ExtAxis;
     delete _ExtProbe;
     delete _BedProbe;
+    delete _Controller;
 
     BedProbeWorker->Terminate();
     ExtProbeWorker->Terminate();
@@ -371,37 +373,37 @@ void GCodeInterpreter::MoveToolHead(const float &XPosition, const float &YPositi
     //2.8 MS delay between steps to meet F1500 Requirements
     if(total_steps != 0 && total_3dsteps != 0 && stepext != 0)
     {
-        _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ZAxis, stepz, *_ExtAxis, stepext,
+        _Controller->StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ZAxis, stepz, *_ExtAxis, stepext,
                                (1 / (_SpeedFactor / qMin(_XRes, qMin(_ZRes, _YRes)))));
         emit ProcessingMoves("Printing....");
     }
     else if(total_steps != 0 && total_3dsteps != 0)
     {
-        _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ZAxis, stepz,
+        _Controller->StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ZAxis, stepz,
                                (1 / (_SpeedFactor / qMin(_XRes, qMin(_ZRes, _YRes)))));
         emit ProcessingMoves("Movind Tool Head 3D....");
     }
     else if(total_steps != 0 && stepext != 0)
     {
-        _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ExtAxis, stepext,
+        _Controller->StepMotors(*_XAxis, stepx, *_YAxis, stepy, *_ExtAxis, stepext,
                                (1 / (_SpeedFactor / qMin(_XRes, _YRes))));
         emit ProcessingMoves("Printing....");
     }
     else if(total_steps != 0)
     {
-        _Controller.StepMotors(*_XAxis, stepx, *_YAxis, stepy,
+        _Controller->StepMotors(*_XAxis, stepx, *_YAxis, stepy,
                                (1 / (_SpeedFactor / qMin(_XRes, _YRes))));
         emit ProcessingMoves("Moving Tool Head....");
     }
     else if (stepz != 0)
     {
         emit ProcessingMoves("Moving Z Axis...");
-        _Controller.StepMotor(*_ZAxis, stepz, (1 / (_SpeedFactor / _ZRes)));
+        _Controller->StepMotor(*_ZAxis, stepz, (1 / (_SpeedFactor / _ZRes)));
     }
     else if (stepext != 0)
     {
         emit ProcessingMoves("Moving Extruder...");
-        _Controller.StepMotor(*_ExtAxis, stepext,(1 / (_SpeedFactor / _ExtRes)));
+        _Controller->StepMotor(*_ExtAxis, stepext,(1 / (_SpeedFactor / _ExtRes)));
     }
 }
 void GCodeInterpreter::ExecuteArcMove(const float &XPosition, const float &YPosition, const float &ZPosition, const float &ExtPosition,
@@ -1104,6 +1106,10 @@ void GCodeInterpreter::ExecutePrintSequence()
         LineCounter ++;
         Progress = (int)(LineCounter * (100.00 / _GCODE.length()));
         emit ReportProgress(Progress);
+        emit ReportMotorPosition(QString::fromStdString(_XAxis->MotorName), _XAxis->Position );
+        emit ReportMotorPosition(QString::fromStdString(_YAxis->MotorName), _YAxis->Position );
+        emit ReportMotorPosition(QString::fromStdString(_ZAxis->MotorName), _ZAxis->Position );
+        emit ReportMotorPosition(QString::fromStdString(_ExtAxis->MotorName), _ExtAxis->Position );
     }
 
     if(!_TerminateThread)
@@ -1121,6 +1127,7 @@ void GCodeInterpreter::BeginPrint()
 {
     if(!_IsPrinting)
     {
+       // connect(_Controller, SIGNAL(ReportMotorPosition(QString,long)), this, SLOT(UpdatePositionLabel(QString,long)));
         _IsPrinting = true;
         ExecutePrintSequence();
         BedProbeWorker->Terminate();
@@ -1156,6 +1163,11 @@ void GCodeInterpreter::ChangeBedTemp(const int &Celsius)
 void GCodeInterpreter::ChangeExtTemp(const int &Celsius)
 {
     this->ExtProbeWorker->SetTargetTemp(Celsius);
+}
+
+void GCodeInterpreter::UpdatePositionLabel(QString Name, const long Pos)
+{
+    emit ReportMotorPosition(Name, Pos);
 }
 
 //=======================================END SLOTS=================================================

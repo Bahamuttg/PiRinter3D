@@ -31,7 +31,7 @@ private:
     QProgressBar *_ProgressBar;
     QString _PrintFilePath ;
 
-    QTimer *ButtonTimer;
+    QTimer *_XButtonTimer, *_YButtonTimer, *_ZButtonTimer, *_ExtButtonTimer;
 
     GCodeInterpreter *_Interpreter;
 
@@ -41,10 +41,9 @@ private:
 
 
     void LoadConfigurations();
-
     void SaveConfigurations();
-
     void InitializeMotors();
+    void InitializeMotorWorkers();
 public:
 
     explicit MainWindow(QWidget *parent = 0);
@@ -65,12 +64,28 @@ private slots:
     void on_actionConfigure_Probes_triggered();
     void on_actionPre_Heat_Elements_triggered();
 
-    void UpdatePositionLabel(QString Value);
+    void UpdatePositionLabel(QString Name, const long Pos);
     void UpdateMotorSettings();
     void DisplayError(QString Msg, QString Title = "An Error Occoured!")
     {
          QMessageBox::critical(0, Title, Msg, QMessageBox::Ok);
     }
+    void on_btnXLeft_pressed();
+    void on_btnXRight_released();
+    void on_btnYBack_pressed();
+    void on_btnXLeft_released();
+    void on_btnXRight_pressed();
+    void on_btnYBack_released();
+    void on_btnYFore_pressed();
+    void on_btnYFore_released();
+    void on_btnZUp_pressed();
+    void on_btnZUp_released();
+    void on_btnZDown_pressed();
+    void on_btnZDown_released();
+    void on_btnEXTFore_pressed();
+    void on_btnEXTFore_released();
+    void on_btnEXTBack_pressed();
+    void on_btnEXTBack_released();
 };
 
 #endif // MAINWINDOW_H

@@ -22,6 +22,7 @@
 #ifndef MOTORCONTROLLER_H
 #define MOTORCONTROLLER_H
 #include <QtCore>
+#include <QObject>
 #include "steppermotor.h"
 
 class MotorController : public QObject
@@ -37,6 +38,8 @@ public:
                     StepperMotor &Motor3, long Steps3, const float &MSDelay);
     void StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor &Motor2, long Steps2,
                     StepperMotor &Motor3, long Steps3,  StepperMotor &Motor4, long Steps4, const float &MSDelay);
+signals:
+    void ReportMotorPosition(QString Name, const long Pos);
 };
 
 #endif // MOTORCONTROLLER_H

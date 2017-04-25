@@ -32,6 +32,6 @@
         <file>Resources/glossy_3d_blue_orbs2_119.png</file>
         <file>Resources/glossy_3d_blue_orbs2_120.png</file>
         <file>Resources/glossy_3d_blue_orbs2_121.png</file>
+        <file>Resources/glossy_3d_blue_orbs2_069.png</file>
     </qresource>
-    <qresource prefix="/Config/Motors"/>
 </RCC>

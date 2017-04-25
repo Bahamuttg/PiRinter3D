@@ -30,33 +30,21 @@ private:
 public:
     explicit HeaterDriver(QWidget *parent = 0);
 
-    ProbeWorker *BedProbeWorker, *ExtProbeWorker;
+    ProbeWorker  *Worker;
     ~HeaterDriver();
 
-    int GetExtruderTemp()
+    int GetTemp()
     {
-        return this->ExtProbeWorker->TriggerProbeRead();
+        return this->Worker->TriggerProbeRead();
     }
-    void SetExtruderTemp(const int &CelsiusValue)
+    void SetTemp(const int &CelsiusValue)
     {
-        this->ExtProbeWorker->SetTargetTemp(CelsiusValue);
-    }
-
-    int GetBedTemp()
-    {
-        return this->BedProbeWorker->TriggerProbeRead();
-    }
-    void SetBedTemp(const int &CelsiusValue)
-    {
-        this->BedProbeWorker->SetTargetTemp(CelsiusValue);
+        this->Worker->SetTargetTemp(CelsiusValue);
     }
 
 private slots:
-    void on_cbEnable_toggled(bool checked);
-
-    void ChangeBedTemp(const int &Celsius);
-
-    void ChangeExtTemp(const int &Celsius);
+    void ChangeTemp(const int &Celsius);
+    void on_chkEnable_toggled(bool checked);
 };
 
 #endif // HEATERDRIVER_H

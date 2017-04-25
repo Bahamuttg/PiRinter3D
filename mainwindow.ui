@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1402</width>
-    <height>660</height>
+    <width>1099</width>
+    <height>896</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,168 +21,7 @@
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridMain">
-      <item row="0" column="1">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="2">
-       <widget class="QGroupBox" name="gbFanInterface">
-        <property name="title">
-         <string>Cooling Interface</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_9">
-         <item>
-          <layout class="QGridLayout" name="gridLayout_4">
-           <item row="1" column="2">
-            <layout class="QGridLayout" name="gridLayout_5">
-             <item row="3" column="0">
-              <spacer name="verticalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="6" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-              <widget class="QLabel" name="label_4">
-               <property name="text">
-                <string>Off</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>100%</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_5">
-               <property name="text">
-                <string>Fan Power</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="0">
-              <spacer name="verticalSpacer_4">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item row="1" column="1">
-            <widget class="QSlider" name="verticalSlider">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="tickPosition">
-              <enum>QSlider::TicksBothSides</enum>
-             </property>
-             <property name="tickInterval">
-              <number>10</number>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <layout class="QVBoxLayout" name="verticalLayout_10">
-             <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-              <widget class="QLabel" name="label_6">
-               <property name="text">
-                <string>RPM</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLCDNumber" name="lcdFanRPM">
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>40</height>
-                </size>
-               </property>
-               <property name="digitCount">
-                <number>4</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="chkFanOverride">
-               <property name="text">
-                <string>Override</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item alignment="Qt::AlignRight">
-              <widget class="QLabel" name="lblPercentDisplay">
-               <property name="font">
-                <font>
-                 <pointsize>18</pointsize>
-                </font>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-               <property name="text">
-                <string>0</string>
-               </property>
-               <property name="margin">
-                <number>5</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="0" column="0">
+      <item row="1" column="0">
        <widget class="QGroupBox" name="gbMotorInterface">
         <property name="minimumSize">
          <size>
@@ -653,22 +492,164 @@
         </layout>
        </widget>
       </item>
-      <item row="1" column="0">
-       <spacer name="verticalSpacer_2">
+      <item row="1" column="1">
+       <spacer name="horizontalSpacer_2">
         <property name="orientation">
-         <enum>Qt::Vertical</enum>
+         <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>20</width>
-          <height>40</height>
+          <width>40</width>
+          <height>20</height>
          </size>
         </property>
        </spacer>
       </item>
+      <item row="0" column="0">
+       <widget class="QGroupBox" name="gbPrintFunctions">
+        <property name="title">
+         <string>Print Functions</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <layout class="QGridLayout" name="gridPrintFunctions">
+           <item row="0" column="3">
+            <widget class="QPushButton" name="btnStopPrint">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stop the current print and turn off heating elements and fans&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="PiRinter.qrc">
+               <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_079.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_079.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>64</width>
+               <height>64</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="btnStartPtrint">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start the printing process for the currently loaded GCODE file&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="PiRinter.qrc">
+               <normaloff>:/PiRinter/Icons/Resources/glossy-3d-blue-orbs2-022.ico</normaloff>:/PiRinter/Icons/Resources/glossy-3d-blue-orbs2-022.ico</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>64</width>
+               <height>64</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QPushButton" name="btnLoadPrint">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load a print into PiRinter3D&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="PiRinter.qrc">
+               <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_063.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_063.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>64</width>
+               <height>64</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QPushButton" name="btnPausePrint">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pause or resume the printing process&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="PiRinter.qrc">
+               <normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_069.png</normaloff>:/PiRinter/Icons/Resources/glossy_3d_blue_orbs2_069.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>64</width>
+               <height>64</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="lblLoadButton">
+             <property name="text">
+              <string>Load Print</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="lblStartButton">
+             <property name="text">
+              <string>Start</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="lblPauseButton">
+             <property name="text">
+              <string>Pause</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QLabel" name="lblStopButton">
+             <property name="text">
+              <string>Stop</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
      </layout>
     </item>
-    <item row="2" column="0">
+    <item row="1" column="0">
      <spacer name="verticalSpacer">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -688,7 +669,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1402</width>
+     <width>1099</width>
      <height>27</height>
     </rect>
    </property>
@@ -747,7 +728,13 @@
     <addaction name="separator"/>
     <addaction name="actionSi_mulate_Print"/>
    </widget>
+   <widget class="QMenu" name="menu_View">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menu_View"/>
    <addaction name="menuPrint_Actions"/>
    <addaction name="menu_Settings"/>
    <addaction name="menu_Tools"/>
@@ -766,10 +753,13 @@
     <enum>Qt::LeftToRight</enum>
    </property>
    <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
    <property name="allowedAreas">
     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Interpreter History</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
@@ -804,6 +794,9 @@
    <property name="allowedAreas">
     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
+   <property name="windowTitle">
+    <string>Thermal Elements</string>
+   </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
@@ -829,7 +822,7 @@
              <item>
               <widget class="QFrame" name="frame_3">
                <property name="frameShape">
-                <enum>QFrame::WinPanel</enum>
+                <enum>QFrame::Box</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
@@ -904,7 +897,7 @@
                 </font>
                </property>
                <property name="frameShape">
-                <enum>QFrame::WinPanel</enum>
+                <enum>QFrame::Box</enum>
                </property>
                <property name="lineWidth">
                 <number>1</number>
@@ -938,7 +931,7 @@
              <item>
               <widget class="QFrame" name="frame_2">
                <property name="frameShape">
-                <enum>QFrame::WinPanel</enum>
+                <enum>QFrame::Box</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
@@ -1011,7 +1004,7 @@
              <item>
               <widget class="QLCDNumber" name="lcdBedTemp">
                <property name="frameShape">
-                <enum>QFrame::WinPanel</enum>
+                <enum>QFrame::Box</enum>
                </property>
                <property name="midLineWidth">
                 <number>0</number>
@@ -1028,6 +1021,276 @@
         </widget>
        </item>
       </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dkPrintInfo">
+   <property name="windowTitle">
+    <string>Print Information</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>4</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_3">
+    <layout class="QGridLayout" name="gridLayout_6">
+     <item row="1" column="1">
+      <widget class="QGroupBox" name="gbRunningTime">
+       <property name="title">
+        <string>Elapsed Time</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="lblElapsed">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QGroupBox" name="gbStartTime">
+       <property name="title">
+        <string>Start Time</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="lblStartTime">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QGroupBox" name="gbEndTime">
+       <property name="title">
+        <string>End Time</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="lblEndTime">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QGroupBox" name="gbEstimatedTime">
+       <property name="title">
+        <string>Estimated Time</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="lblEstimatedTime">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="4">
+      <widget class="QGroupBox" name="gbFileInfo">
+       <property name="title">
+        <string>File Info</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="lblFileName">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dkCooling">
+   <property name="features">
+    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Cooling Elements</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_5">
+    <layout class="QVBoxLayout" name="verticalLayout_11">
+     <item>
+      <widget class="QFrame" name="verticalFrame">
+       <property name="frameShape">
+        <enum>QFrame::WinPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_12">
+        <item>
+         <widget class="QGroupBox" name="gbFanInterface">
+          <property name="title">
+           <string>Cooling Interface</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_4">
+             <item row="1" column="2">
+              <layout class="QGridLayout" name="gridLayout_5">
+               <item row="3" column="0">
+                <spacer name="verticalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="6" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>Off</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>100%</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string>Fan Power</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <spacer name="verticalSpacer_4">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item row="1" column="1">
+              <widget class="QSlider" name="vsFanPower">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="maximum">
+                <number>100</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBothSides</enum>
+               </property>
+               <property name="tickInterval">
+                <number>10</number>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <layout class="QVBoxLayout" name="verticalLayout_10">
+               <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>RPM</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLCDNumber" name="lcdFanRPM">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="digitCount">
+                  <number>4</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="chkFanOverride">
+                 <property name="text">
+                  <string>Override</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item alignment="Qt::AlignRight">
+                <widget class="QLabel" name="lblPercentDisplay">
+                 <property name="font">
+                  <font>
+                   <pointsize>18</pointsize>
+                  </font>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::NoFrame</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Plain</enum>
+                 </property>
+                 <property name="text">
+                  <string>0</string>
+                 </property>
+                 <property name="margin">
+                  <number>5</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -1145,12 +1408,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1295</x>
-     <y>184</y>
+     <x>950</x>
+     <y>254</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1360</x>
-     <y>144</y>
+     <x>1056</x>
+     <y>216</y>
     </hint>
    </hints>
   </connection>
@@ -1161,12 +1424,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1295</x>
-     <y>468</y>
+     <x>950</x>
+     <y>438</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1360</x>
-     <y>428</y>
+     <x>1056</x>
+     <y>400</y>
     </hint>
    </hints>
   </connection>
@@ -1177,12 +1440,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>461</x>
-     <y>78</y>
+     <x>775</x>
+     <y>164</y>
     </hint>
     <hint type="destinationlabel">
-     <x>406</x>
-     <y>143</y>
+     <x>446</x>
+     <y>241</y>
     </hint>
    </hints>
   </connection>
@@ -1193,12 +1456,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>519</x>
-     <y>70</y>
+     <x>775</x>
+     <y>164</y>
     </hint>
     <hint type="destinationlabel">
-     <x>502</x>
-     <y>110</y>
+     <x>523</x>
+     <y>203</y>
     </hint>
    </hints>
   </connection>
@@ -1209,12 +1472,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>559</x>
-     <y>73</y>
+     <x>775</x>
+     <y>164</y>
     </hint>
     <hint type="destinationlabel">
-     <x>556</x>
-     <y>147</y>
+     <x>599</x>
+     <y>241</y>
     </hint>
    </hints>
   </connection>
@@ -1225,12 +1488,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>594</x>
-     <y>69</y>
+     <x>775</x>
+     <y>164</y>
     </hint>
     <hint type="destinationlabel">
-     <x>484</x>
-     <y>185</y>
+     <x>523</x>
+     <y>279</y>
     </hint>
    </hints>
   </connection>
@@ -1241,12 +1504,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>647</x>
-     <y>78</y>
+     <x>775</x>
+     <y>164</y>
     </hint>
     <hint type="destinationlabel">
-     <x>670</x>
-     <y>115</y>
+     <x>678</x>
+     <y>203</y>
     </hint>
    </hints>
   </connection>
@@ -1257,12 +1520,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>626</x>
-     <y>75</y>
+     <x>775</x>
+     <y>164</y>
     </hint>
     <hint type="destinationlabel">
-     <x>661</x>
-     <y>184</y>
+     <x>678</x>
+     <y>279</y>
     </hint>
    </hints>
   </connection>
@@ -1273,12 +1536,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>761</x>
-     <y>69</y>
+     <x>775</x>
+     <y>164</y>
     </hint>
     <hint type="destinationlabel">
      <x>763</x>
-     <y>126</y>
+     <y>203</y>
     </hint>
    </hints>
   </connection>
@@ -1289,44 +1552,44 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>739</x>
-     <y>77</y>
+     <x>775</x>
+     <y>164</y>
     </hint>
     <hint type="destinationlabel">
      <x>763</x>
-     <y>202</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>verticalSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>lblPercentDisplay</receiver>
-   <slot>setNum(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1036</x>
-     <y>217</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1002</x>
-     <y>241</y>
+     <y>279</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>chkFanOverride</sender>
    <signal>toggled(bool)</signal>
-   <receiver>verticalSlider</receiver>
+   <receiver>vsFanPower</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>962</x>
-     <y>146</y>
+     <x>883</x>
+     <y>669</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1040</x>
-     <y>182</y>
+     <x>960</x>
+     <y>695</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>vsFanPower</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>lblPercentDisplay</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>970</x>
+     <y>657</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>927</x>
+     <y>721</y>
     </hint>
    </hints>
   </connection>

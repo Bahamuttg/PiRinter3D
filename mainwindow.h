@@ -11,6 +11,7 @@
 #include <QTextStream>
 #include <QThread>
 #include <QMessageBox>
+#include <QTime>
 
 #include "gcodeinterpreter.h"
 #include "probeconfigdialog.h"
@@ -44,6 +45,8 @@ private:
     void SaveConfigurations();
     void InitializeMotors();
     void InitializeMotorWorkers();
+    void SetButtonPrintFunctions(bool);
+    void ClearLabels();
 public:
 
     explicit MainWindow(QWidget *parent = 0);
@@ -70,6 +73,8 @@ private slots:
     {
          QMessageBox::critical(0, Title, Msg, QMessageBox::Ok);
     }
+    void PrintCompleteSequence();
+
     void on_btnXLeft_pressed();
     void on_btnXRight_released();
     void on_btnYBack_pressed();
@@ -86,6 +91,10 @@ private slots:
     void on_btnEXTFore_released();
     void on_btnEXTBack_pressed();
     void on_btnEXTBack_released();
+    void on_btnLoadPrint_clicked();
+    void on_btnStartPtrint_clicked();
+    void on_btnPausePrint_clicked();
+    void on_btnStopPrint_clicked();
 };
 
 #endif // MAINWINDOW_H

@@ -44,7 +44,7 @@ public slots:
 
     void Resume();
 
-    void Terminate();
+    void Stop();
 
 signals:
     void ReportElementState(bool);

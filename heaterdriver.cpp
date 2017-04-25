@@ -14,9 +14,8 @@ HeaterDriver::HeaterDriver(QWidget *parent) :
 
     _ExtProbe = 0;
     _BedProbe = 0;
-    BedProbeWorker = 0;
-    ExtProbeWorker = 0;
-
+   Worker = 0;
+    ui->lblOn->setVisible(false);
     InitializeThermalProbes();
 }
 
@@ -25,29 +24,50 @@ HeaterDriver::~HeaterDriver()
     delete ui;
     delete _ExtProbe;
     delete _BedProbe;
-    BedProbeWorker->Terminate();
-    ExtProbeWorker->Terminate();
-    ExtProbeWorker->wait();
-    BedProbeWorker->wait();
-    delete BedProbeWorker;
-    delete ExtProbeWorker;
+    Worker->Stop();
+    Worker->wait();
+    delete Worker;
     delete _ADCController;
 }
 
-void HeaterDriver::on_cbEnable_toggled(bool checked)
+void HeaterDriver::on_chkEnable_toggled(bool checked)
 {
-    //If the rb bed is checked disconnect the ext and connect the bed
-    //Vise versa for the ext if it's checked.
+    if(checked)
+    {
+        if(Worker == 0)
+        {
+            if(ui->rbBedElement->isChecked())
+                Worker = new ProbeWorker(_BedProbe, 500);
+            else if (ui->rbExtruderElement->isChecked())
+                Worker = new ProbeWorker(_ExtProbe, 500);
+            else
+                return;
 
-    //Connect the probe reads to the lcd displays
-    connect(this->BedProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdTemp, SLOT(display(int)));
-    connect(this->ExtProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdTemp, SLOT(display(int)));
-    //connect the Probe element states to the UI
-    connect(this->BedProbeWorker, SIGNAL(ReportElementState(bool)), ui->chkOn, SLOT(setChecked(bool)));
-    connect(this->ExtProbeWorker, SIGNAL(ReportElementState(bool)), ui->chkOn, SLOT(setChecked(bool)));
-    //Connect the Temp Setter
-    connect(ui->seTemp, SIGNAL(valueChanged(int)), this, SLOT(ChangeBedTemp(int)));
-    connect(ui->seTemp, SIGNAL(valueChanged(int)), this, SLOT(ChangeExtTemp(int)));
+            //Connect the probe reads to the lcd displays
+            connect(this->Worker, SIGNAL(ReportTemp(int)), ui->lcdTemp, SLOT(display(int)));
+
+            //connect the Probe element states to the UI
+            connect(this->Worker, SIGNAL(ReportElementState(bool)), ui->lblOn, SLOT(setVisible(bool)));
+
+            //Connect the Temp Setter
+            connect(ui->seTemp, SIGNAL(valueChanged(int)), this, SLOT(ChangeTemp(int)));
+
+            Worker->SetTargetTemp(ui->seTemp->value());
+            Worker->start();
+        }
+        else
+            return;
+    }
+    else
+    {
+        if(Worker != 0)
+        {
+            Worker->Stop();
+            Worker->wait();
+            delete Worker;
+            Worker = 0;
+        }
+    }
 }
 
 void HeaterDriver::InitializeThermalProbes()
@@ -68,19 +88,12 @@ void HeaterDriver::InitializeThermalProbes()
             {
                 QStringList Params = Line.split(";");
                 if(Params[0].contains("Extruder"))
-                {
                     _ExtProbe = new ThermalProbe(Params[1].toDouble(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
                             Params[5].toDouble(), Params[6].toInt(),  Params[7].toInt(), _ADCController);
-                    ExtProbeWorker = new ProbeWorker(_ExtProbe, Params[8].toInt(), this);
-                    connect(this, SIGNAL(terminated()), ExtProbeWorker, SLOT(terminate()));
-                }
+
                 if(Params[0].contains("Bed"))
-                {
                     _BedProbe = new ThermalProbe(Params[1].toDouble(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(),
                             Params[5].toDouble(), Params[6].toInt(),  Params[7].toInt(), _ADCController);
-                    BedProbeWorker = new ProbeWorker(_BedProbe, Params[8].toInt(), this);
-                    connect(this, SIGNAL(terminated()), BedProbeWorker, SLOT(terminate()));
-                }
             }
         }
         ProbeConfig.close();
@@ -113,12 +126,8 @@ void HeaterDriver::InitializeADCConverter()
         _ADCController = 0;
 }
 
-void HeaterDriver::ChangeBedTemp(const int &Celsius)
+void HeaterDriver::ChangeTemp(const int &Celsius)
 {
-    this->BedProbeWorker->SetTargetTemp(Celsius);
-}
-
-void HeaterDriver::ChangeExtTemp(const int &Celsius)
-{
-    this->ExtProbeWorker->SetTargetTemp(Celsius);
+    if(Worker != 0)
+        this->Worker->SetTargetTemp(Celsius);
 }

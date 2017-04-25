@@ -56,7 +56,7 @@ void ProbeWorker::Resume()
     this->_Suspend = false;
 }
 
-void ProbeWorker::Terminate()
+void ProbeWorker::Stop()
 {
     this->_Terminate = true;
     this->_Probe->TriggerElement(ThermalProbe::OFF);

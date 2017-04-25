@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _ProgressBar->reset();
     _StatusLabel = new QLabel(this);
     _StatusLabel->setText("Ready");
+
     ui->setupUi(this);
 
     ui->lcdBedTemp->display("Off");
@@ -126,50 +127,55 @@ void MainWindow::InitializeMotors()
             if(Line.contains("MotorConfig"))
             {
                 QStringList Params = Line.split(";");
-                if(Params[0].contains("XAxis"))
+                if(Params.count() == 18)
                 {
-                    if(Params[6].toInt()) //If it's using HEX inverters
-                        this->_XAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
-                    else if(Params[16].toInt())
-                        this->_XAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
-                    else
-                        this->_XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
-                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
-                    this->_XAxis->SetHoldOnIdle(Params[17].toInt());
+                    if(Params[0].contains("XAxis"))
+                    {
+                        if(Params[6].toInt()) //If it's using HEX inverters
+                            this->_XAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                        else if(Params[16].toInt())
+                            this->_XAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                        else
+                            this->_XAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
+                                Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                        this->_XAxis->SetHoldOnIdle(Params[17].toInt());
+                    }
+                    if(Params[0].contains("YAxis"))
+                    {
+                        if(Params[6].toInt())
+                            this->_YAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                        else if(Params[16].toInt())
+                            this->_YAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                        else
+                            this->_YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
+                                Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                        this->_YAxis->SetHoldOnIdle(Params[17].toInt());
+                    }
+                    if(Params[0].contains("ZAxis"))
+                    {
+                        if(Params[6].toInt())
+                            this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                        else if(Params[16].toInt())
+                            this->_ZAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                        else
+                            this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
+                                Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                        this->_ZAxis->SetHoldOnIdle(Params[17].toInt());
+                    }
+                    if(Params[0].contains("ExtAxis"))
+                    {
+                        if(Params[6].toInt())
+                            this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                        else if(Params[16].toInt())
+                            this->_ExtAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                        else
+                            this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
+                                Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
+                        this->_ExtAxis->SetHoldOnIdle(Params[17].toInt());
+                    }
                 }
-                if(Params[0].contains("YAxis"))
-                {
-                    if(Params[6].toInt())
-                        this->_YAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
-                    else if(Params[16].toInt())
-                        this->_YAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
-                    else
-                        this->_YAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
-                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
-                    this->_YAxis->SetHoldOnIdle(Params[17].toInt());
-                }
-                if(Params[0].contains("ZAxis"))
-                {
-                    if(Params[6].toInt())
-                        this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
-                    else if(Params[16].toInt())
-                        this->_ZAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
-                    else
-                        this->_ZAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
-                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
-                    this->_ZAxis->SetHoldOnIdle(Params[17].toInt());
-                }
-                if(Params[0].contains("ExtAxis"))
-                {
-                    if(Params[6].toInt())
-                        this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[3].toInt(), Params[11].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
-                    else if(Params[16].toInt())
-                        this->_ExtAxis = new StepperMotor(Params[13].toInt(), Params[14].toInt(), Params[15].toInt(), Params[11].toInt(),  Params[0].split("::")[1].toStdString(), Params[5].toInt());
-                    else
-                        this->_ExtAxis = new StepperMotor(Params[1].toInt(), Params[2].toInt(), Params[3].toInt(), Params[4].toInt(), Params[11].toInt(),
-                            Params[9].toInt(), Params[0].split("::")[1].toStdString(), Params[5].toInt());
-                    this->_ExtAxis->SetHoldOnIdle(Params[17].toInt());
-                }
+                else
+                    QMessageBox::critical(this, "Error Parsing Config Settings!", "Parameter count mismatch in " + Params[0] , QMessageBox::Ok);
             }
         }
         MotorConfig.close();
@@ -230,16 +236,16 @@ void MainWindow::InitializeMotorWorkers()
 
     //Link the MotorThreads to their workers DoWork Slot.
     connect(_XMotorThread, SIGNAL(started()), _XWorker, SLOT(DoWork()));
-    connect(_XMotorThread, SIGNAL(terminated()), _XWorker, SLOT(Stop()));
+    //connect(_XMotorThread, SIGNAL(terminated()), _XWorker, SLOT(Stop()));
     connect(_XWorker, SIGNAL(ProgressChanged(QString,long)), this, SLOT(UpdatePositionLabel(QString,long)));
     connect(_YMotorThread, SIGNAL(started()), _YWorker, SLOT(DoWork()));
-    connect(_YMotorThread, SIGNAL(terminated()), _YWorker, SLOT(Stop()));
+    //connect(_YMotorThread, SIGNAL(terminated()), _YWorker, SLOT(Stop()));
     connect(_YWorker, SIGNAL(ProgressChanged(QString,long)), this, SLOT(UpdatePositionLabel(QString,long)));
     connect(_ZMotorThread, SIGNAL(started()), _ZWorker, SLOT(DoWork()));
-    connect(_ZMotorThread, SIGNAL(terminated()), _ZWorker, SLOT(Stop()));
+    //connect(_ZMotorThread, SIGNAL(terminated()), _ZWorker, SLOT(Stop()));
     connect(_ZWorker, SIGNAL(ProgressChanged(QString,long)), this, SLOT(UpdatePositionLabel(QString,long)));
     connect(_ExtMotorThread, SIGNAL(started()), _ExtWorker, SLOT(DoWork()));
-    connect(_ExtMotorThread, SIGNAL(terminated()), _ExtWorker, SLOT(Stop()));
+    //connect(_ExtMotorThread, SIGNAL(terminated()), _ExtWorker, SLOT(Stop()));
     connect(_ExtWorker, SIGNAL(ProgressChanged(QString,long)), this, SLOT(UpdatePositionLabel(QString, long)));
 
     //Link the Timer elapsed to the MotorThreads start.
@@ -249,14 +255,14 @@ void MainWindow::InitializeMotorWorkers()
     connect(_ExtButtonTimer, SIGNAL(timeout()), _ExtMotorThread, SLOT(start()));
 
     //Link the Buttons released signal to the Workers Stop Slot
-    connect(ui->btnXLeft, SIGNAL(released()), _XWorker, SLOT(stop()));
-    connect(ui->btnXRight, SIGNAL(released()), _XWorker, SLOT(stop()));
-    connect(ui->btnYBack, SIGNAL(released()), _YWorker, SLOT(stop()));
-    connect(ui->btnYFore, SIGNAL(released()), _YWorker, SLOT(stop()));
-    connect(ui->btnZUp, SIGNAL(released()), _ZWorker, SLOT(stop()));
-    connect(ui->btnZDown, SIGNAL(released()), _ZWorker, SLOT(stop()));
-    connect(ui->btnEXTBack, SIGNAL(released()), _ExtWorker, SLOT(stop()));
-    connect(ui->btnEXTFore, SIGNAL(released()), _ExtWorker, SLOT(stop()));
+    connect(ui->btnXLeft, SIGNAL(released()), _XWorker, SLOT(Stop()));
+    connect(ui->btnXRight, SIGNAL(released()), _XWorker, SLOT(Stop()));
+    connect(ui->btnYBack, SIGNAL(released()), _YWorker, SLOT(Stop()));
+    connect(ui->btnYFore, SIGNAL(released()), _YWorker, SLOT(Stop()));
+    connect(ui->btnZUp, SIGNAL(released()), _ZWorker, SLOT(Stop()));
+    connect(ui->btnZDown, SIGNAL(released()), _ZWorker, SLOT(Stop()));
+    connect(ui->btnEXTBack, SIGNAL(released()), _ExtWorker, SLOT(Stop()));
+    connect(ui->btnEXTFore, SIGNAL(released()), _ExtWorker, SLOT(Stop()));
 
     //Link the Buttons released signal to the MotorThread quit.
     connect(ui->btnXLeft, SIGNAL(released()), _XMotorThread, SLOT(quit()));
@@ -267,6 +273,22 @@ void MainWindow::InitializeMotorWorkers()
     connect(ui->btnZDown, SIGNAL(released()), _ZMotorThread, SLOT(quit()));
     connect(ui->btnEXTBack, SIGNAL(released()), _ExtMotorThread, SLOT(quit()));
     connect(ui->btnEXTFore, SIGNAL(released()), _ExtMotorThread, SLOT(quit()));
+}
+void MainWindow::SetButtonPrintFunctions(bool Enabled)
+{
+    ui->btnPausePrint->setEnabled(Enabled);
+    ui->btnStartPtrint->setEnabled(Enabled);
+    ui->btnStopPrint->setEnabled(Enabled);
+}
+
+void  MainWindow::ClearLabels()
+{
+    ui->lblElapsed->clear();
+    ui->lblEndTime->clear();
+    ui->lblStartTime->clear();
+    ui->lblEstimatedTime->clear();
+    ui->lblFileName->clear();
+    _StatusLabel->setText("Ready");
 }
 //==========================End Private Methods=======================================
 //==============SLOTS===============================================================
@@ -305,7 +327,9 @@ void MainWindow::on_action_Load_3D_Print_triggered()
     FD.show();
     if(FD.exec())
     {
+        ClearLabels();
         _PrintFilePath = FD.selectedFiles()[0];
+        ui->lblFileName->setText(_PrintFilePath.split("/")[_PrintFilePath.split("/").length() - 1]);
         if(_Interpreter != 0)
             delete _Interpreter;
         _StatusLabel->setText("Processing GCODE...");
@@ -316,6 +340,8 @@ void MainWindow::on_action_Load_3D_Print_triggered()
         connect(_Interpreter, SIGNAL(BedTemperatureChanged(int)), ui->seBed, SLOT(setValue(int)));
         connect(_Interpreter, SIGNAL(ExtruderTemperatureChanged(int)), ui->seExt, SLOT(setValue(int)));
         connect(ui->action_Stop, SIGNAL(triggered()), _Interpreter, SLOT(TerminatePrint()));
+        ui->lblEstimatedTime->setText(_Interpreter->EstimatedTime);
+        SetButtonPrintFunctions(true);
     }
 }
 void MainWindow::on_action_Configure_Motors_triggered()
@@ -337,6 +363,8 @@ void MainWindow::on_action_Configure_Motors_triggered()
                     _Interpreter->wait();
                     delete _Interpreter;
                     _Interpreter = 0;
+                    SetButtonPrintFunctions(false);
+                    ClearLabels();
                 }
                 else
                    return;
@@ -367,11 +395,13 @@ void MainWindow::on_actionS_tart_triggered()
            {
                _Interpreter->PausePrint();
                ui->menuPrint_Actions->actions()[0]->setText("Resume");
+               ui->lblPauseButton->setText("Resume");
            }
            else
            {
                _Interpreter->PausePrint();
                ui->menuPrint_Actions->actions()[0]->setText("Pause");
+               ui->lblPauseButton->setText("Pause");
            }
        }
        else
@@ -400,7 +430,11 @@ void MainWindow::on_actionS_tart_triggered()
            connect(_Interpreter, SIGNAL(PrintComplete()), this, SLOT(on_action_Stop_triggered()));
            connect(_Interpreter, SIGNAL(OnError(QString,QString)), this, SLOT(DisplayError(QString,QString)));
            connect(_Interpreter, SIGNAL(ReportMotorPosition(QString,long)), this, SLOT(UpdatePositionLabel(QString,long)));
+           connect(_Interpreter, SIGNAL(ReportElapsedTime(QString)), ui->lblElapsed, SLOT(setText(QString)));
+           connect(_Interpreter, SIGNAL(PrintComplete()), this, SLOT(PrintCompleteSequence()));
 
+           ui->lblStartTime->setText(QDateTime::currentDateTime().time().toString());
+           _Interpreter->StartTime = QDateTime::currentDateTime();
            _Interpreter->start();//Kick the tires and light the fires...
 
            ui->menuPrint_Actions->actions()[0]->setText("Pause");
@@ -422,11 +456,14 @@ void MainWindow::on_action_Stop_triggered()
         delete _Interpreter;
         _Interpreter = 0;
         ui->menuPrint_Actions->actions()[0]->setText("S&tart");
+        ui->lblPauseButton->setText("Pause");
         _ProgressBar->setValue(0);
         _StatusLabel->setText("Ready");
         ui->txtGCode->clear();
         ui->lcdBedTemp->display("Off");
         ui->lcdExtruderTemp->display("Off");
+        SetButtonPrintFunctions(false);
+        ui->lblEndTime->setText(QDateTime::currentDateTime().time().toString());
     }
 }
 void MainWindow::on_BedTempOverride(bool Arg)
@@ -443,6 +480,7 @@ void MainWindow::on_ExtTempOverride(bool Arg)
 void MainWindow::UpdateMotorSettings()
 {
     InitializeMotors();
+    InitializeMotorWorkers();
 }
 void MainWindow::UpdatePositionLabel(QString Name, const long Pos)
 {
@@ -456,6 +494,11 @@ void MainWindow::UpdatePositionLabel(QString Name, const long Pos)
         ui->lblExtPos->setText(QString::number(Pos));
 }
 
+void MainWindow:: PrintCompleteSequence()
+{
+    ui->lblEndTime->setText(QDateTime::currentDateTime().time().toString());
+    //Send email...
+}
 void MainWindow::on_btnXLeft_pressed()
 {
     _XWorker->StopThread = false;
@@ -466,7 +509,6 @@ void MainWindow::on_btnXLeft_released()
 {
     _XWorker->Stop();
 }
-
 void MainWindow::on_btnXRight_pressed()
 {
     _XWorker->StopThread = false;
@@ -477,79 +519,88 @@ void MainWindow::on_btnXRight_released()
 {
         _XWorker->Stop();
 }
-
 void MainWindow::on_btnYBack_pressed()
 {
     _YWorker->StopThread = false;
     _YAxis->Rotate(StepperMotor::CTRCLOCKWISE, 1, _YAxis->MaxSpeed());
     UpdatePositionLabel(QString::fromStdString(_YAxis->MotorName), _YAxis->Position);
 }
-
 void MainWindow::on_btnYBack_released()
 {
         _YWorker->Stop();
 }
-
 void MainWindow::on_btnYFore_pressed()
 {
     _YWorker->StopThread = false;
     _YAxis->Rotate(StepperMotor::CLOCKWISE, 1, _YAxis->MaxSpeed());
     UpdatePositionLabel(QString::fromStdString(_YAxis->MotorName), _YAxis->Position);
 }
-
 void MainWindow::on_btnYFore_released()
 {
         _YWorker->Stop();
 }
-
 void MainWindow::on_btnZUp_pressed()
-{
-    _ZWorker->StopThread = false;
-    _ZAxis->Rotate(StepperMotor::CTRCLOCKWISE, 1, _ZAxis->MaxSpeed());
-    UpdatePositionLabel(QString::fromStdString(_ZAxis->MotorName), _ZAxis->Position);
-}
-
-void MainWindow::on_btnZUp_released()
-{
-        _ZWorker->Stop();
-}
-
-void MainWindow::on_btnZDown_pressed()
 {
     _ZWorker->StopThread = false;
     _ZAxis->Rotate(StepperMotor::CLOCKWISE, 1, _ZAxis->MaxSpeed());
     UpdatePositionLabel(QString::fromStdString(_ZAxis->MotorName), _ZAxis->Position);
 }
-
+void MainWindow::on_btnZUp_released()
+{
+        _ZWorker->Stop();
+}
+void MainWindow::on_btnZDown_pressed()
+{
+    _ZWorker->StopThread = false;
+    _ZAxis->Rotate(StepperMotor::CTRCLOCKWISE, 1, _ZAxis->MaxSpeed());
+    UpdatePositionLabel(QString::fromStdString(_ZAxis->MotorName), _ZAxis->Position);
+}
 void MainWindow::on_btnZDown_released()
 {
         _ZWorker->Stop();
 }
-
 void MainWindow::on_btnEXTFore_pressed()
 {
     _ExtWorker->StopThread = false;
     _ExtAxis->Rotate(StepperMotor::CLOCKWISE, 1, _ExtAxis->MaxSpeed());
     UpdatePositionLabel(QString::fromStdString(_ExtAxis->MotorName), _ExtAxis->Position);
 }
-
 void MainWindow::on_btnEXTFore_released()
 {
         _ExtWorker->Stop();
 }
-
 void MainWindow::on_btnEXTBack_pressed()
 {
     _ExtWorker->StopThread = false;
     _ExtAxis->Rotate(StepperMotor::CTRCLOCKWISE, 1, _ExtAxis->MaxSpeed());
     UpdatePositionLabel(QString::fromStdString(_ExtAxis->MotorName), _ExtAxis->Position);
 }
-
 void MainWindow::on_btnEXTBack_released()
 {
             _ExtWorker->Stop();
 }
+void MainWindow::on_btnLoadPrint_clicked()
+{
+    on_action_Load_3D_Print_triggered();
+}
+
+void MainWindow::on_btnStartPtrint_clicked()
+{
+    on_actionS_tart_triggered();
+}
+
+void MainWindow::on_btnPausePrint_clicked()
+{
+     on_actionS_tart_triggered();
+}
+
+void MainWindow::on_btnStopPrint_clicked()
+{
+    on_action_Stop_triggered();
+}
 //==============END SLOTS============================================================
+
+
 
 
 

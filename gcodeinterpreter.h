@@ -33,6 +33,7 @@
 #include <QObject>
 #include <QThread>
 #include <QList>
+#include <QTime>
 
 struct Coordinate
 {
@@ -104,6 +105,9 @@ protected:
 public:
     GCodeInterpreter(const QString &FilePath, QObject * parent = 0);
     ~GCodeInterpreter();
+
+    QString EstimatedTime;
+    QDateTime StartTime;
 
     ProbeWorker *BedProbeWorker, *ExtProbeWorker;
 
@@ -202,6 +206,8 @@ signals:
     void ReportProgress(int);
 
     void ReportMotorPosition(QString Name, const long Pos);
+
+    void ReportElapsedTime(QString Time);
 };
 
 #endif // GCODEINTERPRETER_H

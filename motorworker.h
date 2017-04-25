@@ -46,7 +46,7 @@ public slots:
             _Motor->Rotate(_Motor->Direction, 1, _Motor->MaxSpeed());
             emit ProgressChanged(QString::fromStdString(_Motor->MotorName), _Motor->Position);
             emit ReportPosition(_Motor->Position);
-            qDebug()<<"Stepping...";
+            //qDebug()<<"Stepping...";
         }
         this->StopThread = false;
     }

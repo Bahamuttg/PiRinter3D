@@ -65,7 +65,7 @@ int ADCController::GetChannelAverage(const unsigned int &Channel, const int &Rea
 int ADCController::GetChannelValue(const unsigned int &Channel)
 {	
     unsigned int RX = 0, TX = 0;
-    if(!_Mutex.tryLock() || Channel > 7)//we must have exclusive access.
+    if(!_Mutex.tryLock(300) || Channel > 7)//we must have exclusive access.
         return -1;
 
    /*

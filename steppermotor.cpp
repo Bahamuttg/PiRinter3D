@@ -268,7 +268,7 @@ void StepperMotor::PerformStep(MotorDirection Direction)
                 gpioWrite(_Coil_2, PI_HIGH);
 
             gpioWrite(_Coil_1, PI_LOW);
-            //Maximum delay never less than 1.9 microseconds.
+            gpioSleep(PI_TIME_RELATIVE, 0, 10);//Maximum delay never less than 1.9 microseconds.
             gpioWrite(_Coil_1, PI_HIGH);
             this->Position += this->Direction;
         }

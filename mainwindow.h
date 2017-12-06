@@ -95,6 +95,8 @@ private slots:
     void on_btnStartPtrint_clicked();
     void on_btnPausePrint_clicked();
     void on_btnStopPrint_clicked();
+    void on_action_Load_PiRinter_Cfg_triggered();
+    void on_action_Save_PiRinter_Cfg_triggered();
 };
 
 #endif // MAINWINDOW_H

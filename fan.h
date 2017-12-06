@@ -48,8 +48,6 @@ public:
     {
         return _RPMBuffer;
     }
-
-
 };
 
 #endif // FAN_H

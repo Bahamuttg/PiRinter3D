@@ -1,7 +1,6 @@
 #ifndef PROBEWORKER_H
 #define PROBEWORKER_H
 #include <QtCore>
-#include <QTimer>
 #include <QThread>
 #include "thermalprobe.h"
 class ProbeWorker : public QThread

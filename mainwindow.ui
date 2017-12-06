@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1099</width>
-    <height>896</height>
+    <height>952</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,6 +41,9 @@
         <layout class="QVBoxLayout" name="verticalLayout_8">
          <item>
           <widget class="QCheckBox" name="chkMotorLock">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Toggling this will disable the motor interface and prevent accidental clicking of the buttons.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="text">
             <string>Lock Motor Interface</string>
            </property>
@@ -111,6 +114,9 @@
                <height>32</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Move the tool head right.</string>
+             </property>
              <property name="text">
               <string/>
              </property>
@@ -150,6 +156,9 @@
                <height>32</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>move the tool drive counter-clockwise.</string>
+             </property>
              <property name="text">
               <string/>
              </property>
@@ -188,6 +197,9 @@
                <width>64</width>
                <height>32</height>
               </size>
+             </property>
+             <property name="toolTip">
+              <string>Move the tool head left.</string>
              </property>
              <property name="layoutDirection">
               <enum>Qt::LeftToRight</enum>
@@ -265,6 +277,9 @@
                <height>32</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Move the bed forward.</string>
+             </property>
              <property name="text">
               <string/>
              </property>
@@ -304,6 +319,9 @@
                <height>32</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Move the tool drive clockwise.</string>
+             </property>
              <property name="layoutDirection">
               <enum>Qt::LeftToRight</enum>
              </property>
@@ -335,6 +353,9 @@
                <width>64</width>
                <height>32</height>
               </size>
+             </property>
+             <property name="toolTip">
+              <string>Move the bed backward.</string>
              </property>
              <property name="text">
               <string/>
@@ -386,6 +407,9 @@
                <width>64</width>
                <height>32</height>
               </size>
+             </property>
+             <property name="toolTip">
+              <string>Move the tool head up.</string>
              </property>
              <property name="text">
               <string/>
@@ -471,6 +495,9 @@
                <width>64</width>
                <height>32</height>
               </size>
+             </property>
+             <property name="toolTip">
+              <string>Move the tool head down.</string>
              </property>
              <property name="text">
               <string/>
@@ -641,6 +668,75 @@
               <set>Qt::AlignCenter</set>
              </property>
             </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QGroupBox" name="gbSpeedCtrl">
+        <property name="title">
+         <string>Interpreter Speed Control</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_7">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayout_10">
+           <item row="0" column="0">
+            <widget class="QSlider" name="slSpeedFactor">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Moving this slider allows you to modulate the speed of the GCODE interpereter by a percentage factor of the F-Speed value processed by the interpreter.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
+             <property name="value">
+              <number>100</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="tickPosition">
+              <enum>QSlider::TicksBothSides</enum>
+             </property>
+             <property name="tickInterval">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <layout class="QGridLayout" name="gridLayout_11">
+             <item row="0" column="0">
+              <widget class="QLabel" name="lblMin">
+               <property name="text">
+                <string>Min</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="lblSpeedVal">
+               <property name="text">
+                <string>100</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="lblMax">
+               <property name="text">
+                <string>Max</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </item>
@@ -833,6 +929,9 @@
                   <property name="enabled">
                    <bool>false</bool>
                   </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Indicates the target temperature of the tool head probe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
                   <property name="maximum">
                    <number>999</number>
                   </property>
@@ -845,6 +944,9 @@
                     <width>0</width>
                     <height>32</height>
                    </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Toggling this will allow you to override and custom set the tool head target temperature.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="text">
                    <string>Override</string>
@@ -891,6 +993,12 @@
              </item>
              <item>
               <widget class="QLCDNumber" name="lcdExtruderTemp">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>60</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>12</pointsize>
@@ -945,6 +1053,9 @@
                     <height>32</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Toggling this will allow you to override and custom set the bed target temperature.</string>
+                  </property>
                   <property name="text">
                    <string>Override</string>
                   </property>
@@ -954,6 +1065,9 @@
                  <widget class="QSpinBox" name="seBed">
                   <property name="enabled">
                    <bool>false</bool>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Indicates the target temperature of the bed probe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="maximum">
                    <number>999</number>
@@ -1003,6 +1117,12 @@
              </item>
              <item>
               <widget class="QLCDNumber" name="lcdBedTemp">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>60</height>
+                </size>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::Box</enum>
                </property>
@@ -1408,12 +1528,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>950</x>
-     <y>254</y>
+     <x>951</x>
+     <y>340</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1056</x>
-     <y>216</y>
+     <x>1058</x>
+     <y>302</y>
     </hint>
    </hints>
   </connection>
@@ -1424,12 +1544,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>950</x>
-     <y>438</y>
+     <x>951</x>
+     <y>559</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1056</x>
-     <y>400</y>
+     <x>1058</x>
+     <y>521</y>
     </hint>
    </hints>
   </connection>
@@ -1441,11 +1561,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>775</x>
-     <y>164</y>
+     <y>396</y>
     </hint>
     <hint type="destinationlabel">
-     <x>446</x>
-     <y>241</y>
+     <x>447</x>
+     <y>473</y>
     </hint>
    </hints>
   </connection>
@@ -1457,11 +1577,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>775</x>
-     <y>164</y>
+     <y>396</y>
     </hint>
     <hint type="destinationlabel">
-     <x>523</x>
-     <y>203</y>
+     <x>524</x>
+     <y>435</y>
     </hint>
    </hints>
   </connection>
@@ -1473,11 +1593,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>775</x>
-     <y>164</y>
+     <y>396</y>
     </hint>
     <hint type="destinationlabel">
-     <x>599</x>
-     <y>241</y>
+     <x>601</x>
+     <y>473</y>
     </hint>
    </hints>
   </connection>
@@ -1489,11 +1609,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>775</x>
-     <y>164</y>
+     <y>396</y>
     </hint>
     <hint type="destinationlabel">
-     <x>523</x>
-     <y>279</y>
+     <x>524</x>
+     <y>511</y>
     </hint>
    </hints>
   </connection>
@@ -1505,11 +1625,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>775</x>
-     <y>164</y>
+     <y>396</y>
     </hint>
     <hint type="destinationlabel">
-     <x>678</x>
-     <y>203</y>
+     <x>680</x>
+     <y>435</y>
     </hint>
    </hints>
   </connection>
@@ -1521,11 +1641,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>775</x>
-     <y>164</y>
+     <y>396</y>
     </hint>
     <hint type="destinationlabel">
-     <x>678</x>
-     <y>279</y>
+     <x>680</x>
+     <y>511</y>
     </hint>
    </hints>
   </connection>
@@ -1537,11 +1657,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>775</x>
-     <y>164</y>
+     <y>396</y>
     </hint>
     <hint type="destinationlabel">
-     <x>763</x>
-     <y>203</y>
+     <x>764</x>
+     <y>435</y>
     </hint>
    </hints>
   </connection>
@@ -1553,11 +1673,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>775</x>
-     <y>164</y>
+     <y>396</y>
     </hint>
     <hint type="destinationlabel">
-     <x>763</x>
-     <y>279</y>
+     <x>764</x>
+     <y>511</y>
     </hint>
    </hints>
   </connection>
@@ -1568,12 +1688,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>883</x>
-     <y>669</y>
+     <x>940</x>
+     <y>839</y>
     </hint>
     <hint type="destinationlabel">
-     <x>960</x>
-     <y>695</y>
+     <x>983</x>
+     <y>893</y>
     </hint>
    </hints>
   </connection>
@@ -1584,12 +1704,28 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>970</x>
-     <y>657</y>
+     <x>983</x>
+     <y>893</y>
     </hint>
     <hint type="destinationlabel">
-     <x>927</x>
-     <y>721</y>
+     <x>940</x>
+     <y>892</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>slSpeedFactor</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>lblSpeedVal</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>566</x>
+     <y>624</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>572</x>
+     <y>661</y>
     </hint>
    </hints>
   </connection>

@@ -26,9 +26,9 @@
 #include <stdio.h>
 
 ThermalProbe::ThermalProbe(const double &RefV, const unsigned int &R1Ohm, const int &Beta, const unsigned int &ProbeOhm,
-        const unsigned int &DefaultTemp, const unsigned int &TriggerPin, const int &ADCCh, ADCController *ADC)
+                           const unsigned int &DefaultTemp, const unsigned int &TriggerPin, const int &ADCCh, ADCController *ADC)
 {
-	_ADCReader = ADC;
+    _ADCReader = ADC;
     _Channel = ADCCh;
     _TriggerPin = TriggerPin;
     _TargetTemp = 0;
@@ -46,7 +46,7 @@ ThermalProbe::ThermalProbe(const double &RefV, const unsigned int &R1Ohm, const 
     //==================================
 
     gpioSetMode(_TriggerPin, PI_OUTPUT);
-	//Write pins low to start
+    //Write pins low to start
     gpioWrite(_TriggerPin, PI_LOW);
 }
 
@@ -60,13 +60,14 @@ int ThermalProbe::MeasureTemp()
     int ADCValue = 0, PreviousTemp;
     float VOut = 0, ThermOhms = 0;
 
+    PreviousTemp = _CurrentTemp; //Keep a record of the previous temp in the event of a faulting error.
+
     ADCValue = _ADCReader->GetChannelValue(_Channel); //this gives us the ADC value between 1024 (10bit)
     if(ADCValue <= 0 || _RefVoltage <= 0) //Don't want to divide by  0...
         return _CurrentTemp; //couldn't read this time... TODO set a boolean field so we can figure out if we need to try again right away.
     VOut = _RefVoltage * ((float)ADCValue / 1024); //this calculates the voltage differential over the thermistor (with respect to ground)
     if(VOut == _RefVoltage) //need to make sure we don't divide by zero again.
         return _CurrentTemp;
-    PreviousTemp = _CurrentTemp;
     ThermOhms = (VOut * _R1) / (_RefVoltage - VOut); //this finds the current resistance of the thermistor
     //now that we have the resistance we can figure out how hot the thing is... by using the smart guys formula
     _CurrentTemp =
@@ -76,31 +77,41 @@ int ThermalProbe::MeasureTemp()
     //Faulting algorithm...
     if(_CurrentTemp > 0)//Should never really read below zero.
     {
-        if(_CurrentTemp > 315)
-                _FaultCount ++;
-        else if((_CurrentTemp > (PreviousTemp + _FaultTempBuffer) && ElementCurrentState == ThermalProbe::OFF)//We are climbing and we shouldn't be.
-                ||  (_CurrentTemp < (PreviousTemp - _FaultTempBuffer) && ElementCurrentState == ThermalProbe::ON))//We are falling and we shouldn't be.
+        //This should minimize the amount of temp spikes from crappy reads.
+        if(_CurrentTemp > (PreviousTemp + _FaultTempBuffer) && (PreviousTemp + _FaultTempBuffer) < _TargetTemp)
+        {
             _FaultCount ++;
+            //_CurrentTemp = PreviousTemp + _FaultTempBuffer;
+        }
+        else if(_CurrentTemp > (PreviousTemp + _FaultTempBuffer) && (PreviousTemp + _FaultTempBuffer) > _TargetTemp)
+        {
+            _FaultCount ++;
+            //_CurrentTemp = PreviousTemp;
+        }
         else
             _FaultCount = 0;
     }
     //=================
 
-    if(_FaultCount < _FaultTolerance)
-    {
-        if(_CurrentTemp > _TargetTemp)
-        {
-            if(ElementCurrentState == ThermalProbe::ON)
-                TriggerElement(ThermalProbe::OFF);
-        }
-        else if(_CurrentTemp < _TargetTemp)
-        {
-            if(ElementCurrentState == ThermalProbe::OFF)
-                TriggerElement(ThermalProbe::ON);
-        }
-    }
-    else
-        TriggerElement(ThermalProbe::OFF);
+    //if(_FaultCount < _FaultTolerance)
+    //{
+    //    if(_CurrentTemp > _TargetTemp)
+    //    {
+    //        if(ElementCurrentState == ThermalProbe::ON)
+    //            TriggerElement(ThermalProbe::OFF);
+    //    }
+    //    else if(_CurrentTemp < _TargetTemp)
+    //    {
+    //        if(ElementCurrentState == ThermalProbe::OFF)
+    //            TriggerElement(ThermalProbe::ON);
+    //    }
+    //}
+    //else
+    //    TriggerElement(ThermalProbe::OFF);
+		
+    if(_FaultCount > _FaultTolerance)
+		TriggerElement(ThermalProbe::OFF);
+		
     return _CurrentTemp;
 }
 

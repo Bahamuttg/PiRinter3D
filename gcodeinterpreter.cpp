@@ -51,6 +51,7 @@ GCodeInterpreter::GCodeInterpreter(const QString &FilePath, QObject *parent)
     _TerminateThread = false;
 
     InitializeMotors();
+    InitializeFans();
     InitializePrintArea();
     InitializeThermalProbes();
     LoadGCode(FilePath);
@@ -145,7 +146,6 @@ void GCodeInterpreter::LoadGCode(const QString &FilePath)
                             stepZ = rawZ - lastZ;
                             lastZ = rawZ;
                         }
-
 
                         float hyp = qSqrt((qPow(stepX, 2) + qPow(stepY, 2)));
                         //TODO: Add the 3d Hyp calculation for 3d moves.
@@ -344,13 +344,18 @@ void GCodeInterpreter::InitializeMotors()
     }
 }
 
+void GCodeInterpreter::InitializeFans()
+{
+
+}
+
 void GCodeInterpreter::HomeAllAxis()
 {
     bool Done;
     if(_XAxis->IsAgainstStop() || _YAxis->IsAgainstStop() || _ZAxis->IsAgainstStop() || _ExtAxis->IsAgainstStop())
     {
+         this->TerminatePrint();
         QMessageBox::critical(0, "Ambigious End Stop Detected!", "An end stop on one of the axis is triggered and PiRinter3D cannot determine which one it is. Please check the machine configuration and manually move the carriages from the end stops to continue!", QMessageBox::Ok);
-        this->TerminatePrint();
     }
     do
     {
@@ -417,7 +422,7 @@ void GCodeInterpreter::MoveToolHead(const float &XPosition, const float &YPositi
 
     float total_steps = qSqrt((qPow(stepX, 2) + qPow(stepY, 2)));
     float total_3dsteps = 0;
-    if(total_steps > 0)
+    if(total_steps > 0 && stepZ != 0)
         total_3dsteps = qSqrt(qPow(total_steps, 2) + qPow(stepZ, 2));
     //_SpeedFactor = FCode / 60000 (1500 / 60000 = .025)
     //Resolution = Travel per Revolution / Steps per Revolution (14mm / 200 = .07)
@@ -425,27 +430,27 @@ void GCodeInterpreter::MoveToolHead(const float &XPosition, const float &YPositi
     //2.8 MS delay between steps to meet F1500 Requirements
     if(total_steps != 0 && total_3dsteps != 0 && stepEXT != 0)
     {
+        emit ProcessingMoves("Printing 3D...");
         _Controller->StepMotors(*_XAxis, stepX, *_YAxis, stepY, *_ZAxis, stepZ, *_ExtAxis, stepEXT,
-                               (1 / (_SpeedFactor / qMin(_XRes, qMin(_ZRes, _YRes)))));
-        emit ProcessingMoves("Printing....");
+                                (1 / (_SpeedFactor / qMin(_XRes, qMin(_ZRes, _YRes)))));
     }
     else if(total_steps != 0 && total_3dsteps != 0)
     {
+        emit ProcessingMoves("Moving Tool Head 3D...");
         _Controller->StepMotors(*_XAxis, stepX, *_YAxis, stepY, *_ZAxis, stepZ,
-                               (1 / (_SpeedFactor / qMin(_XRes, qMin(_ZRes, _YRes)))));
-        emit ProcessingMoves("Movind Tool Head 3D....");
+                                (1 / (_SpeedFactor / qMin(_XRes, qMin(_ZRes, _YRes)))));
     }
     else if(total_steps != 0 && stepEXT != 0)
     {
+        emit ProcessingMoves("Printing...");
         _Controller->StepMotors(*_XAxis, stepX, *_YAxis, stepY, *_ExtAxis, stepEXT,
-                               (1 / (_SpeedFactor / qMin(_XRes, _YRes))));
-        emit ProcessingMoves("Printing....");
+                                (1 / (_SpeedFactor / qMin(_XRes, _YRes))));
     }
     else if(total_steps != 0)
     {
+        emit ProcessingMoves("Moving...");
         _Controller->StepMotors(*_XAxis, stepX, *_YAxis, stepY,
-                               (1 / (_SpeedFactor / qMin(_XRes, _YRes))));
-        emit ProcessingMoves("Moving Tool Head....");
+                                (1 / (_SpeedFactor / qMin(_XRes, _YRes))));
     }
     else if (stepZ != 0)
     {
@@ -585,11 +590,14 @@ void GCodeInterpreter::ParseLine(QString &GString)
             return;
         for(int i = 0; i < GVals.length(); i++)
             if(GVals[i].contains("F") && !GVals[i].mid(1).isEmpty())
+            {
                 //Convert to units per millisecond
                 //F1500(mm/Min) = 25mm /Sec (1500 / 60)
                 //1500 / 60000 = .025
                 _SpeedFactor =  GVals[i].mid(1).toFloat() / 60000;
-        //TODO: Setup for speed multiplier from user input from UI.
+                //Setup for speed multiplier from user input from UI.
+                _SpeedFactor *=  _SpeedModulator;
+            }
     }
 
     if(GString.startsWith("G"))
@@ -598,7 +606,6 @@ void GCodeInterpreter::ParseLine(QString &GString)
             return;
         if((GVals[0].mid(1) == "1" || GVals[0].mid(1) == "0"  || GVals[0].mid(1) == "01") && !GVals[0].mid(1).isEmpty())
         {
-            emit ProcessingMoves("Printing...");
             QList<Coordinate> Coords = GetCoordValues(GString);
             float XVal =0, YVal =0, ZVal =0, ExtVal =0;
             for(int i =0; i < Coords.length(); i++)
@@ -618,7 +625,6 @@ void GCodeInterpreter::ParseLine(QString &GString)
 
         else if (GVals[0].mid(1) == "2" || GVals[0].mid(1) == "3" || GVals[0].mid(1) == "02" || GVals[0].mid(1) == "03")
         {
-            emit ProcessingMoves("Printing...");
             QList<Coordinate> Coords = GetCoordValues(GString);
             float XVal =0, YVal =0, ZVal =0, ExtVal =0, IValue = 0, JValue = 0;
             for(int i =0; i < Coords.length(); i++)
@@ -1162,7 +1168,9 @@ void GCodeInterpreter::ExecutePrintSequence()
         emit ReportMotorPosition(QString::fromStdString(_YAxis->MotorName), _YAxis->Position );
         emit ReportMotorPosition(QString::fromStdString(_ZAxis->MotorName), _ZAxis->Position );
         emit ReportMotorPosition(QString::fromStdString(_ExtAxis->MotorName), _ExtAxis->Position );
-        emit ReportElapsedTime(QDateTime::currentDateTime().addMSecs((QDateTime::currentDateTime().msecsTo(StartTime) * -1)).time().toString());
+        ElapsedTime.setHMS(0,0,0);
+        ElapsedTime = ElapsedTime.addMSecs(StartTime.msecsTo(QDateTime::currentDateTime()));
+        emit ReportElapsedTime(ElapsedTime.toString());
     }
 
     if(!_TerminateThread)
@@ -1202,6 +1210,10 @@ void GCodeInterpreter::TerminatePrint()
     ExtProbeWorker->wait();
 }
 
+void GCodeInterpreter::ChangeFanDuty(const int &DutyCycle)
+{
+}
+
 void GCodeInterpreter::ChangeBedTemp(const int &Celsius)
 {
     this->BedProbeWorker->SetTargetTemp(Celsius);
@@ -1215,6 +1227,12 @@ void GCodeInterpreter::ChangeExtTemp(const int &Celsius)
 void GCodeInterpreter::UpdatePositionLabel(QString Name, const long Pos)
 {
     emit ReportMotorPosition(Name, Pos);
+}
+
+void GCodeInterpreter::ModulateSpeed(const int &Factor)
+{
+    this->_SpeedModulator = Factor * .01;
+    this->_SpeedFactor *= this->_SpeedModulator;
 }
 
 //=======================================END SLOTS=================================================

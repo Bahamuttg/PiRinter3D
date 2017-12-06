@@ -26,6 +26,7 @@
 #include "thermalprobe.h"
 #include "probeworker.h"
 #include "adccontroller.h"
+#include "fan.h"
 #include <QtCore>
 #include <QFile>
 #include <QTextStream>
@@ -52,8 +53,6 @@ private:
         CTRCLOCKWISE = 3
     };
 
-    MotorController *_Controller;
-
     //GCODE entries
     QStringList _GCODE;
 
@@ -62,18 +61,20 @@ private:
     //TODO: ZAxis tracking for Print recovery. Possibly a QList  of Z Move indexes so we can reset the loop counter.
     //Home motors and/or offer up dialog for head positioning then restart layer when triggered.
 
-    //Define Stepper Motors.
+    //Define integral components
+    //These could be arrays for future expnsion of  quantities.
     StepperMotor *_XAxis, *_YAxis, *_ZAxis, *_ExtAxis;
-
+    Fan *_Fan1;
     ThermalProbe *_BedProbe, *_ExtProbe;
-    //Need a pointer so we can share this resource with the probes.
     ADCController *_ADCController;
+    MotorController *_Controller;
 
     //Get Resolutions from the main ui configuration.
     float _XRes, _YRes, _ZRes, _ExtRes;
 
     //Get speed factor from main ui config
     float _SpeedFactor;
+    float _SpeedModulator;
 
     //Extruder and Bed target temperature values from GCODE
     int _ExtruderTemp, _BedTemp;
@@ -86,6 +87,7 @@ private:
     bool _TerminateThread, _Stop, _IsPrinting;
 
     void InitializeMotors();
+    void InitializeFans();
     void InitializeThermalProbes();
     void InitializePrintArea();
     void InitializeADCConverter();
@@ -93,7 +95,7 @@ private:
     void WriteToLogFile(const QString &);
     void ParseLine(QString &GString);
     void HomeAllAxis();
-	void ExecutePrintSequence();
+    void ExecutePrintSequence();
     QList<Coordinate>  GetCoordValues(QString &GString);
 
     void MoveToolHead(const float &XPosition, const float &YPosition, const float &ZPosition, const float &ExtPosition);
@@ -108,6 +110,7 @@ public:
 
     QString EstimatedTime;
     QDateTime StartTime;
+    QTime ElapsedTime;
 
     ProbeWorker *BedProbeWorker, *ExtProbeWorker;
 
@@ -131,6 +134,7 @@ public:
     {
         return this->BedProbeWorker->TriggerProbeRead();
     }
+
     void SetBedTemp(const int &CelsiusValue)
     {
         this->BedProbeWorker->SetTargetTemp(CelsiusValue);
@@ -161,6 +165,16 @@ public:
         return _ExtruderTemp;
     }
 
+    int GetFanRPM()
+    {
+        return _Fan1->GetFanRPM();
+    }
+
+    int GetFanDuty()
+    {
+        return _Fan1->GetDutyCycle();
+    }
+
 public slots:
     void BeginPrint();
 
@@ -172,7 +186,11 @@ public slots:
 
     void ChangeExtTemp(const int &Celsius);
 
+    void ChangeFanDuty(const int &DutyCycle);
+
     void UpdatePositionLabel(QString Name, const long Pos);
+
+    void ModulateSpeed(const int &Factor);
 
 signals:
     void PrintStarted();
@@ -180,11 +198,11 @@ signals:
     void PrintComplete();
 
     void BeginLineProcessing(QString);
-	
+
     void EndLineProcessing(QString);
 
     void ProcessingMoves(QString);
-	
+
     void MoveComplete(QString);
 
     void ProcessingTemps(QString);
@@ -193,16 +211,18 @@ signals:
 
     void ExtruderTemperatureChanged(int);
 
+    void FanDutyChanged(int);
+
     void TemperatureAtTarget(int);
-	
+
     void TemperatureHigh(int);
-	
+
     void TemperatureLow(int);
 
     void OnError(QString Val1, QString Val2 = "");
 
     void OnSuccess();
-	
+
     void ReportProgress(int);
 
     void ReportMotorPosition(QString Name, const long Pos);

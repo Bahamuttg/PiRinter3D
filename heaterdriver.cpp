@@ -37,9 +37,9 @@ void HeaterDriver::on_chkEnable_toggled(bool checked)
         if(Worker == 0)
         {
             if(ui->rbBedElement->isChecked())
-                Worker = new ProbeWorker(_BedProbe, 500);
+                Worker = new ProbeWorker(_BedProbe, 100);
             else if (ui->rbExtruderElement->isChecked())
-                Worker = new ProbeWorker(_ExtProbe, 500);
+                Worker = new ProbeWorker(_ExtProbe, 100);
             else
                 return;
 

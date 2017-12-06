@@ -36,13 +36,31 @@ void ProbeWorker::run()
 
 int ProbeWorker::TriggerProbeRead()
 {
-    int TempRead = _Probe->MeasureTemp();
-    emit ReportTemp(TempRead);
+    int  AvgHldr = 0;
+    int TempRead = 0;// _Probe->MeasureTemp();
+    QList<int> Readings;
+    for (int i = 0; i < 7; i++)
+        Readings << _Probe->MeasureTemp();
+    qSort(Readings.begin(), Readings.end());
 
+    for (int i = 0; i < 2; i++)//remove four elements
+    {
+        Readings.removeFirst();
+        Readings.removeLast();
+    }
+
+    for (int i = 0; i < Readings.count(); i++)
+        AvgHldr += Readings[i];
+    if(AvgHldr > 0 && Readings.count() > 0)
+        TempRead = AvgHldr / Readings.count();
+    else
+        TempRead = 0;
+    emit ReportTemp(TempRead);
     if(TempRead < this->_Probe->GetTargetTemp())
         this->_Probe->TriggerElement(ThermalProbe::ON);
     else
         this->_Probe->TriggerElement(ThermalProbe::OFF);
+
     return TempRead;
 }
 

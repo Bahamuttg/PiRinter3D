@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _StatusLabel->setText("Ready");
 
     ui->setupUi(this);
+    this->setWindowState(Qt::WindowMaximized);
 
     ui->lcdBedTemp->display("Off");
     ui->lcdExtruderTemp->display("Off");
@@ -105,15 +106,161 @@ MainWindow::~MainWindow()
     delete _ExtButtonTimer;
 
     delete ui;
+
+    gpioTerminate();
 }
 //==========================Private Methods==========================================
 void MainWindow::LoadConfigurations()
 {
-    //TODO Load Configs.
+    if(_Interpreter != 0)
+        if(!_Interpreter->IsPrinting())
+        {
+            QMessageBox Msg(QMessageBox::Information, "A Print Is Currently Loaded!",
+                            "If you continue, your current print will be unloaded from the interpreter and you will need to re-load it.\nDo you still want to import the new configurations?",
+                            QMessageBox::Yes, this);
+            Msg.addButton(QMessageBox::No);
+            if(Msg.exec() == QMessageBox::Yes)
+            {
+                _Interpreter->TerminatePrint();
+                _Interpreter->wait();
+                delete _Interpreter;
+                _Interpreter = 0;
+                SetButtonPrintFunctions(false);
+                ClearLabels();
+            }
+            else
+                return;
+        }
+
+    QFileDialog FD(this);
+    FD.setFileMode(QFileDialog::ExistingFile);
+    FD.setNameFilter(tr("PiRinter3D Config Files (*.p3d)"));
+    FD.setViewMode(QFileDialog::Detail);
+    FD.setAcceptMode(QFileDialog::AcceptOpen);
+    if(FD.exec() == QFileDialog::Accepted)
+    {
+        QFile MotorCfg("MotorCfg.ini");
+        QFile AreaCfg("AreaCfg.ini");
+        QFile ProbeCfg("ProbeCfg.ini");
+        if(MotorCfg.exists() && AreaCfg.exists() && ProbeCfg.exists())
+        {
+            QFile Input(FD.selectedFiles()[0]);
+            if(!MotorCfg.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+                QMessageBox::critical(0, "Error Writing To Motor Config File!", MotorCfg.errorString(), QMessageBox::Ok);
+            if(!ProbeCfg.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+                QMessageBox::critical(0, "Error Writing To Probe Config File!", ProbeCfg.errorString(), QMessageBox::Ok);
+            if(!AreaCfg.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+                QMessageBox::critical(0, "Error Writing To Area Config File!",  AreaCfg.errorString(), QMessageBox::Ok);
+            if(Input.open(QIODevice::ReadOnly | QIODevice::Text))
+            {
+                QTextStream InStream(&Input);
+                QTextStream MotorStream(&MotorCfg);
+                QTextStream ProbeStream(&ProbeCfg);
+                QTextStream AreaStream(&AreaCfg);
+                while(!InStream.atEnd())
+                {
+                    QString Line = InStream.readLine();
+                    if(Line.contains("<MotorConfigurations>"))
+                    {
+                        while(!InStream.atEnd())
+                        {
+                            Line = InStream.readLine();
+                            if(Line.contains("</"))
+                                break;
+                            else
+                                MotorStream << Line << "\n";
+                        }
+                    }
+                    if(Line.contains("<ProbeConfigurations>"))
+                    {
+                        while(!InStream.atEnd())
+                        {
+                            Line = InStream.readLine();
+                            if(Line.contains("</"))
+                                break;
+                            else
+                                ProbeStream << Line << "\n";
+                        }
+                    }
+                    if(Line.contains("<AreaConfigurations>"))
+                    {
+                        while(!InStream.atEnd())
+                        {
+                            Line = InStream.readLine();
+                            if(Line.contains("</"))
+                                break;
+                            else
+                                AreaStream << Line << "\n";
+                        }
+                    }
+                }
+                MotorStream.flush();
+                ProbeStream.flush();
+                AreaStream.flush();
+                MotorCfg.close();
+                ProbeCfg.close();
+                AreaCfg.close();
+            }
+            Input.close();
+            QMessageBox::information(this, "Success!", "Successfully imported PiRinter3D configuration bundle.", QMessageBox::Ok);
+            UpdateMotorSettings();
+        }
+        else
+            QMessageBox::critical(this, "Error Reading From Output File!", MotorCfg.errorString(), QMessageBox::Ok);
+    }
 }
 void MainWindow::SaveConfigurations()
 {
-    //TODO Save Configs.
+    QFileDialog FD(this);
+    FD.setFileMode(QFileDialog::AnyFile);
+    FD.setNameFilter(tr("PiRinter3D Config Files (*.p3d)"));
+    FD.setViewMode(QFileDialog::Detail);
+    FD.setAcceptMode(QFileDialog::AcceptSave);
+    FD.setDefaultSuffix(".p3d");
+    if(FD.exec() == QFileDialog::Accepted)
+    {
+        QFile MotorCfg("MotorCfg.ini");
+        QFile AreaCfg("AreaCfg.ini");
+        QFile ProbeCfg("ProbeCfg.ini");
+        if(MotorCfg.exists() && AreaCfg.exists() && ProbeCfg.exists())
+        {
+            QFile Output(FD.selectedFiles()[0]);
+            if(!MotorCfg.open(QIODevice::ReadOnly | QIODevice::Text))
+                QMessageBox::critical(0, "Error Opening Motor Config File!", MotorCfg.errorString(), QMessageBox::Ok);
+            if(!ProbeCfg.open(QIODevice::ReadOnly | QIODevice::Text))
+                QMessageBox::critical(0, "Error Opening Probe Config File!", ProbeCfg.errorString(), QMessageBox::Ok);
+            if(!AreaCfg.open(QIODevice::ReadOnly | QIODevice::Text))
+                QMessageBox::critical(0, "Error Opening Area Config File!",  AreaCfg.errorString(), QMessageBox::Ok);
+            if(Output.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+            {
+                QTextStream OutStream(&Output);
+                QTextStream MotorStream(&MotorCfg);
+                QTextStream ProbeStream(&ProbeCfg);
+                QTextStream AreaStream(&AreaCfg);
+
+                OutStream << "<MotorConfigurations>\n";
+                OutStream << MotorStream.readAll();
+                MotorStream.flush();
+                OutStream << "</MotorConfigurations>\n";
+                OutStream << "<ProbeConfigurations>\n";
+                OutStream << ProbeStream.readAll();
+                ProbeStream.flush();
+                OutStream << "</ProbeConfigurations>\n";
+                OutStream << "<AreaConfigurations>\n";
+                OutStream << AreaStream.readAll();
+                AreaStream.flush();
+                OutStream << "</AreaConfigurations>\n";
+                MotorCfg.close();
+                ProbeCfg.close();
+                AreaCfg.close();
+                OutStream.flush();
+                QMessageBox::information(this, "Success!", "Successfully exported PiRinter3D configuration bundle.", QMessageBox::Ok);
+            }
+            else
+                QMessageBox::critical(this, "Error Writing To Output File!", MotorCfg.errorString(), QMessageBox::Ok);
+            Output.close();
+        }
+    }
 }
 void MainWindow::InitializeMotors()
 {
@@ -237,16 +384,16 @@ void MainWindow::InitializeMotorWorkers()
     //Link the MotorThreads to their workers DoWork Slot.
     connect(_XMotorThread, SIGNAL(started()), _XWorker, SLOT(DoWork()));
     //connect(_XMotorThread, SIGNAL(terminated()), _XWorker, SLOT(Stop()));
-    connect(_XWorker, SIGNAL(ProgressChanged(QString,long)), this, SLOT(UpdatePositionLabel(QString,long)));
+    connect(_XWorker, SIGNAL(ProgressChanged(QString, long)), this, SLOT(UpdatePositionLabel(QString, long)));
     connect(_YMotorThread, SIGNAL(started()), _YWorker, SLOT(DoWork()));
     //connect(_YMotorThread, SIGNAL(terminated()), _YWorker, SLOT(Stop()));
-    connect(_YWorker, SIGNAL(ProgressChanged(QString,long)), this, SLOT(UpdatePositionLabel(QString,long)));
+    connect(_YWorker, SIGNAL(ProgressChanged(QString, long)), this, SLOT(UpdatePositionLabel(QString, long)));
     connect(_ZMotorThread, SIGNAL(started()), _ZWorker, SLOT(DoWork()));
     //connect(_ZMotorThread, SIGNAL(terminated()), _ZWorker, SLOT(Stop()));
-    connect(_ZWorker, SIGNAL(ProgressChanged(QString,long)), this, SLOT(UpdatePositionLabel(QString,long)));
+    connect(_ZWorker, SIGNAL(ProgressChanged(QString, long)), this, SLOT(UpdatePositionLabel(QString, long)));
     connect(_ExtMotorThread, SIGNAL(started()), _ExtWorker, SLOT(DoWork()));
     //connect(_ExtMotorThread, SIGNAL(terminated()), _ExtWorker, SLOT(Stop()));
-    connect(_ExtWorker, SIGNAL(ProgressChanged(QString,long)), this, SLOT(UpdatePositionLabel(QString, long)));
+    connect(_ExtWorker, SIGNAL(ProgressChanged(QString, long)), this, SLOT(UpdatePositionLabel(QString, long)));
 
     //Link the Timer elapsed to the MotorThreads start.
     connect(_XButtonTimer, SIGNAL(timeout()), _XMotorThread, SLOT(start()));
@@ -280,7 +427,6 @@ void MainWindow::SetButtonPrintFunctions(bool Enabled)
     ui->btnStartPtrint->setEnabled(Enabled);
     ui->btnStopPrint->setEnabled(Enabled);
 }
-
 void  MainWindow::ClearLabels()
 {
     ui->lblElapsed->clear();
@@ -300,8 +446,8 @@ void MainWindow::on_action_Stepper_Utility_triggered()
 }
 void MainWindow::on_actionPre_Heat_Elements_triggered()
 {
-        HeaterDriver *HD = new HeaterDriver(this);
-        HD->show();
+    HeaterDriver *HD = new HeaterDriver(this);
+    HD->show();
 }
 void MainWindow::on_action_Exit_triggered()
 {
@@ -324,8 +470,8 @@ void MainWindow::on_action_Load_3D_Print_triggered()
     FD.setFileMode(QFileDialog::ExistingFile);
     FD.setNameFilter(tr("G-Code files (*.gcode);;Text files (*.txt)"));
     FD.setViewMode(QFileDialog::Detail);
-    FD.show();
-    if(FD.exec())
+    FD.setAcceptMode(QFileDialog::AcceptOpen);
+    if(FD.exec() == QFileDialog::Accepted)
     {
         ClearLabels();
         _PrintFilePath = FD.selectedFiles()[0];
@@ -367,7 +513,7 @@ void MainWindow::on_action_Configure_Motors_triggered()
                     ClearLabels();
                 }
                 else
-                   return;
+                    return;
             }
             UpdateMotorSettings();
         }
@@ -387,65 +533,68 @@ void MainWindow::on_actionSetup_Print_Area_triggered()
 }
 void MainWindow::on_actionS_tart_triggered()
 {
-   if(_Interpreter != 0)
-   {
-       if(_Interpreter->IsPrinting())
-       {
-           if(!_Interpreter->IsPaused())
-           {
-               _Interpreter->PausePrint();
-               ui->menuPrint_Actions->actions()[0]->setText("Resume");
-               ui->lblPauseButton->setText("Resume");
-           }
-           else
-           {
-               _Interpreter->PausePrint();
-               ui->menuPrint_Actions->actions()[0]->setText("Pause");
-               ui->lblPauseButton->setText("Pause");
-           }
-       }
-       else
-       {
-           //Connect the probe reads to the lcd displays
-           connect(_Interpreter->BedProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdBedTemp, SLOT(display(int)));
-           connect(_Interpreter->ExtProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdExtruderTemp, SLOT(display(int)));
+    if(_Interpreter != 0)
+    {
+        if(_Interpreter->IsPrinting())
+        {
+            if(!_Interpreter->IsPaused())
+            {
+                _Interpreter->PausePrint();
+                ui->menuPrint_Actions->actions()[0]->setText("Resume");
+                ui->lblPauseButton->setText("Resume");
+            }
+            else
+            {
+                _Interpreter->PausePrint();
+                ui->menuPrint_Actions->actions()[0]->setText("Pause");
+                ui->lblPauseButton->setText("Pause");
+            }
+        }
+        else
+        {
+            //Connect the probe reads to the lcd displays
+            connect(_Interpreter->BedProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdBedTemp, SLOT(display(int)));
+            connect(_Interpreter->ExtProbeWorker, SIGNAL(ReportTemp(int)), ui->lcdExtruderTemp, SLOT(display(int)));
 
-           //connect the Probe element states to the UI
-           connect(_Interpreter->BedProbeWorker, SIGNAL(ReportElementState(bool)), ui->lblBedOn, SLOT(setVisible(bool)));
-           connect(_Interpreter->ExtProbeWorker, SIGNAL(ReportElementState(bool)), ui->lblExtOn, SLOT(setVisible(bool)));
+            //connect the Probe element states to the UI
+            connect(_Interpreter->BedProbeWorker, SIGNAL(ReportElementState(bool)), ui->lblBedOn, SLOT(setVisible(bool)));
+            connect(_Interpreter->ExtProbeWorker, SIGNAL(ReportElementState(bool)), ui->lblExtOn, SLOT(setVisible(bool)));
 
-           //Connect the Temp Overrides
-           connect(ui->seBed, SIGNAL(valueChanged(int)), _Interpreter, SLOT(ChangeBedTemp(int)));
-           connect(ui->seExt, SIGNAL(valueChanged(int)), _Interpreter, SLOT(ChangeExtTemp(int)));
+            //Connect the Temp Overrides
+            connect(ui->seBed, SIGNAL(valueChanged(int)), _Interpreter, SLOT(ChangeBedTemp(int)));
+            connect(ui->seExt, SIGNAL(valueChanged(int)), _Interpreter, SLOT(ChangeExtTemp(int)));
 
-           //Record the GCODE temp and set it back once the override is turned off.
-           connect(ui->chkBedOverride, SIGNAL(toggled(bool)), this, SLOT(on_BedTempOverride(bool)));
-           connect(ui->chkExtOverride, SIGNAL(toggled(bool)), this, SLOT(on_ExtTempOverride(bool)));
+            //Connect the Speed Modulator
+            connect(ui->slSpeedFactor, SIGNAL(valueChanged(int)), _Interpreter, SLOT(ModulateSpeed(int)));
 
-           //Connect the interpreter feedback to the ui controls
-           connect(_Interpreter, SIGNAL(ReportProgress(int)), this->_ProgressBar, SLOT(setValue(int)));
-           connect(_Interpreter, SIGNAL(BeginLineProcessing(QString)), ui->txtGCode, SLOT(append(QString)));
-           connect(_Interpreter, SIGNAL(ProcessingTemps(QString)), this->_StatusLabel, SLOT(setText(QString)));
-           connect(_Interpreter, SIGNAL(ProcessingMoves(QString)), this->_StatusLabel, SLOT(setText(QString)));
-           connect(_Interpreter, SIGNAL(PrintComplete()), this, SLOT(on_action_Stop_triggered()));
-           connect(_Interpreter, SIGNAL(OnError(QString,QString)), this, SLOT(DisplayError(QString,QString)));
-           connect(_Interpreter, SIGNAL(ReportMotorPosition(QString,long)), this, SLOT(UpdatePositionLabel(QString,long)));
-           connect(_Interpreter, SIGNAL(ReportElapsedTime(QString)), ui->lblElapsed, SLOT(setText(QString)));
-           connect(_Interpreter, SIGNAL(PrintComplete()), this, SLOT(PrintCompleteSequence()));
+            //Record the GCODE temp and set it back once the override is turned off.
+            connect(ui->chkBedOverride, SIGNAL(toggled(bool)), this, SLOT(on_BedTempOverride(bool)));
+            connect(ui->chkExtOverride, SIGNAL(toggled(bool)), this, SLOT(on_ExtTempOverride(bool)));
 
-           ui->lblStartTime->setText(QDateTime::currentDateTime().time().toString());
-           _Interpreter->StartTime = QDateTime::currentDateTime();
-           _Interpreter->start();//Kick the tires and light the fires...
+            //Connect the interpreter feedback to the ui controls
+            connect(_Interpreter, SIGNAL(ReportProgress(int)), this->_ProgressBar, SLOT(setValue(int)));
+            connect(_Interpreter, SIGNAL(BeginLineProcessing(QString)), ui->txtGCode, SLOT(append(QString)));
+            connect(_Interpreter, SIGNAL(ProcessingTemps(QString)), this->_StatusLabel, SLOT(setText(QString)));
+            connect(_Interpreter, SIGNAL(ProcessingMoves(QString)), this->_StatusLabel, SLOT(setText(QString)));
+            connect(_Interpreter, SIGNAL(PrintComplete()), this, SLOT(on_action_Stop_triggered()));
+            connect(_Interpreter, SIGNAL(OnError(QString,QString)), this, SLOT(DisplayError(QString,QString)));
+            connect(_Interpreter, SIGNAL(ReportMotorPosition(QString,long)), this, SLOT(UpdatePositionLabel(QString,long)));
+            connect(_Interpreter, SIGNAL(ReportElapsedTime(QString)), ui->lblElapsed, SLOT(setText(QString)));
+            connect(_Interpreter, SIGNAL(PrintComplete()), this, SLOT(PrintCompleteSequence()));
 
-           ui->menuPrint_Actions->actions()[0]->setText("Pause");
-       }
-   }
-   else
-   {
+            ui->lblStartTime->setText(QDateTime::currentDateTime().time().toString());
+            _Interpreter->StartTime = QDateTime::currentDateTime();
+            _Interpreter->start(QThread::HighPriority);//Kick the tires and light the fires...
+
+            ui->menuPrint_Actions->actions()[0]->setText("Pause");
+        }
+    }
+    else
+    {
         QMessageBox Msg(this);
         Msg.setText("A Print has not been loaded yet!");
         Msg.exec();
-   }
+    }
 }
 void MainWindow::on_action_Stop_triggered()
 {
@@ -463,9 +612,19 @@ void MainWindow::on_action_Stop_triggered()
         ui->lcdBedTemp->display("Off");
         ui->lcdExtruderTemp->display("Off");
         SetButtonPrintFunctions(false);
-        ui->lblEndTime->setText(QDateTime::currentDateTime().time().toString());
+        if(!ui->lblStartTime->text().isEmpty())
+            ui->lblEndTime->setText(QDateTime::currentDateTime().time().toString());
     }
 }
+void MainWindow::on_action_Load_PiRinter_Cfg_triggered()
+{
+    LoadConfigurations();
+}
+void MainWindow::on_action_Save_PiRinter_Cfg_triggered()
+{
+    SaveConfigurations();
+}
+//==============End Main Menu Handlers=================================================
 void MainWindow::on_BedTempOverride(bool Arg)
 {
     if(!Arg && _Interpreter != 0)
@@ -476,7 +635,6 @@ void MainWindow::on_ExtTempOverride(bool Arg)
     if(!Arg && _Interpreter != 0)
         ui->seExt->setValue(_Interpreter->GetExtGcodeTemp());
 }
-//==============End Main Menu Handlers=================================================
 void MainWindow::UpdateMotorSettings()
 {
     InitializeMotors();
@@ -493,7 +651,6 @@ void MainWindow::UpdatePositionLabel(QString Name, const long Pos)
     else if(Name == "ExtAxis")
         ui->lblExtPos->setText(QString::number(Pos));
 }
-
 void MainWindow:: PrintCompleteSequence()
 {
     ui->lblEndTime->setText(QDateTime::currentDateTime().time().toString());
@@ -517,7 +674,7 @@ void MainWindow::on_btnXRight_pressed()
 }
 void MainWindow::on_btnXRight_released()
 {
-        _XWorker->Stop();
+    _XWorker->Stop();
 }
 void MainWindow::on_btnYBack_pressed()
 {
@@ -527,7 +684,7 @@ void MainWindow::on_btnYBack_pressed()
 }
 void MainWindow::on_btnYBack_released()
 {
-        _YWorker->Stop();
+    _YWorker->Stop();
 }
 void MainWindow::on_btnYFore_pressed()
 {
@@ -537,7 +694,7 @@ void MainWindow::on_btnYFore_pressed()
 }
 void MainWindow::on_btnYFore_released()
 {
-        _YWorker->Stop();
+    _YWorker->Stop();
 }
 void MainWindow::on_btnZUp_pressed()
 {
@@ -547,7 +704,7 @@ void MainWindow::on_btnZUp_pressed()
 }
 void MainWindow::on_btnZUp_released()
 {
-        _ZWorker->Stop();
+    _ZWorker->Stop();
 }
 void MainWindow::on_btnZDown_pressed()
 {
@@ -557,7 +714,7 @@ void MainWindow::on_btnZDown_pressed()
 }
 void MainWindow::on_btnZDown_released()
 {
-        _ZWorker->Stop();
+    _ZWorker->Stop();
 }
 void MainWindow::on_btnEXTFore_pressed()
 {
@@ -567,7 +724,7 @@ void MainWindow::on_btnEXTFore_pressed()
 }
 void MainWindow::on_btnEXTFore_released()
 {
-        _ExtWorker->Stop();
+    _ExtWorker->Stop();
 }
 void MainWindow::on_btnEXTBack_pressed()
 {
@@ -577,31 +734,22 @@ void MainWindow::on_btnEXTBack_pressed()
 }
 void MainWindow::on_btnEXTBack_released()
 {
-            _ExtWorker->Stop();
+    _ExtWorker->Stop();
 }
 void MainWindow::on_btnLoadPrint_clicked()
 {
     on_action_Load_3D_Print_triggered();
 }
-
 void MainWindow::on_btnStartPtrint_clicked()
 {
     on_actionS_tart_triggered();
 }
-
 void MainWindow::on_btnPausePrint_clicked()
 {
-     on_actionS_tart_triggered();
+    on_actionS_tart_triggered();
 }
-
 void MainWindow::on_btnStopPrint_clicked()
 {
     on_action_Stop_triggered();
 }
 //==============END SLOTS============================================================
-
-
-
-
-
-

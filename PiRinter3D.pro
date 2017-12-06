@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = PiRinter3D
 TEMPLATE = app
-VERSION = 0.7.8
+VERSION = 1.0.9
 SOURCES += main.cpp\
         mainwindow.cpp \
     steppermotor.cpp \
@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     Lib/SMTP/mimepart.cpp \
     Lib/SMTP/mimetext.cpp \
     Lib/SMTP/quotedprintable.cpp \
-    Lib/SMTP/smtpclient.cpp
+    Lib/SMTP/smtpclient.cpp \
+    fanworker.cpp
 
 HEADERS  += mainwindow.h \
     motorworker.h \
@@ -73,7 +74,8 @@ HEADERS  += mainwindow.h \
     Lib/SMTP/mimetext.h \
     Lib/SMTP/quotedprintable.h \
     Lib/SMTP/smtpclient.h \
-    Lib/SMTP/smtpexports.h
+    Lib/SMTP/smtpexports.h \
+    fanworker.h
 
 FORMS    += mainwindow.ui \
     stepperdriver.ui \

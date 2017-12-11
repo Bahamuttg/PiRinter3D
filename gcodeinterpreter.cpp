@@ -22,6 +22,7 @@
 #include "steppermotor.h"
 #include "motorcontroller.h"
 #include <QMessageBox>
+#include <QDebug>
 
 GCodeInterpreter::GCodeInterpreter(const QString &FilePath, QObject *parent)
     :QThread(parent)
@@ -45,6 +46,8 @@ GCodeInterpreter::GCodeInterpreter(const QString &FilePath, QObject *parent)
     _ZRes = 0;
 
     _SpeedFactor = .15;
+    _SpeedActual = .15;
+    _SpeedModulator = 1;
 
     _IsPrinting = false;
     _Stop = false;
@@ -594,9 +597,10 @@ void GCodeInterpreter::ParseLine(QString &GString)
                 //Convert to units per millisecond
                 //F1500(mm/Min) = 25mm /Sec (1500 / 60)
                 //1500 / 60000 = .025
-                _SpeedFactor =  GVals[i].mid(1).toFloat() / 60000;
+                _SpeedActual =  GVals[i].mid(1).toFloat() / 60000;
                 //Setup for speed multiplier from user input from UI.
-                _SpeedFactor *=  _SpeedModulator;
+                _SpeedFactor = _SpeedActual *  _SpeedModulator;
+                //qDebug()<< "SPEED FACTOR" << QString::number(_SpeedFactor);
             }
     }
 
@@ -1231,8 +1235,9 @@ void GCodeInterpreter::UpdatePositionLabel(QString Name, const long Pos)
 
 void GCodeInterpreter::ModulateSpeed(const int &Factor)
 {
-    this->_SpeedModulator = Factor * .01;
-    this->_SpeedFactor *= this->_SpeedModulator;
+    this->_SpeedModulator = (float)(Factor * .01);
+    this->_SpeedFactor = this->_SpeedActual *  this->_SpeedModulator;
+    //qDebug()<< "SPEED FACTOR" << QString::number(_SpeedFactor);
 }
 
 //=======================================END SLOTS=================================================

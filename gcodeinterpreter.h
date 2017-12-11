@@ -74,6 +74,7 @@ private:
 
     //Get speed factor from main ui config
     float _SpeedFactor;
+    float _SpeedActual;
     float _SpeedModulator;
 
     //Extruder and Bed target temperature values from GCODE

@@ -23,6 +23,7 @@
 #include "steppermotor.h"
 #include <QtCore>
 #include <QObject>
+#include <QDebug>
 
 //Returns the intended direction of the motor based off of the int signing.
 StepperMotor::MotorDirection MotorController::GetDirection(const int &Step)
@@ -96,10 +97,20 @@ void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor
 			M2ctr++;
             Motor2.Rotate(Dir2, 1);
 		}
-        if(Delay < LongestDelay)
+        //qDebug()<<QString::number(Delay * 1000);
+        if((Delay * 1000) < LongestDelay)
+        {
+            //qDebug()<< "Using Longest Delay!" << QString::number(LongestDelay);
             gpioSleep(PI_TIME_RELATIVE, 0, LongestDelay);// * 1000);
+        }
+        else if(Delay * 1000 >  999999)
+        {
+            int Sec = (int)((Delay * 1000)  / 1000000);
+            gpioSleep(PI_TIME_RELATIVE, Sec, (int)((Delay * 1000) - (Sec * 1000000)));
+            //qDebug()<< "Using Calculated Delay!" << QString::number(Sec) <<":" << QString::number((int)((Delay * 1000) - (Sec * 1000000)));
+        }
         else
-            gpioSleep(PI_TIME_RELATIVE, 0, Delay * 1000);
+            gpioSleep(PI_TIME_RELATIVE, 0, (int)(Delay * 1000));
         emit ReportMotorPosition(QString::fromStdString(Motor1.MotorName), Motor1.Position );
         emit ReportMotorPosition(QString::fromStdString(Motor2.MotorName), Motor2.Position );
     }
@@ -175,10 +186,20 @@ void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor
 			M3ctr++;
             Motor3.Rotate(Dir3, 1);
 		}
-        if(Delay < LongestDelay)
+        //qDebug()<<QString::number(Delay * 1000);
+        if((Delay * 1000) < LongestDelay)
+        {
+            //qDebug()<< "Using Longest Delay!" << QString::number(LongestDelay);
             gpioSleep(PI_TIME_RELATIVE, 0, LongestDelay);// * 1000);
+        }
+        else if(Delay * 1000 >  999999)
+        {
+            int Sec = (int)((Delay * 1000)  / 1000000);
+            gpioSleep(PI_TIME_RELATIVE, Sec, (int)((Delay * 1000) - (Sec * 1000000)));
+            //qDebug()<< "Using Calculated Delay!" << QString::number(Sec) <<":" << QString::number((int)((Delay * 1000) - (Sec * 1000000)));
+        }
         else
-            gpioSleep(PI_TIME_RELATIVE, 0, Delay * 1000);
+            gpioSleep(PI_TIME_RELATIVE, 0, (int)(Delay * 1000));
         emit ReportMotorPosition(QString::fromStdString(Motor1.MotorName), Motor1.Position );
         emit ReportMotorPosition(QString::fromStdString(Motor2.MotorName), Motor2.Position );
         emit ReportMotorPosition(QString::fromStdString(Motor3.MotorName), Motor3.Position );
@@ -268,10 +289,20 @@ void MotorController::StepMotors(StepperMotor &Motor1, long Steps1, StepperMotor
             M4ctr++;
             Motor4.Rotate(Dir4, 1);
         }
-        if(Delay < LongestDelay)
+        //qDebug()<<QString::number(Delay * 1000);
+        if((Delay * 1000) < LongestDelay)
+        {
+            //qDebug()<< "Using Longest Delay!" << QString::number(LongestDelay);
             gpioSleep(PI_TIME_RELATIVE, 0, LongestDelay);// * 1000);
+        }
+        else if(Delay * 1000 >  999999)
+        {
+            int Sec = (int)((Delay * 1000)  / 1000000);
+            gpioSleep(PI_TIME_RELATIVE, Sec, (int)((Delay * 1000) - (Sec * 1000000)));
+            //qDebug()<< "Using Calculated Delay!" << QString::number(Sec) <<":" << QString::number((int)((Delay * 1000) - (Sec * 1000000)));
+        }
         else
-            gpioSleep(PI_TIME_RELATIVE, 0, Delay * 1000);
+            gpioSleep(PI_TIME_RELATIVE, 0, (int)(Delay * 1000));
         emit ReportMotorPosition(QString::fromStdString(Motor1.MotorName), Motor1.Position );
         emit ReportMotorPosition(QString::fromStdString(Motor2.MotorName), Motor2.Position );
         emit ReportMotorPosition(QString::fromStdString(Motor3.MotorName), Motor3.Position );

@@ -177,7 +177,13 @@ void StepperMotor::Rotate(MotorDirection Direction, long Steps, unsigned int MS_
                 return;
             }
             PerformStep(Direction);
-            gpioSleep(PI_TIME_RELATIVE, 0, MS_Delay);// * 1000);
+           if(MS_Delay >  999999)
+            {
+                int Sec = (int)(MS_Delay / 1000000);
+                gpioSleep(PI_TIME_RELATIVE, Sec, (MS_Delay) - (MS_Delay * 1000000));
+            }
+           else
+               gpioSleep(PI_TIME_RELATIVE, 0, MS_Delay);
         }
         //If we're not holding the motor position let's release it.
         if (!HoldPosition)
